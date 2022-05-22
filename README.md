@@ -1,5 +1,6 @@
 # FightClub
 Игра - ретро файтинг "из 80х".
+Макеты: https://www.figma.com/file/ZL8FK0h8kpuxQFMwUKHSQe/Fight-Club?node-id=0%3A1
 
 ## Механика игры
 Базовая механика, "чтобы сдать проект":
