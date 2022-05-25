@@ -1,0 +1,12 @@
+{
+  "name": "FightClub - frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": ""
+  },
+  "keywords": [],
+  "author": "VEGAS team",
+  "license": "ISC"
+}
