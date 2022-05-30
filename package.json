@@ -1,8 +1,7 @@
 {
-  "name": "FightClub - frontend",
+  "name": "fight_club",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
   "scripts": {
     "test": ""
   },
