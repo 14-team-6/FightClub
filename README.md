@@ -3,6 +3,8 @@
 # FightClub
 Игра - ретро файтинг "из 80х".
 
+Релиз: https://fightclub-vegas.herokuapp.com/
+
 Макеты: https://www.figma.com/file/ZL8FK0h8kpuxQFMwUKHSQe/Fight-Club?node-id=0%3A1
 
 Ассеты: https://disk.yandex.ru/d/IGQN_0FJL51hhw
