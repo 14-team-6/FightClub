@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# script to local docker deploy
+# doesn't work on heroku / github / etc
+# only for testing purposes!
+
 echo "Build new image..."
 docker build . -t fc_tmp
 
