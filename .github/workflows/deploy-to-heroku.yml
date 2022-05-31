@@ -1,0 +1,23 @@
+name: deploy-to-heroku
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - 'deploy'
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: Linux
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - run: npm i
+      - run: npm run build
+      - run: docker build . -t fc
+      - run: docker tag fc registry.heroku.com/fightclub-vegas/web
+      - run: docker push registry.heroku.com/fightclub-vegas/web
+      - run: heroku container:release web -a fightclub-vegas
