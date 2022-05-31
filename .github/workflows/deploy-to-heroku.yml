@@ -30,6 +30,7 @@ EOF
           HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
       - run: npm i
       - run: npm run build
+      - run: heroku container:login
       - run: docker build . -t fc
       - run: docker tag fc registry.heroku.com/fightclub-vegas/web
       - run: docker push registry.heroku.com/fightclub-vegas/web
