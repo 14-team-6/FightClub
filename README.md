@@ -1,3 +1,5 @@
+[![deploy-to-heroku](https://github.com/14-team-6/FightClub/actions/workflows/deploy-to-heroku.yml/badge.svg)](https://github.com/14-team-6/FightClub/actions/workflows/deploy-to-heroku.yml)
+
 # FightClub
 Игра - ретро файтинг "из 80х".
 
