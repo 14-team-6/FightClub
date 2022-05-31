@@ -9,7 +9,7 @@ on:
 jobs:
   if_merged:
     if: github.event.pull_request.merged == true
-    runs-on: Linux
+    runs-on: ['self-hosted']
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
