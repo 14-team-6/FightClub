@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+      "outDir": "dist",
+      "target": "es2016",
+      "declaration": false,
+      "module": "commonjs",
+      "strictNullChecks": true,
+      "sourceMap": true,
+      "esModuleInterop": true,
+      "noImplicitAny": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "jsx": "react"
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
