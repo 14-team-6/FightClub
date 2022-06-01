@@ -31,7 +31,9 @@ jobs:
       - run: npm i
       - run: npm run build
       - run: heroku container:login
-      - run: docker build . -t fc
+      - run: docker rmi -f fc_tmp || true
+      - run: docker build . -t fc_tmp
       - run: docker tag fc registry.heroku.com/fightclub-vegas/web
       - run: docker push registry.heroku.com/fightclub-vegas/web
       - run: heroku container:release web -a fightclub-vegas
+      - run: docker rmi -f fc_tmp || true
