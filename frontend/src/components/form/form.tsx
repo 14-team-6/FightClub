@@ -1,5 +1,5 @@
 import React from 'react';
-import Input, { InputProps } from '../input/input.tsx';
+import Input, { InputProps } from '../input/input';
 
 interface FormProps {
   inputs: InputProps[],
