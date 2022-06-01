@@ -1,9 +1,11 @@
-import React, { FC, MouseEventHandler } from 'react';
+import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 import {
-  BrowserRouter, Route, Routes, useNavigate,
+  BrowserRouter, Link, Route, Routes,
 } from 'react-router-dom';
-import styled, { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
+import { Login } from './pages/login/login';
+import { Loading } from './pages/game/loading/loading';
 
 const GS = createGlobalStyle`
   * {
@@ -11,65 +13,21 @@ const GS = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
-
-  a {
-    color: blue;
-    text-decoration: underline;
-    cursor: grab;
-  }
 `;
-
-const Wrapper = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(0  0  0 / 23%);
-`;
-
-const H1Cont = styled.div`
-  display: block;
-  position: absolute;
-  left: calc(50% - 100px);
-  top: calc(50% - 100px);
-  text-align: center;
-  line-height: 100px;
-  width: 200px;
-  height: 200px;
-  border-radius: 10px;
-  background-color: rgb(255  255  255 / 100%);
-`;
-
-interface HiProps {
-  name: string,
-  routeTo: string,
-}
-
-const SayHi: FC<HiProps> = (props) => {
-  const nav = useNavigate();
-
-  const handleClick = React.useCallback((prp: HiProps): MouseEventHandler => {
-    return () => {
-      nav(`${prp.routeTo}`);
-    };
-  }, []);
-
-  return <React.Fragment>
-    <Wrapper>
-      <H1Cont>
-        <h1>Hi {props.name}!</h1>
-        <a onClick={handleClick(props)}>Click me!</a>
-      </H1Cont>
-    </Wrapper>
-  </React.Fragment>;
-};
 
 const App: FC = () => {
   return <React.Fragment>
     <GS/>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<SayHi name="team" routeTo="/url2"/>}/>
-        <Route path="url2" element={<SayHi name="routing" routeTo="/"/>}/>
+        <Route path='/' element={
+          <ul>
+           <li><Link to='/login'>Login</Link></li>
+           <li><Link to='/game/loading'>Load game</Link></li>
+          </ul>
+        }/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/game/loading' element={<Loading/>}/>
       </Routes>
     </BrowserRouter>
     </React.Fragment>;
