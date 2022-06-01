@@ -1,8 +1,18 @@
 import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 import styled, { createGlobalStyle } from 'styled-components';
+import { BrowserRouter } from 'react-router-dom';
+import LoginPage from './pages/login/login';
+import mainBackgroundImage from '../public/img/main-background.png';
+import Pixeboy from '../public/font/Pixeboy.ttf';
 
 const GS = createGlobalStyle`
+  @font-face {
+    font-family: Pixeboy;
+    src: url(${Pixeboy}) format("truetype");
+    font-display: swap;
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -14,29 +24,20 @@ const Wrapper = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color: rgb(0  0  0  23%);
-`;
-
-const H1 = styled.h1`
-  display: block;
-  position: absolute;
-  left: calc(50% - 100px);
-  top: calc(50% - 100px);
-  text-align: center;
-  line-height: 200px;
-  width: 200px;
-  height: 200px;
-  border-radius: 10px;
-  background-color: rgb(255  255  255  100%);
+  background-image: url(${mainBackgroundImage});
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const App: FC = () => {
   return <React.Fragment>
-        <GS/>
-        <Wrapper>
-            <H1>Hi team!</H1>
-        </Wrapper>
-    </React.Fragment>;
+    <BrowserRouter>
+      <GS/>
+      <Wrapper>
+        <LoginPage/>
+      </Wrapper>
+    </BrowserRouter>
+  </React.Fragment>;
 };
 
 ReactDOM.render(<App/>, document.getElementById('app'));
