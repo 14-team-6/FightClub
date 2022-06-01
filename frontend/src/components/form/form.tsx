@@ -1,21 +1,27 @@
 import React from 'react';
+import styled from 'styled-components';
 import Input, { InputProps } from '../input/input';
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
 
 interface FormProps {
   inputs: InputProps[],
   className?: string,
 }
 
-const Form: React.FC<FormProps> = ({ inputs, className }) => {
+const FormElement: React.FC<FormProps> = ({ inputs }) => {
   return (
-    <form className={className}>
+    <Form>
       {inputs.map((input) => {
         return (
         <Input key={input.placeholder} {...input}/>
         );
       })}
-    </form>
+    </Form>
   );
 };
 
-export default Form;
+export default FormElement;

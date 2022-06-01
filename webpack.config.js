@@ -43,14 +43,6 @@ module.exports = {
               ]
             },
           {
-            test: /\.(sass|css|scss)$/,
-            use: [
-              'style-loader',
-              'css-loader',
-              'sass-loader',
-            ]
-          },
-          {
             test: /\.(woff|woff2|ttf|eot)$/,
             loader: 'file-loader'
           }

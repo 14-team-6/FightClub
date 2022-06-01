@@ -4,6 +4,7 @@ import Button from '../button/button';
 
 const MenuItemsWrapper = styled.div`
   display: flex;
+  flex-direction: column;
 `;
 
 export interface MenuItem {
