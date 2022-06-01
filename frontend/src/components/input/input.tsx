@@ -20,6 +20,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder: string,
   required?: boolean,
   type: string,
+  value?: string
 }
 
 const InputElement: React.FC<InputProps> = (props) => {

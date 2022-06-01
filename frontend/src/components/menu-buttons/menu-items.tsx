@@ -9,7 +9,7 @@ const MenuItemsWrapper = styled.div`
 
 export interface MenuItem {
   text: string;
-  action: MouseEventHandler<HTMLButtonElement>;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
 interface MenuItemsProps {
@@ -19,12 +19,12 @@ interface MenuItemsProps {
 const MenuItems: React.FC<MenuItemsProps> = ({ items }) => {
   return (
     <MenuItemsWrapper>
-      {items.map(({ text, action }) => {
+      {items.map(({ text, onClick }) => {
         return (
-        <Button
-          key={text}
-          text={text}
-          onClick={action}/>
+          <Button
+            key={text}
+            text={text}
+            onClick={onClick}/>
         );
       })}
     </MenuItemsWrapper>
