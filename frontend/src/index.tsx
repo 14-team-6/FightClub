@@ -1,6 +1,11 @@
 import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
-import styled, { createGlobalStyle } from 'styled-components';
+import {
+  BrowserRouter, Link, Route, Routes,
+} from 'react-router-dom';
+import { createGlobalStyle } from 'styled-components';
+import { Login } from './pages/login/login';
+import { Loading } from './pages/game/loading/loading';
 
 const GS = createGlobalStyle`
   * {
@@ -10,32 +15,21 @@ const GS = createGlobalStyle`
   }
 `;
 
-const Wrapper = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(0  0  0  23%);
-`;
-
-const H1 = styled.h1`
-  display: block;
-  position: absolute;
-  left: calc(50% - 100px);
-  top: calc(50% - 100px);
-  text-align: center;
-  line-height: 200px;
-  width: 200px;
-  height: 200px;
-  border-radius: 10px;
-  background-color: rgb(255  255  255  100%);
-`;
-
 const App: FC = () => {
   return <React.Fragment>
-        <GS/>
-        <Wrapper>
-            <H1>Hi team!</H1>
-        </Wrapper>
+    <GS/>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={
+          <ul>
+           <li><Link to='/login'>Login</Link></li>
+           <li><Link to='/game/loading'>Load game</Link></li>
+          </ul>
+        }/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/game/loading' element={<Loading/>}/>
+      </Routes>
+    </BrowserRouter>
     </React.Fragment>;
 };
 
