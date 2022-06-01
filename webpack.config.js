@@ -8,13 +8,22 @@ module.exports = {
     mode: 'development',
     entry: './frontend/src/index.tsx',
     devtool: 'inline-source-map',
-    output: {
-        path: path.join(__dirname, '/dist'),
+    devServer: {
+      historyApiFallback: true,
+      static: {
+        directory: path.join(__dirname, 'frontend', 'public'),
+        publicPath: '/public',
+      }
+    }
+    ,
+  output: {
+        path: path.join(__dirname, 'dist'),
         filename: 'bundle.js',
     },
     plugins: [
         new hwp({
-            template: './frontend/public/index.html'
+            template: './frontend/public/index.html',
+            publicPath: '/',
         }),
     ],
     resolve: {

@@ -1,11 +1,15 @@
 import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 import {
-  BrowserRouter, Link, Route, Routes,
+  BrowserRouter,
+  Link,
+  Route,
+  Routes,
 } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import { Login } from './pages/login/login';
 import { Loading } from './pages/game/loading/loading';
+import { Errors, ErrorTypes } from './pages/errors/errors';
 
 const GS = createGlobalStyle`
   * {
@@ -28,6 +32,7 @@ const App: FC = () => {
         }/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/game/loading' element={<Loading/>}/>
+        <Route path='*' element={<Errors errorType={ErrorTypes.e404}/>}/>
       </Routes>
     </BrowserRouter>
     </React.Fragment>;
