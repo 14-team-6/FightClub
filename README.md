@@ -1,5 +1,9 @@
+[![deploy-to-heroku](https://github.com/14-team-6/FightClub/actions/workflows/deploy-to-heroku.yml/badge.svg)](https://github.com/14-team-6/FightClub/actions/workflows/deploy-to-heroku.yml)
+
 # FightClub
 Игра - ретро файтинг "из 80х".
+
+Релиз: https://fightclub-vegas.herokuapp.com/
 
 Макеты: https://www.figma.com/file/ZL8FK0h8kpuxQFMwUKHSQe/Fight-Club?node-id=0%3A1
 

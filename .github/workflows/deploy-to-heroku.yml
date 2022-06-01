@@ -1,0 +1,39 @@
+name: deploy-to-heroku
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - 'main'
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ['self-hosted']
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Heroku creds
+        run: |
+          cat > ~/.netrc <<EOF
+          machine api.heroku.com
+           login $HEROKU_EMAIL
+           password $HEROKU_API_KEY
+          machine git.heroku.com
+           login $HEROKU_EMAIL
+           password $HEROKU_API_KEY
+          EOF
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+      - run: npm i
+      - run: npm run build
+      - run: heroku container:login
+      - run: docker rmi -f fc_tmp || true
+      - run: docker build . -t fc_tmp
+      - run: docker tag fc_tmp registry.heroku.com/fightclub-vegas/web
+      - run: docker push registry.heroku.com/fightclub-vegas/web
+      - run: heroku container:release web -a fightclub-vegas
+      - run: docker rmi -f fc_tmp || true
