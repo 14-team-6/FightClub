@@ -1,14 +1,32 @@
 import React, { ChangeEvent, useState } from 'react';
-import Form from '../form/form';
 import { InputProps } from '../input/input';
 import MenuItems, { MenuItem } from '../menu-buttons/menu-items';
+import Form from '../form/form';
 
-const LoginPageForm: React.FC = () => {
+const RegisterPageForm: React.FC = () => {
+  const [firstName, setFirstName] = useState<string>();
+  const [secondName, setSecondName] = useState<string>();
   const [login, setLogin] = useState<string>();
   const [password, setPassword] = useState<string>();
 
   const loginPageFormItems: InputProps[] = React.useMemo(() => {
     return ([
+      {
+        placeholder: 'First name',
+        type: 'text',
+        required: true,
+        onChange: (e: ChangeEvent<HTMLInputElement>) => {
+          setFirstName(e.target.value);
+        },
+      },
+      {
+        placeholder: 'Second name',
+        type: 'text',
+        required: true,
+        onChange: (e: ChangeEvent<HTMLInputElement>) => {
+          setSecondName(e.target.value);
+        },
+      },
       {
         placeholder: 'Login',
         type: 'text',
@@ -30,12 +48,12 @@ const LoginPageForm: React.FC = () => {
 
   const loginPageMenuItem: MenuItem[] = React.useMemo(() => {
     return ([{
-      text: 'Login',
+      text: 'Registration',
       onClick: () => {
-        console.log(login, password);
+        console.log(firstName, secondName, password, login);
       },
     }]);
-  }, [login, password]);
+  }, [firstName, secondName, password, login]);
 
   return (
     <>
@@ -45,4 +63,4 @@ const LoginPageForm: React.FC = () => {
   );
 };
 
-export default LoginPageForm;
+export default RegisterPageForm;

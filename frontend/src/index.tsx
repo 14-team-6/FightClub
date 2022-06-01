@@ -1,10 +1,13 @@
 import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 import styled, { createGlobalStyle } from 'styled-components';
-import { BrowserRouter } from 'react-router-dom';
+import {
+  BrowserRouter, Link, Route, Routes,
+} from 'react-router-dom';
 import LoginPage from './pages/login/login';
 import mainBackgroundImage from '../public/img/main-background.png';
 import Pixeboy from '../public/font/Pixeboy.ttf';
+import RegistrationPage from './pages/registration/registration';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -34,7 +37,11 @@ const App: FC = () => {
     <BrowserRouter>
       <GS/>
       <Wrapper>
-        <LoginPage/>
+        <Routes>
+          <Route path='/login' element={<LoginPage/>} />
+          <Route path='/registration' element={<RegistrationPage/>} />
+        </Routes>
+        <Link to={'login'}>Login</Link>
       </Wrapper>
     </BrowserRouter>
   </React.Fragment>;
