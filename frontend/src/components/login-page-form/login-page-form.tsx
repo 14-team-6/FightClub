@@ -14,6 +14,7 @@ const schema = yup.object({
     .min(5),
   [FormInputsNames.PASSWORD]: yup.string()
     .required()
+    .trim()
     .min(5),
 })
   .required();
