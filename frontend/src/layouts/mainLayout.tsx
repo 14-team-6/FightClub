@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import mainBackgroundImage from '../../public/img/main-background.png';
+import mainBackgroundImage from '../../public/img/mainBackground.png';
 
 const Wrapper = styled.div`
   position: fixed;

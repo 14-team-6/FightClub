@@ -1,7 +1,7 @@
 import React from 'react';
-import MainTitle from '../../components/main-title/main-title';
+import MainTitle from '../../components/mainTitle/mainTitle';
 import { Wrapper } from '../login/login';
-import RegisterPageForm from '../../components/register-page-form/register-page-form';
+import RegisterPageForm from '../../components/registerPageForm/registerPageForm';
 
 const RegistrationPage: React.FC = () => {
   return (

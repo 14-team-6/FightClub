@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import MainTitle from '../../components/main-title/main-title';
-import LoginPageForm from '../../components/login-page-form/login-page-form';
+import MainTitle from '../../components/mainTitle/mainTitle';
+import LoginPageForm from '../../components/loginPageForm/loginPageForm';
 
 export const Wrapper = styled.div`
   display: flex;
