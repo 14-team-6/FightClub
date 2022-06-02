@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
-import styled, { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import {
   BrowserRouter, Link, Route, Routes,
 } from 'react-router-dom';
 import LoginPage from './pages/login/login';
-import mainBackgroundImage from '../public/img/main-background.png';
 import Pixeboy from '../public/font/Pixeboy.ttf';
 import RegistrationPage from './pages/registration/registration';
+import MainLayout from './layouts/main-layout';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -23,26 +23,17 @@ const GS = createGlobalStyle`
   }
 `;
 
-const Wrapper = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-image: url(${mainBackgroundImage});
-  background-repeat: no-repeat;
-  background-size: cover;
-`;
-
 const App: FC = () => {
   return <React.Fragment>
     <BrowserRouter>
       <GS/>
-      <Wrapper>
-        <Routes>
-          <Route path='/login' element={<LoginPage/>} />
-          <Route path='/registration' element={<RegistrationPage/>} />
-        </Routes>
-        <Link to={'login'}>Login</Link>
-      </Wrapper>
+
+      <Routes>
+        <Route path='/login' element={<MainLayout><LoginPage/></MainLayout>}/>
+        <Route path='/registration' element={<MainLayout><RegistrationPage/></MainLayout>}/>
+      </Routes>
+      <Link to={'login'}>Login</Link>
+
     </BrowserRouter>
   </React.Fragment>;
 };

@@ -48,7 +48,7 @@ const RegisterPageForm: React.FC = () => {
 
   const loginPageMenuItem: MenuItem[] = React.useMemo(() => {
     return ([{
-      text: 'Registration',
+      text: 'Register',
       onClick: () => {
         console.log(firstName, secondName, password, login);
       },
