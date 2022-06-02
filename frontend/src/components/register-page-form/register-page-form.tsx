@@ -1,66 +1,109 @@
-import React, { ChangeEvent, useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { FormInputsNames, RegisterFormData } from '../../models/form';
 import { InputProps } from '../input/input';
-import MenuItems, { MenuItem } from '../menu-buttons/menu-items';
-import Form from '../form/form';
+import FormElement from '../form/form';
+import { ButtonProps } from '../button/button';
+import { phoneRegExp } from '../../../consts/regexp';
+
+const schema = yup.object({
+  [FormInputsNames.LOGIN]: yup.string()
+    .required()
+    .trim()
+    .min(5),
+  [FormInputsNames.PASSWORD]: yup.string()
+    .required()
+    .trim()
+    .min(5),
+  [FormInputsNames.FIRST_NAME]: yup.string()
+    .required('First name is required field')
+    .trim()
+    .min(2),
+  [FormInputsNames.SECOND_NAME]: yup.string()
+    .required('Second name is required field')
+    .trim()
+    .min(2),
+  [FormInputsNames.EMAIL]: yup.string()
+    .required()
+    .email(),
+  [FormInputsNames.PHONE]: yup.string()
+    .required()
+    .matches(phoneRegExp, 'Phone number is not valid')
+    .min(5),
+})
+  .required();
 
 const RegisterPageForm: React.FC = () => {
-  const [firstName, setFirstName] = useState<string>();
-  const [secondName, setSecondName] = useState<string>();
-  const [login, setLogin] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormData>({
+    resolver: yupResolver(schema),
+  });
+  const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
+    (data) => {
+      // eslint-disable-next-line no-console
+      console.log(data);
+    },
+  ), []);
 
-  const loginPageFormItems: InputProps[] = React.useMemo(() => {
+  const registerPageFormInputs: InputProps[] = React.useMemo(() => {
     return ([
       {
         placeholder: 'First name',
         type: 'text',
-        required: true,
-        onChange: (e: ChangeEvent<HTMLInputElement>) => {
-          setFirstName(e.target.value);
-        },
+        error: errors[FormInputsNames.FIRST_NAME],
+        ...register(FormInputsNames.FIRST_NAME),
       },
       {
         placeholder: 'Second name',
         type: 'text',
-        required: true,
-        onChange: (e: ChangeEvent<HTMLInputElement>) => {
-          setSecondName(e.target.value);
-        },
+        error: errors[FormInputsNames.SECOND_NAME],
+        ...register(FormInputsNames.SECOND_NAME),
       },
       {
         placeholder: 'Login',
         type: 'text',
-        required: true,
-        onChange: (e: ChangeEvent<HTMLInputElement>) => {
-          setLogin(e.target.value);
-        },
+        error: errors[FormInputsNames.LOGIN],
+        ...register(FormInputsNames.LOGIN),
+      },
+      {
+        placeholder: 'Email',
+        type: 'text',
+        error: errors[FormInputsNames.EMAIL],
+        ...register(FormInputsNames.EMAIL),
       },
       {
         placeholder: 'Password',
-        type: 'password',
-        required: true,
-        onChange: (e: ChangeEvent<HTMLInputElement>) => {
-          setPassword(e.target.value);
-        },
+        type: 'text',
+        error: errors[FormInputsNames.PASSWORD],
+        ...register(FormInputsNames.PASSWORD),
+      },
+      {
+        placeholder: 'Phone',
+        type: FormInputsNames.PHONE,
+        error: errors[FormInputsNames.PHONE],
+        ...register(FormInputsNames.PHONE),
       },
     ]);
-  }, []);
+  }, [errors]);
 
-  const loginPageMenuItem: MenuItem[] = React.useMemo(() => {
+  const registerPageMenuButtons: ButtonProps[] = React.useMemo(() => {
     return ([{
       text: 'Register',
-      onClick: () => {
-        console.log(firstName, secondName, password, login);
-      },
+      type: 'submit',
     }]);
-  }, [firstName, secondName, password, login]);
+  }, []);
 
   return (
-    <>
-      <Form inputs={loginPageFormItems}/>
-      <MenuItems items={loginPageMenuItem}/>
-    </>
-  );
+    <FormElement
+      onSubmit={onSubmit}
+      inputs={registerPageFormInputs}
+      buttons={registerPageMenuButtons}
+    />);
 };
 
-export default RegisterPageForm;
+export default React.memo(RegisterPageForm);

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Input, { InputProps } from '../input/input';
+import InputElement, { InputProps } from '../input/input';
+import ButtonElement, { ButtonProps } from '../button/button';
 
 const Form = styled.form`
   display: flex;
@@ -9,19 +10,30 @@ const Form = styled.form`
 
 interface FormProps {
   inputs: InputProps[],
-  className?: string,
+  buttons: ButtonProps[],
+  onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>
 }
 
-const FormElement: React.FC<FormProps> = ({ inputs }) => {
+const FormElement: React.FC<FormProps> = ({
+  inputs,
+  buttons,
+  onSubmit,
+}) => {
   return (
-    <Form>
+    <Form onSubmit={onSubmit}>
       {inputs.map((input) => {
         return (
-        <Input key={input.placeholder} {...input}/>
+          <InputElement key={input.placeholder} {...input}/>
+        );
+      })}
+
+      {buttons.map((button) => {
+        return (
+          <ButtonElement key={button.text} {...button}/>
         );
       })}
     </Form>
   );
 };
 
-export default FormElement;
+export default React.memo(FormElement);

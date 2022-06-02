@@ -1,47 +1,68 @@
-import React, { ChangeEvent, useState } from 'react';
-import Form from '../form/form';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import FormElement from '../form/form';
 import { InputProps } from '../input/input';
-import MenuItems, { MenuItem } from '../menu-buttons/menu-items';
+import { FormInputsNames, LoginFormData } from '../../models/form';
+import { ButtonProps } from '../button/button';
+
+const schema = yup.object({
+  [FormInputsNames.LOGIN]: yup.string()
+    .required()
+    .trim()
+    .min(5),
+  [FormInputsNames.PASSWORD]: yup.string()
+    .required()
+    .min(5),
+})
+  .required();
 
 const LoginPageForm: React.FC = () => {
-  const [login, setLogin] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: yupResolver(schema),
+  });
+  const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
+    (data) => {
+      // eslint-disable-next-line no-console
+      console.log(data);
+    },
+  ), []);
 
   const loginPageFormItems: InputProps[] = React.useMemo(() => {
     return ([
       {
         placeholder: 'Login',
         type: 'text',
-        required: true,
-        onChange: (e: ChangeEvent<HTMLInputElement>) => {
-          setLogin(e.target.value);
-        },
+        error: errors[FormInputsNames.LOGIN],
+        ...register(FormInputsNames.LOGIN),
       },
       {
         placeholder: 'Password',
-        type: 'password',
-        required: true,
-        onChange: (e: ChangeEvent<HTMLInputElement>) => {
-          setPassword(e.target.value);
-        },
+        type: FormInputsNames.PASSWORD,
+        error: errors[FormInputsNames.PASSWORD],
+        ...register(FormInputsNames.PASSWORD),
       },
     ]);
-  }, []);
+  }, [errors]);
 
-  const loginPageMenuItem: MenuItem[] = React.useMemo(() => {
+  const loginPageMenuButtons: ButtonProps[] = React.useMemo(() => {
     return ([{
       text: 'Login',
-      onClick: () => {
-        console.log(login, password);
-      },
+      type: 'submit',
     }]);
-  }, [login, password]);
+  }, []);
 
   return (
-    <>
-      <Form inputs={loginPageFormItems}/>
-      <MenuItems items={loginPageMenuItem}/>
-    </>
+    <FormElement
+      onSubmit={onSubmit}
+      inputs={loginPageFormItems}
+      buttons={loginPageMenuButtons}
+    />
   );
 };
 

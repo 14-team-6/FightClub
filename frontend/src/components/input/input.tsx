@@ -1,7 +1,8 @@
-import React, { InputHTMLAttributes } from 'react';
+import React, { ForwardedRef, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
+import { FieldError } from 'react-hook-form';
 import {
-  INPUTS_FONT_SIZE, MAIN_RED, MAIN_YELLOW, PIXEBOY,
+  INPUTS_FONT_SIZE, MAIN_RED, MAIN_WHITE, MAIN_YELLOW, PIXEBOY,
 } from '../../../consts/styles';
 
 const Input = styled.input`
@@ -16,15 +17,28 @@ const Input = styled.input`
   max-width: 205px;
 `;
 
+const Span = styled.span`
+  font-family: ${PIXEBOY};
+  color: ${MAIN_WHITE};
+  max-width: 205px;
+`;
+
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder: string,
   required?: boolean,
   type: string,
-  value?: string
+  value?: string,
+  ref?: ForwardedRef<any>,
+  error?: FieldError,
 }
 
-const InputElement: React.FC<InputProps> = (props) => {
-  return <Input {...props}/>;
-};
+const InputElement: React.FC<InputProps> = React.forwardRef(({ error, ...props }, ref) => {
+  return (
+    <>
+      <Input ref={ref} {...props}/>
+      {error && <Span>{error.message}</Span>}
+    </>
+  );
+});
 
-export default InputElement;
+export default React.memo(InputElement);

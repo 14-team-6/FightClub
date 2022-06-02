@@ -11,11 +11,11 @@ const Wrapper = styled.div`
   background-size: cover;
 `;
 
-type Props = {
+type MainLayoutProps = {
   children: JSX.Element,
 };
 
-const MainLayout: React.FC<Props> = ({ children }) => {
+const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <Wrapper>
       {children}

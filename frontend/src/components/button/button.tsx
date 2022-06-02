@@ -15,12 +15,13 @@ const Button = styled.button`
   color: ${MAIN_YELLOW};
 `;
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  text: string;
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  text: string,
+  type: 'button' | 'submit' | 'reset' | undefined,
 }
 
 const ButtonElement: React.FC<ButtonProps> = ({ text, ...props }) => {
   return <Button {...props}>{text}</Button>;
 };
 
-export default ButtonElement;
+export default React.memo(ButtonElement);
