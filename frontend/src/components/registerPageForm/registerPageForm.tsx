@@ -78,7 +78,7 @@ const RegisterPageForm: React.FC = () => {
       },
       {
         placeholder: 'Password',
-        type: 'text',
+        type: FormInputsNames.PASSWORD,
         error: errors[FormInputsNames.PASSWORD],
         ...register(FormInputsNames.PASSWORD),
       },
