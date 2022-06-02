@@ -6,22 +6,14 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
 import { Login } from './pages/login/login';
 import { Loading } from './pages/game/loading/loading';
 import { Errors, ErrorTypes } from './pages/errors/errors';
-
-const GS = createGlobalStyle`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-`;
+import { GlobalStyle } from './globalStyles';
 
 const App: FC = () => {
   return <React.Fragment>
-    <GS/>
+    <GlobalStyle/>
     <BrowserRouter>
       <Routes>
         <Route path='/' element={
