@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { BlackPageLayout } from '../../layouts/blackPage/blackPage';
+import { BlackPageLayout } from '../../layouts/blackPage';
 import { StrokedText } from '../../components/strokedText/strokedText';
 
 const ErrorBox = styled.h1`
