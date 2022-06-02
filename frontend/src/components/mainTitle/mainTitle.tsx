@@ -4,6 +4,7 @@ import { MAIN_RED, MAIN_YELLOW, MAIN_TITLE_SIZE } from '../../../consts/styles';
 
 const H1 = styled.h1`
   font-family: Pixeboy, serif;
+  text-align: center;
   color: ${MAIN_RED};
   font-size: ${MAIN_TITLE_SIZE};
   text-shadow:
