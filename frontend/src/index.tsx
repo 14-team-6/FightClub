@@ -1,15 +1,11 @@
 import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
-import {
-  BrowserRouter,
-  Link,
-  Route,
-  Routes,
-} from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes, } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import { Login } from './pages/login/login';
 import { Loading } from './pages/game/loading/loading';
 import { Errors, ErrorTypes } from './pages/errors/errors';
+import { EndGame, EndGameType } from './pages/game/endGame/endGame';
 
 const GS = createGlobalStyle`
   * {
@@ -24,12 +20,13 @@ const App: FC = () => {
     <GS/>
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={
+        <Route path='/main' element={
           <ul>
            <li><Link to='/login'>Login</Link></li>
            <li><Link to='/game/loading'>Load game</Link></li>
           </ul>
         }/>
+        <Route path='/' element={<EndGame endGameType={EndGameType.loose}/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/game/loading' element={<Loading/>}/>
         <Route path='*' element={<Errors errorType={ErrorTypes.e404}/>}/>
