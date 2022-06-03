@@ -2,6 +2,7 @@ import React, { ForwardedRef, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { FieldError } from 'react-hook-form';
 import {
+  INPUT_BORDER_BLUE,
   INPUTS_FONT_SIZE, MAIN_RED, MAIN_WHITE, MAIN_YELLOW,
 } from '../../../consts/styles';
 
@@ -14,6 +15,10 @@ const Input = styled.input`
   border: 6px solid ${MAIN_RED};
   padding-left: 6px;
   max-width: 205px;
+
+  &:focus {
+    border: 6px solid ${INPUT_BORDER_BLUE};
+  }
 `;
 
 const Span = styled.span`
