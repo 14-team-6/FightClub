@@ -2,11 +2,10 @@ import React, { ForwardedRef, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { FieldError } from 'react-hook-form';
 import {
-  INPUTS_FONT_SIZE, MAIN_RED, MAIN_WHITE, MAIN_YELLOW, PIXEBOY,
+  INPUTS_FONT_SIZE, MAIN_RED, MAIN_WHITE, MAIN_YELLOW,
 } from '../../../consts/styles';
 
 const Input = styled.input`
-  font-family: ${PIXEBOY};
   margin: 8px 0;
   height: 42px;
   background-color: ${MAIN_YELLOW};
@@ -18,7 +17,6 @@ const Input = styled.input`
 `;
 
 const Span = styled.span`
-  font-family: ${PIXEBOY};
   color: ${MAIN_WHITE};
   max-width: 205px;
 `;
@@ -32,11 +30,14 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: FieldError,
 }
 
-const InputElement: React.FC<InputProps> = React.forwardRef(({ error, ...props }, ref) => {
+const InputElement: React.FC<InputProps> = React.forwardRef(({
+  error,
+  ...props
+}, ref) => {
   return (
     <>
       <Input ref={ref} {...props}/>
-      {error && <Span>{error.message}</Span>}
+      <Span>{error?.message}</Span>
     </>
   );
 });
