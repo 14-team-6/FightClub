@@ -6,6 +6,7 @@ import ButtonElement, { ButtonProps } from '../button/button';
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 interface FormProps {

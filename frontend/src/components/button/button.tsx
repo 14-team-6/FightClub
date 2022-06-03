@@ -12,26 +12,22 @@ const Button = styled.button`
   border: none;
   color: ${MAIN_YELLOW};
   margin-right: 15px;
-`;
-
-const Wrapper = styled.div`
+  margin-left: 15px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
+  position: relative;
 
   &::before {
     content: "";
     text-shadow: 0 2px 0 ${MAIN_RED};
     width: 15px;
-    height: 30px;
     display: block;
+    position: absolute;
+    left: -15px;
   }
 
-  &:hover {
-    ${Button} {
-      text-shadow: 0 2px 0 ${MAIN_RED};
-    }
+  &:hover,
+  &:focus {
+    text-shadow: 0 2px 0 ${MAIN_RED};
 
     &::before {
       content: "*";
@@ -52,7 +48,7 @@ const ButtonElement: React.FC<ButtonProps> = ({
   text,
   ...props
 }) => {
-  return <Wrapper><Button {...props}>{text}</Button></Wrapper>;
+  return <Button {...props}>{text}</Button>;
 };
 
 export default React.memo(ButtonElement);
