@@ -13,6 +13,7 @@ const Button = styled.button`
   color: ${MAIN_YELLOW};
   margin-right: 15px;
   margin-left: 15px;
+  margin-top: 15px;
   display: flex;
   position: relative;
 
@@ -32,9 +33,7 @@ const Button = styled.button`
     &::before {
       content: "*";
       font-size: ${INPUTS_FONT_SIZE};
-      text-shadow: 0 2px 0 ${MAIN_RED};
       color: ${MAIN_YELLOW};
-      display: block;
     }
   }
 `;

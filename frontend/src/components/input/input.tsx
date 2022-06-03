@@ -26,6 +26,12 @@ const Span = styled.span`
   max-width: 205px;
 `;
 
+const Wrapper = styled.span`
+  display: flex;
+  justify-content: end;
+  flex-direction: column;
+`;
+
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder: string,
   required?: boolean,
@@ -40,10 +46,10 @@ const InputElement: React.FC<InputProps> = React.forwardRef(({
   ...props
 }, ref) => {
   return (
-    <>
+    <Wrapper>
       <Input ref={ref} {...props}/>
       <Span>{error?.message}</Span>
-    </>
+    </Wrapper>
   );
 });
 
