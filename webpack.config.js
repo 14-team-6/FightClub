@@ -17,7 +17,8 @@ module.exports = {
   },
   plugins: [
     new hwp({
-      template: './frontend/public/index.html'
+      template: './frontend/public/index.html',
+      publicPath: '/',
     }),
   ],
   resolve: {

@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import Keyboard, { Keys } from '../../game/keyboard';
-import Character from '../character/character';
-import cat from '../../../public/img/run.png';
+import Character, { AllowDirection } from '../character/character';
 
 function Canvas() {
   const size = { width: window.innerWidth, height: window.innerHeight };
@@ -13,44 +12,32 @@ function Canvas() {
   const hero = useRef<Character>();
 
   let then: number;
-
   let keys: Keys;
 
-  const random = (min: number, max: number) => {
-    return Math.floor(Math.random() * (max - min)) + min;
-  };
-
   const initHero = (ctx: CanvasRenderingContext2D) => {
-    const img = new Image();
-    img.src = cat;
-    const width = 80;
-    const height = 80;
-    const x = Math.floor(size.width * 0.1);
-    const y = Math.floor(size.height - size.height * 0.1 - height / 2);
-    const vX = 0;
-    const vY = 0;
-    const vMax = 0.7;
-    const a = 0.001;
+    const move = {
+      x: Math.floor(size.width * 0.1),
+      y: Math.floor(size.height * 0.9),
+      vX: 0,
+      vY: 0,
+      vMax: 0.7,
+      a: 0.001,
+    };
 
-    hero.current = new Character({
-      ctx, img, x, y, width, height, vX, vY, vMax, a,
-    });
+    hero.current = new Character(ctx, move);
   };
 
   const initCharacters = (ctx: CanvasRenderingContext2D) => {
-    while (characters.current.length < 2) {
-      const img = new Image();
-      img.src = cat;
-      const width = 80;
-      const height = 80;
-      const x = random(0 + width / 2, size.width - width / 2);
-      const y = random(0 + height / 2, size.height - height / 2);
-      const vX = random(-3, 3);
-      const vY = random(-3, 3);
+    while (characters.current.length < 1) {
+      const move = {
+        x: Math.floor(size.width - size.width * 0.1),
+        y: Math.floor(size.height * 0.9),
+        vX: -0.06,
+        vY: 0,
+        direction: 'back' as AllowDirection,
+      };
 
-      const catChar = new Character({
-        ctx, img, x, y, width, height, vX, vY,
-      });
+      const catChar = new Character(ctx, move);
       characters.current.push(catChar);
     }
   };
@@ -66,22 +53,24 @@ function Canvas() {
   };
 
   const renderFrame = (dt: number) => {
-    const ctx = canvasRef.current!.getContext('2d');
-    ctx!.clearRect(0, 0, size.width, size.height);
+    for (let i = 0; i < characters.current.length; i += 1) {
+      characters.current[i].clear();
+    }
+    hero.current!.clear();
 
     for (let i = 0; i < characters.current.length; i += 1) {
+      characters.current[i].update(dt);
       characters.current[i].draw();
-      characters.current[i].update();
+      characters.current[i].collision([hero.current!]);
     }
 
+    hero.current!.move(dt, keys);
     hero.current!.draw();
-    hero.current!.go(dt, keys);
   };
 
-  const tick = () => {
+  const tick = (now: number) => {
     if (!canvasRef.current) return;
 
-    const now = performance.now();
     const dt = now - then;
     then = now;
 

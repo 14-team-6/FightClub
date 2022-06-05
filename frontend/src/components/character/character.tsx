@@ -1,104 +1,225 @@
 import { Keys } from '../../game/keyboard';
+import forward from '../../../public/img/forward.png';
+import back from '../../../public/img/back.png';
 
-interface CharacterProps {
-  ctx: CanvasRenderingContext2D;
-  img: HTMLImageElement;
+interface SpriteMap {
+  forward: HTMLImageElement;
+  back: HTMLImageElement;
+}
+
+export type AllowDirection = keyof SpriteMap;
+interface CharacterMove {
   x: number;
   y: number;
-  width: number;
-  height: number;
   vX: number;
   vY: number;
   vMax?: number;
   a?: number;
+  direction?: AllowDirection;
 }
-
-interface CharacterState {
-  frameStep: number;
-  framePosX: number;
-  framePosY: number;
+interface CharacterSprite {
+  img: SpriteMap,
+  frameIndex: number;
+  numberOfFrames: number;
+  frameWidth: number;
+  frameHeight: number;
+  tickCount: number;
+  ticksPerFrame:number;
 }
 
 class Character {
-  props: CharacterProps;
+  ctx: CanvasRenderingContext2D;
 
-  state: CharacterState;
+  moveOption: CharacterMove;
 
-  constructor(props: CharacterProps) {
-    this.props = props;
+  spriteOption: CharacterSprite;
 
-    this.state = {
-      frameStep: 0,
-      framePosX: 0,
-      framePosY: 0,
+  constructor(ctx: CanvasRenderingContext2D, move: CharacterMove) {
+    this.ctx = ctx;
+    this.moveOption = move;
+    this.moveOption.direction = this.moveOption.direction || 'forward';
+
+    const spriteImg = {
+      forward: new Image(),
+      back: new Image(),
+    };
+
+    spriteImg.forward.src = forward;
+    spriteImg.back.src = back;
+
+    this.spriteOption = {
+      img: spriteImg,
+      frameIndex: 0,
+      tickCount: 0,
+      ticksPerFrame: 1,
+      numberOfFrames: 2,
+      frameWidth: 40,
+      frameHeight: 60,
     };
   }
 
-  draw() {
-    const { props } = this;
-    const { state } = this;
+  clear() {
+    const { moveOption, spriteOption, ctx } = this;
 
-    props.ctx.beginPath();
-    props.ctx.drawImage(
-      props.img,
-      state.framePosX,
-      state.framePosY,
-      props.width,
-      props.height,
-      props.x,
-      props.y,
-      props.width,
-      props.height,
+    ctx.clearRect(
+      moveOption.x,
+      moveOption.y,
+      spriteOption.frameWidth,
+      spriteOption.frameHeight,
     );
-    props.ctx.closePath();
   }
 
-  update() {
-    const width = this.props.ctx.canvas.clientWidth;
-    const height = this.props.ctx.canvas.clientHeight;
+  draw() {
+    const { moveOption, spriteOption, ctx } = this;
 
-    if (this.props.x + this.props.width >= width || this.props.x - this.props.width <= 0) {
-      this.props.vX = -this.props.vX;
-    }
-    if (this.props.y + this.props.height >= height || this.props.y - this.props.height <= 0) {
-      this.props.vY = -this.props.vY;
-    }
-
-    this.props.x += this.props.vX;
-    this.props.y += this.props.vX;
+    ctx.beginPath();
+    ctx.drawImage(
+      spriteOption.img[moveOption.direction as AllowDirection],
+      spriteOption.frameIndex * spriteOption.frameWidth,
+      0,
+      spriteOption.frameWidth,
+      spriteOption.frameHeight,
+      moveOption.x,
+      moveOption.y,
+      spriteOption.frameWidth,
+      spriteOption.frameHeight,
+    );
+    ctx.closePath();
   }
 
-  go(dt: number, keys: Keys) {
-    const width = this.props.ctx.canvas.clientWidth;
+  updateSprite() {
+    const { spriteOption } = this;
 
-    let k = -1; let
-      d = 0;
-    if (keys.right || keys.left) {
-      k = 1;
+    spriteOption.tickCount += 1;
+    if (spriteOption.tickCount > spriteOption.ticksPerFrame) {
+      spriteOption.tickCount = 0;
+      if (spriteOption.frameIndex < spriteOption.numberOfFrames - 1) {
+        spriteOption.frameIndex += 1;
+      } else {
+        spriteOption.frameIndex = 0;
+      }
+    }
+  }
+
+  update(dt: number) {
+    const { moveOption, spriteOption, ctx } = this;
+
+    const width = ctx.canvas.clientWidth;
+    const height = ctx.canvas.clientHeight;
+
+    if (moveOption.x + spriteOption.frameWidth >= width
+      || moveOption.x - spriteOption.frameWidth <= 0) {
+      moveOption.vX = -moveOption.vX;
+      this.turnAround();
+    }
+    if (moveOption.y + spriteOption.frameHeight >= height
+      || moveOption.y - spriteOption.frameHeight <= 0) {
+      moveOption.vY = -moveOption.vY;
     }
 
-    if (keys.left) {
-      d = -1;
-    } else if (keys.right) {
-      d = 1;
-    }
+    moveOption.x = Math.floor(moveOption.x + moveOption.vX * dt);
+    moveOption.y = Math.floor(moveOption.y + moveOption.vY * dt);
 
-    if (this.props.vX < this.props.vMax! && this.props.vX >= 0) {
-      this.props.vX += k * this.props.a! * dt;
-    } else if (this.props.vX > this.props.vMax!) {
-      this.props.vX = this.props.vMax!;
+    this.updateSprite();
+  }
+
+  updateVx(dt: number, k: number) {
+    const { moveOption } = this;
+
+    if (moveOption.vX < moveOption.vMax! && moveOption.vX >= 0) {
+      moveOption.vX += k * moveOption.a! * dt;
+    } else if (moveOption.vX > moveOption.vMax!) {
+      moveOption.vX = moveOption.vMax!;
     } else {
-      this.props.vX = 0;
-    }
-
-    const x = Math.floor(this.props.x + d * (this.props.vX * dt));
-    if (x > 0 && x < width - this.props.width) {
-      this.props.x = x;
+      moveOption.vX = 0;
     }
   }
 
-  up() {
-    this.props.y -= this.props.vY;
+  updateVy(dt: number, k: number) {
+    const { moveOption } = this;
+
+    if (moveOption.vY < moveOption.vMax! && moveOption.vY >= 0) {
+      moveOption.vY += k * moveOption.a! * dt;
+    } else if (moveOption.vY > moveOption.vMax!) {
+      moveOption.vY = moveOption.vMax!;
+    } else {
+      moveOption.vY = 0;
+    }
+  }
+
+  run(dt: number, d: number) {
+    const { moveOption, spriteOption, ctx } = this;
+
+    const width = ctx.canvas.clientWidth;
+    const x = Math.floor(moveOption.x + d * moveOption.vX * dt);
+    if (x > 0 && x < width - spriteOption.frameWidth) {
+      moveOption.x = x;
+    }
+  }
+
+  jump(dt: number, d: number) {
+    const { moveOption, spriteOption, ctx } = this;
+
+    const height = ctx.canvas.clientHeight;
+    const y = Math.floor(moveOption.y + d * moveOption.vY * dt);
+    if (y > 0 && y < height - spriteOption.frameHeight) {
+      moveOption.y = y;
+    }
+  }
+
+  rotate(direction: AllowDirection) {
+    this.moveOption.direction = direction;
+  }
+
+  turnAround() {
+    if (this.moveOption.direction === 'forward') {
+      this.moveOption.direction = 'back';
+    } else {
+      this.moveOption.direction = 'forward';
+    }
+  }
+
+  move(dt: number, keys: Keys) {
+    let aDirectionX = -1;
+    if (keys.right || keys.left) {
+      aDirectionX = 1;
+    }
+    this.updateVx(dt, aDirectionX);
+
+    let vDirectionX = 0;
+    if (keys.left) {
+      vDirectionX = -1;
+      this.rotate('back');
+    } else if (keys.right) {
+      vDirectionX = 1;
+      this.rotate('forward');
+    }
+    if (vDirectionX) {
+      this.run(dt, vDirectionX);
+      this.updateSprite();
+    }
+
+    const aDirectionY = 1;
+    this.updateVy(dt, aDirectionY);
+
+    let vDirectionY = 2;
+    if (keys.up) {
+      vDirectionY = -1;
+    }
+    this.jump(dt, vDirectionY);
+  }
+
+  collision(characters: Array<Character>) {
+    characters.forEach((element) => {
+      if (this !== element) {
+        const dx = this.moveOption.x - element.moveOption.x;
+
+        if (dx < this.spriteOption.frameWidth) {
+          this.moveOption.vX = -this.moveOption.vX;
+          this.turnAround();
+        }
+      }
+    });
   }
 
   kick() {

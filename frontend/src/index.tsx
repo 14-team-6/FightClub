@@ -6,7 +6,7 @@ import {
 import { createGlobalStyle } from 'styled-components';
 import { Login } from './pages/login/login';
 import { Loading } from './pages/game/loading/loading';
-import FightPage from './pages/game/fight';
+import FightPage from './pages/fight/fight';
 
 const GS = createGlobalStyle`
   * {
@@ -25,12 +25,12 @@ const App: FC = () => {
           <ul>
            <li><Link to='/login'>Login</Link></li>
            <li><Link to='/game/loading'>Load game</Link></li>
-           <li><Link to='/game/fight'>Fight!</Link></li>
+           <li><Link to='/fight'>Fight!</Link></li>
           </ul>
         }/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/game/loading' element={<Loading/>}/>
-        <Route path='/game/fight' element={<FightPage/>}/>
+        <Route path='/fight' element={<FightPage/>}/>
       </Routes>
     </BrowserRouter>
     </React.Fragment>;
