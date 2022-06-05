@@ -1,14 +1,14 @@
 import React, { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 import {
-  INPUT_BORDER_BLUE, INPUTS_FONT_SIZE, MAIN_RED, MAIN_YELLOW,
+  MAIN_BLUE, MAIN_FONT_SIZE, MAIN_RED, MAIN_YELLOW,
 } from '../../../consts/styles';
 
 const Button = styled.button`
   cursor: pointer;
-  font-size: ${INPUTS_FONT_SIZE};
+  font-size: ${MAIN_FONT_SIZE};
   background-color: transparent;
-  text-shadow: 0 2px 0 ${INPUT_BORDER_BLUE};
+  text-shadow: 0 2px 0 ${MAIN_BLUE};
   border: none;
   color: ${MAIN_YELLOW};
   margin-right: 15px;
@@ -32,7 +32,7 @@ const Button = styled.button`
 
     &::before {
       content: "*";
-      font-size: ${INPUTS_FONT_SIZE};
+      font-size: ${MAIN_FONT_SIZE};
       color: ${MAIN_YELLOW};
     }
   }
@@ -46,8 +46,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const ButtonElement: React.FC<ButtonProps> = ({
   text,
   ...props
-}) => {
-  return <Button {...props}>{text}</Button>;
-};
+}) => (
+  <Button {...props}>{text}</Button>
+);
 
 export default React.memo(ButtonElement);

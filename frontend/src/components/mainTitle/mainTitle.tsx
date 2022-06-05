@@ -18,10 +18,8 @@ interface MainTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   text?: string;
 }
 
-const MainTitle: React.FC<MainTitleProps> = ({ text = 'Fight club' }) => {
-  return (
-    <H1>{text}</H1>
-  );
-};
+const MainTitle: React.FC<MainTitleProps> = ({ text = 'Fight club' }) => (
+  <H1>{text}</H1>
+);
 
 export default MainTitle;

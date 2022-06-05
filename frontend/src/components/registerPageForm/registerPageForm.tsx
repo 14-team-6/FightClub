@@ -50,53 +50,49 @@ const RegisterPageForm: React.FC = () => {
     },
   ), []);
 
-  const registerPageFormInputs: InputProps[] = React.useMemo(() => {
-    return ([
-      {
-        placeholder: 'First name',
-        type: 'text',
-        error: errors[FormInputsNames.FIRST_NAME],
-        ...register(FormInputsNames.FIRST_NAME),
-      },
-      {
-        placeholder: 'Second name',
-        type: 'text',
-        error: errors[FormInputsNames.SECOND_NAME],
-        ...register(FormInputsNames.SECOND_NAME),
-      },
-      {
-        placeholder: 'Login',
-        type: 'text',
-        error: errors[FormInputsNames.LOGIN],
-        ...register(FormInputsNames.LOGIN),
-      },
-      {
-        placeholder: 'Email',
-        type: 'text',
-        error: errors[FormInputsNames.EMAIL],
-        ...register(FormInputsNames.EMAIL),
-      },
-      {
-        placeholder: 'Password',
-        type: FormInputsNames.PASSWORD,
-        error: errors[FormInputsNames.PASSWORD],
-        ...register(FormInputsNames.PASSWORD),
-      },
-      {
-        placeholder: 'Phone',
-        type: FormInputsNames.PHONE,
-        error: errors[FormInputsNames.PHONE],
-        ...register(FormInputsNames.PHONE),
-      },
-    ]);
-  }, [errors]);
+  const registerPageFormInputs: InputProps[] = React.useMemo(() => ([
+    {
+      placeholder: 'First name',
+      type: 'text',
+      error: errors[FormInputsNames.FIRST_NAME],
+      ...register(FormInputsNames.FIRST_NAME),
+    },
+    {
+      placeholder: 'Second name',
+      type: 'text',
+      error: errors[FormInputsNames.SECOND_NAME],
+      ...register(FormInputsNames.SECOND_NAME),
+    },
+    {
+      placeholder: 'Login',
+      type: 'text',
+      error: errors[FormInputsNames.LOGIN],
+      ...register(FormInputsNames.LOGIN),
+    },
+    {
+      placeholder: 'Email',
+      type: 'text',
+      error: errors[FormInputsNames.EMAIL],
+      ...register(FormInputsNames.EMAIL),
+    },
+    {
+      placeholder: 'Password',
+      type: FormInputsNames.PASSWORD,
+      error: errors[FormInputsNames.PASSWORD],
+      ...register(FormInputsNames.PASSWORD),
+    },
+    {
+      placeholder: 'Phone',
+      type: FormInputsNames.PHONE,
+      error: errors[FormInputsNames.PHONE],
+      ...register(FormInputsNames.PHONE),
+    },
+  ]), [errors]);
 
-  const registerPageMenuButtons: ButtonProps[] = React.useMemo(() => {
-    return ([{
-      text: 'Register',
-      type: 'submit',
-    }]);
-  }, []);
+  const registerPageMenuButtons: ButtonProps[] = React.useMemo(() => ([{
+    text: 'Register',
+    type: 'submit',
+  }]), []);
 
   return (
     <FormElement

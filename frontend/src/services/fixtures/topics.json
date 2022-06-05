@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "GAME QUESTIONS",
+    "counts": 100
+  },
+  {
+    "id": 2,
+    "name": "ALL ABOUT NFT",
+    "counts": 20
+  },
+  {
+    "id": 3,
+    "name": "BUY KITTENZ",
+    "counts": 35
+  },
+  {
+    "id": 4,
+    "name": "SELL KITTENZ",
+    "counts": 64
+  },
+  {
+    "id": 5,
+    "name": "BUY EQUIPMENT",
+    "counts": 99
+  },
+  {
+    "id": 6,
+    "name": "SELL EQUIPMENT",
+    "counts": 87
+  }
+]
