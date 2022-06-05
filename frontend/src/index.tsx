@@ -6,14 +6,31 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
+import { createGlobalStyle } from 'styled-components';
 import { Login } from './pages/login/login';
 import { Loading } from './pages/game/loading/loading';
 import { Errors, ErrorTypes } from './pages/errors/errors';
-import { GlobalStyle } from './globalStyles';
+import Pixeboy from '../public/font/Pixeboy.ttf';
+
+const GS = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  @font-face {
+    font-family: Pixeboy;
+    src:
+      url(${Pixeboy});
+    font-style: normal;
+    font-display: swap;
+  }
+`;
 
 const App: FC = () => {
   return <React.Fragment>
-    <GlobalStyle/>
+    <GS/>
     <BrowserRouter>
       <Routes>
         <Route path='/' element={
