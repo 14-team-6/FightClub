@@ -2,19 +2,14 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import { BlackPageLayout } from '../../../layouts/blackPage';
 import { StrokedText } from '../../../components/strokedText/strokedText';
+import { MAIN_RED, MAIN_YELLOW } from '../../../../consts/styles';
 
-const LoadingBox = styled.div`
-  position: relative;
+const LoadingText = styled(StrokedText)`
+  font-size: 100px;
 
   &::after {
     animation: dot-hide 1s infinite;
-    display: inline-block;
-    position: absolute;
-    left: 130px;
-    background-color: black;
-    height: 100%;
-    width: 100px;
-    content: " ";
+    content: "...";
   }
 
   @keyframes dot-hide {
@@ -30,8 +25,12 @@ const LoadingBox = styled.div`
 
 export const Loading: FC = () => {
   return <BlackPageLayout>
-      <LoadingBox>
-        <StrokedText textColor='#f00' strokeColor='#fff500' strokeSize='2' fontSize='40'>Loading...</StrokedText>
-      </LoadingBox>
+      <LoadingText
+        fontSize='40px'
+        textColor={MAIN_RED}
+        strokeColor={MAIN_YELLOW}
+      >
+        Loading
+      </LoadingText>
   </BlackPageLayout>;
 };

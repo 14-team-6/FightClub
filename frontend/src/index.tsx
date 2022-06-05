@@ -21,8 +21,7 @@ const GS = createGlobalStyle`
 
   @font-face {
     font-family: Pixeboy;
-    src:
-      url(${Pixeboy});
+    src: url(${Pixeboy});
     font-style: normal;
     font-display: swap;
   }

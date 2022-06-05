@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import { BlackPageLayout } from '../../layouts/blackPage';
+import ButtonElement from '../../components/button/button';
 import { StrokedText } from '../../components/strokedText/strokedText';
+import { MAIN_RED, MAIN_YELLOW } from '../../../consts/styles';
 
 const ErrorBox = styled.h1`
   display: flex;
@@ -18,7 +20,7 @@ const Img = styled.div`
   height: 50px;
 `;
 
-const BBox = styled.a`
+const BBox = styled.div`
   display: block;
   margin: 27px 0 0;
 `;
@@ -35,11 +37,15 @@ interface ErrorProps {
 export const Errors: FC<ErrorProps> = (props: ErrorProps) => {
   return <BlackPageLayout>
       <ErrorBox>
-        <StrokedText textColor='#f00' strokeColor='#fff500' strokeSize='4' fontSize='80'>{props.errorType}</StrokedText>
+        <StrokedText
+          fontSize="100px"
+          textColor={MAIN_RED}
+          strokeColor={MAIN_YELLOW}
+        >{props.errorType}</StrokedText>
       </ErrorBox>
       <Img/>
-      <BBox href="#">
-        <StrokedText textColor='#fff500' strokeColor='#5061ff' strokeSize='1' fontSize='30'>Back</StrokedText>
+      <BBox>
+        <ButtonElement type="button" text="Back"/>
       </BBox>
   </BlackPageLayout>;
 };
