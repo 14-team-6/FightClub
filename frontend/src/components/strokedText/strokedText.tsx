@@ -21,9 +21,11 @@ type TextProps = {
   textColor: string,
   strokeColor: string,
   children: React.ReactNode,
+  className?: any,
 };
 
 export const StrokedText: FC<TextProps> = ({
+  className,
   fontSize,
   children,
   textColor,
@@ -33,6 +35,7 @@ export const StrokedText: FC<TextProps> = ({
     fontSize={fontSize}
     textColor={textColor}
     strokeColor={strokeColor}
+    className={className}
   >
     {children}
   </H1>

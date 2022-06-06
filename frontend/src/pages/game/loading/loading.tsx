@@ -5,20 +5,20 @@ import { StrokedText } from '../../../components/strokedText/strokedText';
 import { MAIN_RED, MAIN_YELLOW } from '../../../../consts/styles';
 
 const LoadingText = styled(StrokedText)`
-  font-size: 100px;
 
   &::after {
     animation: dot-hide 1s infinite;
+    position: absolute;
     content: "...";
   }
 
   @keyframes dot-hide {
     0% {
-      background-color: rgb(0 0 0 / 100%);
+      content: "...";
     }
 
     50% {
-      background-color: rgb(0 0 0 / 0%);
+      content: "";
     }
   }
 `;
