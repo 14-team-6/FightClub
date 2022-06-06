@@ -1,55 +1,43 @@
 import React, { FC } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
+import { StrokedText } from '../../../components/strokedText/strokedText';
+import { MAIN_RED, MAIN_YELLOW } from '../../../../consts/styles';
+import { GameLayout } from '../../../layouts/gameLayout';
 
-const GC = createGlobalStyle`
-  * {
-    @font-face {
-      font-family: Pixeboy;
-      src:
-        url("../../../../public/font/Pixeboy.woff2") format("woff2"),
-        url("../../../../public/font/Pixeboy.woff") format("woff");
-      font-style: normal;
-      font-display: swap;
-    }
-  }
+const Paranja = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0 0 0 / 40%);
 `;
 
 const Wrap = styled.div`
-  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   height: 100vh;
-
-  background-image: url("../../../../public/img/mainBackground.png");
-  background-size: auto 100vh;
-
-  &::after {
-    width: 100vw;
-    height: 100vh;
-    display: block;
-    content: ' ';
-    background-color: rgb(0 0 0 / 40%);
-    background-image: none;
-  }
-`;
-
-const Header = styled.h1`
-  font-family: Pixeboy, sans-serif;
-  color: #ff0000;
-  font-size: 140px;
-  -webkit-text-stroke: 1px #fff500;
 `;
 
 export enum EndGameType {
-  'win'= 'You win!',
-  'loose' = 'You loose!'
+  'win' = 'You win!',
+  'loose' = 'You loose!',
 }
 
 type EndGameProps = {
   endGameType: EndGameType,
-}
+};
 
 export const EndGame: FC<EndGameProps> = (props: EndGameProps) => {
-  return <Wrap>
-    <GC/>
-    <Header>{props.endGameType}</Header>
-  </Wrap>
-}
+  return <GameLayout>
+    <Paranja>
+      <Wrap>
+        <StrokedText fontSize={'140px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>
+          {props.endGameType}
+        </StrokedText>
+      </Wrap>
+    </Paranja>
+  </GameLayout>;
+};
