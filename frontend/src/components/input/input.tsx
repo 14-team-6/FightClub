@@ -7,6 +7,7 @@ import {
 } from '../../../consts/styles';
 
 const Input = styled.input`
+  font-family: Pixeboy, sans-serif;
   margin: 8px 0;
   height: 42px;
   background-color: ${MAIN_YELLOW};
@@ -22,6 +23,7 @@ const Input = styled.input`
 `;
 
 const Span = styled.span`
+  font-family: Pixeboy, sans-serif;
   color: ${MAIN_WHITE};
   max-width: 205px;
 `;

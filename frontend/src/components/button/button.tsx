@@ -5,6 +5,7 @@ import {
 } from '../../../consts/styles';
 
 const Button = styled.button`
+  font-family: Pixeboy, sans-serif;
   cursor: pointer;
   font-size: ${INPUTS_FONT_SIZE};
   background-color: transparent;
