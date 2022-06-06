@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "webpack serve",
     "build": "webpack",
-    "lint:css": "stylelint './frontend/src/**/*.tsx'",
+    "lint:css": "stylelint frontend/src/**/*.tsx",
     "lint:ts": "eslint frontend/src",
     "lint": "npm run lint:css && npm run lint:ts",
     "prepare": "husky install"
@@ -21,6 +21,7 @@
     "@typescript-eslint/parser": "5.27.0",
     "eslint": "8.16.0",
     "eslint-config-airbnb-typescript": "17.0.0",
+    "file-loader": "6.2.0",
     "html-webpack-plugin": "5.5.0",
     "husky": "7.0.0",
     "postcss-scss": "4.0.4",
@@ -31,14 +32,18 @@
     "stylelint-processor-styled-components": "1.10.0",
     "ts-loader": "9.3.0",
     "typescript-plugin-styled-components": "2.0.0",
+    "url-loader": "4.1.1",
     "webpack": "5.72.1",
     "webpack-cli": "4.9.2",
     "webpack-dev-server": "4.9.0"
   },
   "dependencies": {
+    "@hookform/resolvers": "2.8.10",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "react-hook-form": "7.31.3",
     "react-router-dom": "6.3.0",
-    "styled-components": "5.3.5"
+    "styled-components": "5.3.5",
+    "yup": "0.32.11"
   }
 }

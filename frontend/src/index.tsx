@@ -7,30 +7,32 @@ import {
   Routes,
 } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
-import { Login } from './pages/login/login';
+import LoginPage from './pages/login/login';
 import { Loading } from './pages/game/loading/loading';
 import { Errors, ErrorTypes } from './pages/errors/errors';
 import Pixeboy from '../public/font/Pixeboy.ttf';
+import MainLayout from './layouts/mainLayout';
+import RegistrationPage from './pages/registration/registration';
 
 const GS = createGlobalStyle`
+  @font-face {
+    font-family: Pixeboy;
+    src: url(${Pixeboy}) format("truetype");
+    font-style: normal;
+    font-display: swap;
+  }
+
   * {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
   }
-
-  @font-face {
-    font-family: Pixeboy;
-    src: url(${Pixeboy});
-    font-style: normal;
-    font-display: swap;
-  }
 `;
 
 const App: FC = () => {
   return <React.Fragment>
-    <GS/>
     <BrowserRouter>
+      <GS/>
       <Routes>
         <Route path='/' element={
           <ul>
@@ -38,12 +40,13 @@ const App: FC = () => {
            <li><Link to='/game/loading'>Load game</Link></li>
           </ul>
         }/>
-        <Route path='/login' element={<Login/>}/>
         <Route path='/game/loading' element={<Loading/>}/>
         <Route path='*' element={<Errors errorType={ErrorTypes.e404}/>}/>
+        <Route path='/login' element={<MainLayout><LoginPage/></MainLayout>}/>
+        <Route path='/registration' element={<MainLayout><RegistrationPage/></MainLayout>}/>
       </Routes>
     </BrowserRouter>
-    </React.Fragment>;
+  </React.Fragment>;
 };
 
 ReactDOM.render(<App/>, document.getElementById('app'));
