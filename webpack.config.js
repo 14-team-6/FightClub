@@ -10,14 +10,19 @@ module.exports = {
   devtool: 'inline-source-map',
   devServer: {
     historyApiFallback: true,
+    static: {
+      directory: path.join(__dirname, 'frontend', 'public'),
+      publicPath: '/public',
+    }
   },
   output: {
-    path: path.join(__dirname, '/dist'),
+    path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
   },
   plugins: [
     new hwp({
-      template: './frontend/public/index.html'
+      template: './frontend/public/index.html',
+      publicPath: '/',
     }),
   ],
   resolve: {
@@ -31,7 +36,7 @@ module.exports = {
         loader: 'ts-loader',
         exclude: /node_modules/,
         options: {
-          getCustomTransformers: () => ({before: [styledComponentsTransformer]})
+          getCustomTransformers: () => ({ before: [styledComponentsTransformer] })
         }
       },
       {
@@ -48,7 +53,11 @@ module.exports = {
       {
         test: /\.(woff|woff2|ttf|eot)$/,
         loader: 'file-loader'
+      },
+      {
+        test: /\.(woff|woff2|ttf|eot)$/,
+        loader: 'file-loader'
       }
-    ]
+    ],
   }
-}
+};

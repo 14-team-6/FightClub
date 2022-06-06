@@ -15,7 +15,7 @@ const Header = styled.header`
 const ActionButtons = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 260px;
+  width: 350px;
 `;
 
 const Posts = styled.main`

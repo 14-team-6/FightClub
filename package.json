@@ -7,6 +7,7 @@
     "build": "webpack",
     "lint:css": "stylelint frontend/src/**/*.tsx",
     "lint:ts": "eslint frontend/src",
+    "lint": "npm run lint:css && npm run lint:ts",
     "prepare": "husky install"
   },
   "keywords": [],

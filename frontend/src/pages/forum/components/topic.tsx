@@ -7,7 +7,7 @@ import Link from '../../../components/link/link';
 const StyledTopic = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 400px;
+  width: 550px;
 `;
 
 const StyledLink = styled(Link)`
