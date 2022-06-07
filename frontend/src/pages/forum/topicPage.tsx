@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import Link from '../../components/link/link';
 import { getPosts } from '../../services/forum';
-import { Post } from './types';
+import { Post, TopicData } from './types';
 import PostElement from './components/post';
+import TopicElement from './components/topic';
 
 const Header = styled.header`
   display: flex;
@@ -15,7 +16,11 @@ const Header = styled.header`
 const ActionButtons = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 350px;
+  width: 300px;
+`;
+
+const Topic = styled.div`
+  margin-left: 20px;
 `;
 
 const Posts = styled.main`
@@ -29,10 +34,10 @@ const Posts = styled.main`
 const TopicPage: React.FC = () => {
   const { topicId } = useParams();
 
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [topicData, setTopicData] = useState<TopicData>();
 
   useEffect(() => {
-    getPosts(topicId).then((psts: Post[]) => { setPosts(psts); });
+    getPosts(topicId!).then((topicPst: TopicData) => { setTopicData(topicPst); });
   }, []);
 
   return (
@@ -40,13 +45,20 @@ const TopicPage: React.FC = () => {
       <Header>
         <Link to="/topics">FIGHT FORUM</Link>
         <ActionButtons>
-          <Link to="/topics/add">NEW POST</Link>
-          <Link to="/login">BACK</Link>
-          <Link to="/login">CLOSE</Link>
+          <Link to={`/topics/${topicId}/posts/add`}>NEW POST</Link>
+          <Link to="/topics">BACK</Link>
+          <Link to="/fight">CLOSE</Link>
         </ActionButtons>
       </Header>
+      <Topic>
+        {topicData ? <TopicElement id={topicData.topic.id} name={topicData.topic.name} /> : 'Loading...'}
+      </Topic>
       <Posts>
-        {posts.length > 0 ? posts.map((post: Post) => <PostElement key={post.id} {...post} />) : 'Loading...'}
+        {
+          topicData
+            ? topicData.posts.map((post: Post) => <PostElement key={post.id} {...post} />)
+            : null
+        }
       </Posts>
     </>
   );

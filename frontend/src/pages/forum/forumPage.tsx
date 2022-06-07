@@ -14,7 +14,7 @@ const Header = styled.header`
 const ActionButtons = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 300px;
+  width: 225px;
 `;
 
 const Topics = styled.main`
@@ -26,7 +26,7 @@ const Topics = styled.main`
 `;
 
 const ForumPage: React.FC = () => {
-  const [topics, setTopics] = useState<Topic[]>([]);
+  const [topics, setTopics] = useState<Topic[]>();
 
   useEffect(() => {
     getTopics().then((tpcs: Topic[]) => { setTopics(tpcs); });
@@ -38,11 +38,15 @@ const ForumPage: React.FC = () => {
         <Link to="/topics">FIGHT FORUM</Link>
         <ActionButtons>
           <Link to="/topics/add">NEW TOPIC</Link>
-          <Link to="/login">CLOSE</Link>
+          <Link to="/fight">CLOSE</Link>
         </ActionButtons>
       </Header>
       <Topics>
-        {topics.length > 0 ? topics.map((topic: Topic) => <TopicElement key={topic.id} {...topic} />) : 'Loading...'}
+        {
+          topics
+            ? topics.map((topic: Topic) => <TopicElement key={topic.id} {...topic} />)
+            : 'Loading...'
+        }
       </Topics>
     </>
   );

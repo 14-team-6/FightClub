@@ -1,14 +1,21 @@
-[
-  {
+{
+  "topic": {
     "id": 1,
-    "name": "HOW TO PLAY “FIGHT KITTENS”"
+    "name": "GAME QUESTIONS",
+    "counts": 100
   },
-  {
-    "id": 2,
-    "name": "NOT WORKING ON IMAC 29”"
-  },
-  {
-    "id": 3,
-    "name": "HIGHT ALL!!!"
-  }
-]
+  "posts": [
+    {
+      "id": 1,
+      "name": "HOW TO PLAY “FIGHT KITTENS”"
+    },
+    {
+      "id": 2,
+      "name": "NOT WORKING ON IMAC 29”"
+    },
+    {
+      "id": 3,
+      "name": "HIGHT ALL!!!"
+    }
+  ]
+}

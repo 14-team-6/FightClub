@@ -36,7 +36,7 @@ const TopicElement: React.FC<Topic> = ({
 }) => (
   <StyledTopic>
     <StyledLink to={`/topics/${id}`}>{name}</StyledLink>
-    <Counts>{counts} POSTS</Counts>
+    {counts ? <Counts>{counts} POSTS</Counts> : null}
   </StyledTopic>
 );
 
