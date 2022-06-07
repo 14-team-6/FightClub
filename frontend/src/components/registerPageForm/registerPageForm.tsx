@@ -2,11 +2,13 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 import { FormInputsNames, RegisterFormData } from '../../models/form';
 import { InputProps } from '../input/input';
 import FormElement from '../form/form';
 import { ButtonProps } from '../button/button';
 import { phoneRegExp } from '../../../consts/regexp';
+import AuthService from '../../../services/authService';
 
 const schema = yup.object({
   [FormInputsNames.LOGIN]: yup.string()
@@ -43,10 +45,20 @@ const RegisterPageForm: React.FC = () => {
   } = useForm<RegisterFormData>({
     resolver: yupResolver(schema),
   });
+  const navigator = useNavigate();
+
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
       // eslint-disable-next-line no-console
       console.log(data);
+
+      AuthService.signUp(data)
+        .then(() => {
+          navigator('/game');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   ), []);
 
