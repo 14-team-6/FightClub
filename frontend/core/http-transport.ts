@@ -55,7 +55,7 @@ class HttpTransport implements HttpTransportAbstractClass {
         headers,
         body: requestBody,
         credentials: 'same-origin',
-      }).then(async (response: Response) => {
+      }).then((response: Response) => {
         if (response.ok) {
           response.json()
             .then(resolve)
