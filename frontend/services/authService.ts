@@ -1,6 +1,10 @@
 import HttpTransport from '../core/http-transport';
 import HttpTransportAbstractClass from '../core/http-transport-abstract-class';
-import { RegisterFormData } from '../src/models/form';
+import { LoginFormData, RegisterFormData } from '../src/models/form';
+
+export interface AuthError {
+  reason: string;
+}
 
 class AuthService {
   private authService: HttpTransportAbstractClass;
@@ -9,8 +13,9 @@ class AuthService {
     this.authService = authService;
   }
 
-  public signIn = () => {
-
+  public signIn = (userInfo: LoginFormData) => {
+    return this.authService
+      .post<LoginFormData>('/signin', { body: userInfo });
   };
 
   public signUp = (userInfo: RegisterFormData) => {
@@ -19,7 +24,8 @@ class AuthService {
   };
 
   public signOut = () => {
-
+    return this.authService
+      .post<RegisterFormData>('/logout', {});
   };
 }
 

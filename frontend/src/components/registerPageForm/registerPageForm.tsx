@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -8,7 +8,8 @@ import { InputProps } from '../input/input';
 import FormElement from '../form/form';
 import { ButtonProps } from '../button/button';
 import { phoneRegExp } from '../../../consts/regexp';
-import AuthService from '../../../services/authService';
+import AuthService, { AuthError } from '../../../services/authService';
+import SubmitFormError from '../submitFormError/submitFormError';
 
 const schema = yup.object({
   [FormInputsNames.LOGIN]: yup.string()
@@ -46,18 +47,16 @@ const RegisterPageForm: React.FC = () => {
     resolver: yupResolver(schema),
   });
   const navigator = useNavigate();
+  const [error, setError] = useState<string>('');
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
-      // eslint-disable-next-line no-console
-      console.log(data);
-
       AuthService.signUp(data)
         .then(() => {
           navigator('/game');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(({ reason }: AuthError) => {
+          setError(reason);
         });
     },
   ), []);
@@ -111,11 +110,15 @@ const RegisterPageForm: React.FC = () => {
   }, []);
 
   return (
-    <FormElement
-      onSubmit={onSubmit}
-      inputs={registerPageFormInputs}
-      buttons={registerPageMenuButtons}
-    />);
+    <>
+      <SubmitFormError error={error}/>
+      <FormElement
+        onSubmit={onSubmit}
+        inputs={registerPageFormInputs}
+        buttons={registerPageMenuButtons}
+      />);
+    </>
+  );
 };
 
 export default React.memo(RegisterPageForm);
