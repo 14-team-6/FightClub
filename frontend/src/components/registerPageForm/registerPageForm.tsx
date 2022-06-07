@@ -53,7 +53,7 @@ const RegisterPageForm: React.FC = () => {
     (data) => {
       AuthService.signUp(data)
         .then(() => {
-          navigator('/game');
+          navigator('/main');
         })
         .catch(({ reason }: AuthError) => {
           setError(reason);

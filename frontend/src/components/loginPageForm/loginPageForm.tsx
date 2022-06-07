@@ -36,12 +36,9 @@ const LoginPageForm: React.FC = () => {
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
-      // eslint-disable-next-line no-console
-      console.log(data);
-
       AuthService.signIn(data)
         .then(() => {
-          navigator('/game');
+          navigator('/main');
         })
         .catch(({ reason }: AuthError) => {
           setError(reason);
