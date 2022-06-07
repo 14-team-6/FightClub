@@ -5,7 +5,6 @@ import { StrokedText } from '../../../components/strokedText/strokedText';
 import { MAIN_RED, MAIN_YELLOW } from '../../../../consts/styles';
 
 const LoadingText = styled(StrokedText)`
-
   &::after {
     animation: dot-hide 1s infinite;
     position: absolute;
