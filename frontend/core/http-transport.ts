@@ -57,9 +57,12 @@ class HttpTransport implements HttpTransportAbstractClass {
         credentials: 'same-origin',
       }).then(async (response: Response) => {
         if (response.ok) {
-          resolve(await response.json());
+          response.json()
+            .then(resolve)
+            .catch(() => { return resolve(null); });
         } else {
-          reject(await response.json());
+          response.json()
+            .then(reject);
         }
       });
     });
