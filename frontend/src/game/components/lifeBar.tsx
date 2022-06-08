@@ -1,17 +1,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import { MAIN_GREEN, MAIN_RED, MAIN_WHITE } from '../../../consts/styles';
-
-export enum LifeBarTypes {
-  IAM,
-  ENEMY,
-}
-
-type LifeBarProps = {
-  lifePercent: number,
-  lifeType: LifeBarTypes,
-  name: string
-};
+import { LifeBarProps, LifeBarTypes } from '../types';
 
 const LifeBarWrap = styled.div`
   width: 300px;
