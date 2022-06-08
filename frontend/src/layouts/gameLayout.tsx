@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { LifeBar, LifeBarTypes } from '../game/components/lifeBar';
+import { LifeBar } from '../game/components/lifeBar';
 import { StrokedText } from '../components/strokedText/strokedText';
 import {
   MAIN_BACKGROUND,
@@ -8,6 +8,7 @@ import {
   MAIN_WHITE,
   MAIN_YELLOW,
 } from '../../consts/styles';
+import { LifeBarTypes } from '../game/types';
 
 type GameProps = {
   children: React.ReactNode,
