@@ -42,7 +42,7 @@ const App: FC = () => {
           </ul>
         }/>
         <Route path='/game/loading' element={<Loading/>}/>
-        <Route path='/game/end' element={<EndGame endGameType={EndGameType.loose}/>}/>
+        <Route path='/game/end' element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
         <Route path='*' element={<Errors errorType={ErrorTypes.e404}/>}/>
         <Route path='/login' element={<MainLayout><LoginPage/></MainLayout>}/>
         <Route path='/registration' element={<MainLayout><RegistrationPage/></MainLayout>}/>

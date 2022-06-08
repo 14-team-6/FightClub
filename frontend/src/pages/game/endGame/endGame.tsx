@@ -22,8 +22,8 @@ const Wrap = styled.div`
 `;
 
 export enum EndGameType {
-  'win' = 'You win!',
-  'loose' = 'You loose!',
+  'WIN' = 'You win!',
+  'LOOSE' = 'You loose!',
 }
 
 type EndGameProps = {
@@ -31,13 +31,15 @@ type EndGameProps = {
 };
 
 export const EndGame: FC<EndGameProps> = (props: EndGameProps) => {
-  return <GameLayout>
-    <Paranja>
-      <Wrap>
-        <StrokedText fontSize={'140px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>
-          {props.endGameType}
-        </StrokedText>
-      </Wrap>
-    </Paranja>
-  </GameLayout>;
+  return (
+    <GameLayout>
+      <Paranja>
+        <Wrap>
+          <StrokedText fontSize={'140px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>
+            {props.endGameType}
+          </StrokedText>
+        </Wrap>
+      </Paranja>
+    </GameLayout>
+  );
 };

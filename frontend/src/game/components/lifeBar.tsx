@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { MAIN_GREEN, MAIN_RED, MAIN_WHITE } from '../../../consts/styles';
 
 export enum LifeBarTypes {
-  iam,
-  enemy,
+  IAM,
+  ENEMY,
 }
 
 type LifeBarProps = {
@@ -18,7 +18,7 @@ const LifeBarWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: ${({ lifeType }: Partial<LifeBarProps>) => {
-    return lifeType === LifeBarTypes.iam ? 'flex-start' : 'flex-end';
+    return lifeType === LifeBarTypes.IAM ? 'flex-start' : 'flex-end';
   }
 };
 `;

@@ -2,14 +2,19 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import { LifeBar, LifeBarTypes } from '../game/components/lifeBar';
 import { StrokedText } from '../components/strokedText/strokedText';
-import { MAIN_RED, MAIN_WHITE, MAIN_YELLOW } from '../../consts/styles';
+import {
+  MAIN_BACKGROUND,
+  MAIN_RED,
+  MAIN_WHITE,
+  MAIN_YELLOW,
+} from '../../consts/styles';
 
 type GameProps = {
   children: React.ReactNode,
 };
 
 const Wrap = styled.div`
-  background: url("../../public/img/mainBackground.png") no-repeat;
+  background: url(${MAIN_BACKGROUND}) no-repeat;
   background-size: cover;
   width: 100%;
   height: 100vh;
@@ -37,15 +42,17 @@ const RoundString = styled.h1`
 `;
 
 export const GameLayout: FC<GameProps> = ({ children }) => {
-  return <Wrap>
-  <Hud>
-    <LifeBar lifePercent={0} lifeType={LifeBarTypes.iam} name={'Stan'}/>
-    <RoundWrap>
-      <StrokedText fontSize={'40px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>Round 1</StrokedText>
-      <RoundString>vs</RoundString>
-    </RoundWrap>
-    <LifeBar lifePercent={70} lifeType={LifeBarTypes.enemy} name={'Joao'}/>
-  </Hud>
+  return (
+    <Wrap>
+      <Hud>
+        <LifeBar lifePercent={0} lifeType={LifeBarTypes.IAM} name={'Stan'}/>
+        <RoundWrap>
+          <StrokedText fontSize={'40px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>Round 1</StrokedText>
+          <RoundString>vs</RoundString>
+        </RoundWrap>
+        <LifeBar lifePercent={70} lifeType={LifeBarTypes.ENEMY} name={'Joao'}/>
+      </Hud>
       {children}
-  </Wrap>;
+    </Wrap>
+  );
 };
