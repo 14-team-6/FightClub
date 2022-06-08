@@ -14,6 +14,7 @@ import Pixeboy from '../public/font/Pixeboy.ttf';
 import MainLayout from './layouts/mainLayout';
 import RegistrationPage from './pages/registration/registration';
 import { EndGame, EndGameType } from './pages/game/endGame/endGame';
+import { Results } from './pages/results/results';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -41,6 +42,7 @@ const App: FC = () => {
            <li><Link to='/game/loading'>Load game</Link></li>
           </ul>
         }/>
+        <Route path='/results' element={<Results/>}/>
         <Route path='/game/loading' element={<Loading/>}/>
         <Route path='/game/end' element={<EndGame endGameType={EndGameType.loose}/>}/>
         <Route path='*' element={<Errors errorType={ErrorTypes.e404}/>}/>
