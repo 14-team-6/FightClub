@@ -26,7 +26,11 @@ export enum EndGameType {
   'LOOSE' = 'You loose!',
 }
 
-export const EndGame: FC = (props: { endGameType: EndGameType }) => {
+type EndGameProps = {
+  endGameType: EndGameType,
+};
+
+export const EndGame: FC<EndGameProps> = (props: EndGameProps) => {
   return (
     <GameLayout>
       <Paranja>
