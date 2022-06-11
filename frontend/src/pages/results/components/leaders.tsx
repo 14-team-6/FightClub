@@ -99,9 +99,9 @@ const SortBlock: FC = () => {
   return (
     <WrapSort>
       <ButtonTriangle onClick={onClick('name')} isActive={true} className="button-triangle"
-                      size={ButtonTriangleSize.general} direction={ButtonTriangleDirection.up}/>
-      <ButtonTriangle onClick={onClick('score')} className="button-triangle" size={ButtonTriangleSize.general}
-                      direction={ButtonTriangleDirection.down}/>
+                      size={ButtonTriangleSize.SMALL} direction={ButtonTriangleDirection.UP}/>
+      <ButtonTriangle onClick={onClick('score')} className="button-triangle" size={ButtonTriangleSize.SMALL}
+                      direction={ButtonTriangleDirection.DOWN}/>
     </WrapSort>
   );
 };
@@ -115,10 +115,10 @@ const ScrollBlock: FC = () => {
 
   return (
     <WrapScroll>
-      <ButtonTriangle onClick={onClick('up')} size={ButtonTriangleSize.big}
-                      direction={ButtonTriangleDirection.up}/>
-      <ButtonTriangle onClick={onClick('down')} size={ButtonTriangleSize.big}
-                      direction={ButtonTriangleDirection.down}/>
+      <ButtonTriangle onClick={onClick('up')} size={ButtonTriangleSize.BIG}
+                      direction={ButtonTriangleDirection.UP}/>
+      <ButtonTriangle onClick={onClick('down')} size={ButtonTriangleSize.BIG}
+                      direction={ButtonTriangleDirection.DOWN}/>
     </WrapScroll>
   );
 };

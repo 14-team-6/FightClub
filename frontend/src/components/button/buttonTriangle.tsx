@@ -12,13 +12,13 @@ enum ButtonTriangleState {
 }
 
 export enum ButtonTriangleDirection {
-  up = 'up',
-  down = 'down',
+  UP = 'UP',
+  DOWN = 'DOWN',
 }
 
 export enum ButtonTriangleSize {
-  general,
-  big,
+  SMALL,
+  BIG,
 }
 
 type ButtonTriangleProps = {
@@ -64,7 +64,7 @@ export const ButtonTriangle:FC<ButtonTriangleProps> = (props) => {
     }
   });
 
-  if (props.direction === ButtonTriangleDirection.up) {
+  if (props.direction === ButtonTriangleDirection.UP) {
     classNames.push('up');
   } else {
     classNames.push('down');
@@ -72,7 +72,7 @@ export const ButtonTriangle:FC<ButtonTriangleProps> = (props) => {
   if (active) {
     classNames.push('active');
   }
-  if (props.size === ButtonTriangleSize.general) {
+  if (props.size === ButtonTriangleSize.SMALL) {
     classNames.push('small');
   }
 
