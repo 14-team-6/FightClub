@@ -38,12 +38,14 @@ const WrapListItem = styled.div`
 `;
 
 const ListItem: FC<LeaderItem> = (props) => {
-  return <WrapListItem>
-    <StrokedText className="stroked-text" fontSize="30px" textColor={MAIN_YELLOW}
-                 strokeColor={MAIN_RED}>{props.name}</StrokedText>
-    <StrokedText className="stroked-text" fontSize="30px" textColor={MAIN_YELLOW}
-                 strokeColor={MAIN_RED}>{props.score}</StrokedText>
-  </WrapListItem>;
+  return (
+    <WrapListItem>
+      <StrokedText className="stroked-text" fontSize="30px" textColor={MAIN_YELLOW}
+                   strokeColor={MAIN_RED}>{props.name}</StrokedText>
+      <StrokedText className="stroked-text" fontSize="30px" textColor={MAIN_YELLOW}
+                   strokeColor={MAIN_RED}>{props.score}</StrokedText>
+    </WrapListItem>
+  );
 };
 
 const Wrap = styled.div`
@@ -94,12 +96,14 @@ const SortBlock: FC = () => {
     };
   };
 
-  return <WrapSort>
-    <ButtonTriangle onClick={onClick('name')} isActive={true} className="button-triangle"
-                    size={ButtonTriangleSize.general} direction={ButtonTriangleDirection.up}/>
-    <ButtonTriangle onClick={onClick('score')} className="button-triangle" size={ButtonTriangleSize.general}
-                    direction={ButtonTriangleDirection.down}/>
-  </WrapSort>;
+  return (
+    <WrapSort>
+      <ButtonTriangle onClick={onClick('name')} isActive={true} className="button-triangle"
+                      size={ButtonTriangleSize.general} direction={ButtonTriangleDirection.up}/>
+      <ButtonTriangle onClick={onClick('score')} className="button-triangle" size={ButtonTriangleSize.general}
+                      direction={ButtonTriangleDirection.down}/>
+    </WrapSort>
+  );
 };
 
 const ScrollBlock: FC = () => {
@@ -109,22 +113,28 @@ const ScrollBlock: FC = () => {
     };
   };
 
-  return <WrapScroll>
-    <ButtonTriangle onClick={onClick('up')} size={ButtonTriangleSize.big}
-                    direction={ButtonTriangleDirection.up}/>
-    <ButtonTriangle onClick={onClick('down')} size={ButtonTriangleSize.big}
-                    direction={ButtonTriangleDirection.down}/>
-  </WrapScroll>;
+  return (
+    <WrapScroll>
+      <ButtonTriangle onClick={onClick('up')} size={ButtonTriangleSize.big}
+                      direction={ButtonTriangleDirection.up}/>
+      <ButtonTriangle onClick={onClick('down')} size={ButtonTriangleSize.big}
+                      direction={ButtonTriangleDirection.down}/>
+    </WrapScroll>
+  );
 };
 
 export const Leaders: FC<LeadersProps> = (props) => {
-  return <Wrap>
-    <SortBlock/>
-    <WrapOther>
-      <WrapList>
-        {props.items.map((o, i) => { return <ListItem key={i} name={o.name} score={o.score}/>; })}
-      </WrapList>
-      <ScrollBlock/>
-    </WrapOther>
-  </Wrap>;
+  return (
+    <Wrap>
+      <SortBlock/>
+      <WrapOther>
+        <WrapList>
+          {props.items.map((o, i) => {
+            return <ListItem key={i} name={o.name} score={o.score}/>;
+          })}
+        </WrapList>
+        <ScrollBlock/>
+      </WrapOther>
+    </Wrap>
+  );
 };

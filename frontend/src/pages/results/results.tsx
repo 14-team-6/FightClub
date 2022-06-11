@@ -85,17 +85,19 @@ const Kitten = styled.div`
 `;
 
 export const Results: FC = () => {
-  return <MainLayout>
-    <Wrapper>
-      <WrapperContent>
-        <MainTitle text={'Leaders'}/>
-        <Leaders items={mock}/>
-        <ButtonElement type="button" text="Back"/>
-      </WrapperContent>
-      <Footer>
-        <Kitten direction="right" sprite={1}/>
-        <Kitten direction="left" sprite={4}/>
-      </Footer>
-    </Wrapper>
-  </MainLayout>;
+  return (
+    <MainLayout>
+      <Wrapper>
+        <WrapperContent>
+          <MainTitle text={'Leaders'}/>
+          <Leaders items={mock}/>
+          <ButtonElement type="button" text="Back"/>
+        </WrapperContent>
+        <Footer>
+          <Kitten direction="right" sprite={1}/>
+          <Kitten direction="left" sprite={4}/>
+        </Footer>
+      </Wrapper>
+    </MainLayout>
+  );
 };

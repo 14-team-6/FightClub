@@ -76,6 +76,8 @@ export const ButtonTriangle:FC<ButtonTriangleProps> = (props) => {
     classNames.push('small');
   }
 
-  return <><GC/><ButtonTriangleStyled onClick={props.onClick}
-                                      className={`${props.className} ${classNames.join(' ')}`}/></>;
+  return (
+    <><GC/><ButtonTriangleStyled onClick={props.onClick}
+                                 className={`${props.className} ${classNames.join(' ')}`}/></>
+  );
 };
