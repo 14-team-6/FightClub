@@ -13,6 +13,7 @@ import { Errors, ErrorTypes } from './pages/errors/errors';
 import Pixeboy from '../public/font/Pixeboy.ttf';
 import MainLayout from './layouts/mainLayout';
 import RegistrationPage from './pages/registration/registration';
+import { EndGame, EndGameType } from './pages/game/endGame/endGame';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -41,6 +42,7 @@ const App: FC = () => {
           </ul>
         }/>
         <Route path='/game/loading' element={<Loading/>}/>
+        <Route path='/game/end' element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
         <Route path='*' element={<Errors errorType={ErrorTypes.e404}/>}/>
         <Route path='/login' element={<MainLayout><LoginPage/></MainLayout>}/>
         <Route path='/registration' element={<MainLayout><RegistrationPage/></MainLayout>}/>
