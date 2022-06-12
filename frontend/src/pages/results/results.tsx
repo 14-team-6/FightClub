@@ -7,34 +7,42 @@ import MainTitle from '../../components/mainTitle/mainTitle';
 
 const mock = [
   {
+    id: 1,
     name: 'stan',
     score: 3000000,
   },
   {
+    id: 2,
     name: 'rui',
     score: 28000,
   },
   {
+    id: 3,
     name: 'joao',
     score: 12900,
   },
   {
+    id: 4,
     name: 'maria',
     score: 7800,
   },
   {
+    id: 5,
     name: 'leonor',
     score: 5800,
   },
   {
+    id: 6,
     name: 'duarte',
     score: 4000,
   },
   {
+    id: 7,
     name: 'pedro',
     score: 2400,
   },
   {
+    id: 8,
     name: 'stan',
     score: 30000,
   },
@@ -84,7 +92,7 @@ const Kitten = styled.div`
 }, 1);
 `;
 
-export const Results: FC = () => {
+const ResultsImpl: FC = () => {
   return (
     <MainLayout>
       <Wrapper>
@@ -101,3 +109,5 @@ export const Results: FC = () => {
     </MainLayout>
   );
 };
+
+export const Results = React.memo(ResultsImpl);

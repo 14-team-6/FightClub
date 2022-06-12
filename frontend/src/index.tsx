@@ -16,7 +16,6 @@ import RegistrationPage from './pages/registration/registration';
 import { EndGame, EndGameType } from './pages/game/endGame/endGame';
 import { Results } from './pages/results/results';
 
-
 const GS = createGlobalStyle`
   @font-face {
     font-family: Pixeboy;

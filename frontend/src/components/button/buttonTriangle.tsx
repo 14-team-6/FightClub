@@ -1,7 +1,7 @@
 import React, {
   FC,
   MouseEventHandler,
-  useEffect,
+  useEffect, useMemo,
   useState,
 } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
@@ -54,9 +54,8 @@ const ButtonTriangleStyled = styled.div`
   height: 20px;
 `;
 
-export const ButtonTriangle:FC<ButtonTriangleProps> = (props) => {
+const ButtonTriangleImpl:FC<ButtonTriangleProps> = (props) => {
   const [active, setActive] = useState<Boolean>(false);
-  const classNames = [];
 
   useEffect(() => {
     if (props.isActive) {
@@ -64,20 +63,29 @@ export const ButtonTriangle:FC<ButtonTriangleProps> = (props) => {
     }
   });
 
-  if (props.direction === ButtonTriangleDirection.UP) {
-    classNames.push('up');
-  } else {
-    classNames.push('down');
-  }
-  if (active) {
-    classNames.push('active');
-  }
-  if (props.size === ButtonTriangleSize.SMALL) {
-    classNames.push('small');
-  }
+  const classNames = useMemo(() => {
+    const classNamesTmp = [];
+    if (props.direction === ButtonTriangleDirection.UP) {
+      classNamesTmp.push('up');
+    } else {
+      classNamesTmp.push('down');
+    }
+    if (active) {
+      classNamesTmp.push('active');
+    }
+    if (props.size === ButtonTriangleSize.SMALL) {
+      classNamesTmp.push('small');
+    }
+    return classNamesTmp.join(' ');
+  }, [props.direction, props.size, active]);
 
   return (
-    <><GC/><ButtonTriangleStyled onClick={props.onClick}
-                                 className={`${props.className} ${classNames.join(' ')}`}/></>
+    <>
+      <GC/>
+      <ButtonTriangleStyled onClick={props.onClick}
+                                 className={`${props.className} ${classNames}`}/>
+    </>
   );
 };
+
+export const ButtonTriangle = React.memo(ButtonTriangleImpl);
