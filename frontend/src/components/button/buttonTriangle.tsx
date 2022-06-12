@@ -56,8 +56,10 @@ const ButtonTriangleImpl:FC<ButtonTriangleProps> = (props) => {
   useEffect(() => {
     if (props.isActive) {
       setActive(props.isActive);
+    } else {
+      setActive(false);
     }
-  });
+  }, [props.isActive]);
 
   const classNames = useMemo(() => {
     const classNamesTmp = [];
