@@ -5,11 +5,8 @@ import React, {
   useState,
 } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-
-enum ButtonTriangleState {
-  general,
-  active,
-}
+import buttonArrowBlue from '../../../public/img/buttonArrow-blue.svg';
+import buttonArrowRed from '../../../public/img/buttonArrow-red.svg';
 
 export enum ButtonTriangleDirection {
   UP = 'UP',
@@ -22,7 +19,6 @@ export enum ButtonTriangleSize {
 }
 
 type ButtonTriangleProps = {
-  state?: ButtonTriangleState,
   direction: ButtonTriangleDirection,
   size: ButtonTriangleSize,
   className?: string,
@@ -36,7 +32,7 @@ const GC = createGlobalStyle`
   }
 
   .active {
-    background: url("../../../public/img/buttonArrow-blue.svg");
+    background: url(${buttonArrowBlue});
   }
 
   .up {
@@ -49,7 +45,7 @@ const GC = createGlobalStyle`
 `;
 
 const ButtonTriangleStyled = styled.div`
-  background: url("../../../public/img/buttonArrow-red.svg");
+  background: url(${buttonArrowRed});
   width: 34px;
   height: 20px;
 `;
