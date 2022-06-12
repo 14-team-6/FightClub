@@ -1,33 +1,23 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import { MAIN_GREEN, MAIN_RED, MAIN_WHITE } from '../../../consts/styles';
-
-export enum LifeBarTypes {
-  iam,
-  enemy,
-}
-
-type LifeBarProps = {
-  lifePercent: number,
-  lifeType: LifeBarTypes,
-  name: string
-};
+import { LifeBarProps, LifeBarTypes } from '../types';
 
 const LifeBarWrap = styled.div`
   width: 300px;
   display: flex;
   flex-direction: column;
   align-items: ${({ lifeType }: Partial<LifeBarProps>) => {
-    return lifeType === LifeBarTypes.iam ? 'flex-start' : 'flex-end';
+    return lifeType === LifeBarTypes.IAM ? 'flex-start' : 'flex-end';
   }
 };
 `;
 
-const LifeBarBar = styled.div`
+const LifeBarBar = styled.div<Partial<LifeBarProps>>`
   width: 100%;
   height: 30px;
   background: linear-gradient(to right,
-    ${MAIN_GREEN} ${({ lifePercent }: Partial<LifeBarProps>) => { return lifePercent; }}%,
+    ${MAIN_GREEN} ${(props) => { return props.lifePercent; }}%,
     ${MAIN_RED} 0% 100%
   );
 `;
