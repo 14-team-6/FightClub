@@ -4,6 +4,7 @@ import MainLayout from '../../layouts/mainLayout';
 import ButtonElement from '../../components/button/button';
 import { Leaders } from './components/leaders';
 import MainTitle from '../../components/mainTitle/mainTitle';
+import kittenImg from '../../../public/img/Meow-Knight_Attack_2.png';
 
 const mock = [
   {
@@ -79,12 +80,12 @@ const Kitten = styled.div`
   width: 160px;
   height: 90px;
   margin: 0 120px;
-  background: url("../../../public/img/Meow-Knight_Attack_2.png") 0 ${(props: KittenProps) => {
-    if (props.sprite === 1) {
-      return '0';
-    }
-    return `-${(props.sprite - 1) * 90}`;
-  }}px;
+  background: url(${kittenImg}) 0 ${(props: KittenProps) => {
+  if (props.sprite === 1) {
+    return '0';
+  }
+  return `-${(props.sprite - 1) * 90}`;
+}}px;
   background-size: cover;
   transform: scale(${(props: KittenProps) => {
     return props.direction === 'right' ? '1' : '-1';
