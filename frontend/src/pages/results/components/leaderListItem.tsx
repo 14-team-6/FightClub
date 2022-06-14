@@ -7,9 +7,21 @@ export type LeaderItem = {
   id: number,
   name: string,
   score: number,
+  className?: string,
 };
 
-const WrapListItem = styled.div`
+const ListItemImpl: FC<Omit<LeaderItem, 'id'>> = (props) => {
+  return (
+    <div className={ props.className }>
+      <StrokedText className="stroked-text" fontSize="30px" textColor={MAIN_YELLOW}
+                   strokeColor={MAIN_RED}>{props.name}</StrokedText>
+      <StrokedText className="stroked-text" fontSize="30px" textColor={MAIN_YELLOW}
+                   strokeColor={MAIN_RED}>{props.score}</StrokedText>
+    </div>
+  );
+};
+
+const ListItemStyled = styled(ListItemImpl)`
   display: flex;
   flex-direction: row;
   height: 20px;
@@ -33,15 +45,4 @@ const WrapListItem = styled.div`
   }
 `;
 
-const ListItemImpl: FC<Omit<LeaderItem, 'id'>> = (props) => {
-  return (
-    <WrapListItem>
-      <StrokedText className="stroked-text" fontSize="30px" textColor={MAIN_YELLOW}
-                   strokeColor={MAIN_RED}>{props.name}</StrokedText>
-      <StrokedText className="stroked-text" fontSize="30px" textColor={MAIN_YELLOW}
-                   strokeColor={MAIN_RED}>{props.score}</StrokedText>
-    </WrapListItem>
-  );
-};
-
-export const ListItem = React.memo(ListItemImpl);
+export const ListItem = React.memo(ListItemStyled);

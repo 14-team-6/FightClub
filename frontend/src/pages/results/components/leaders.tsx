@@ -6,13 +6,8 @@ import { SortBlock } from './sortBlock';
 
 type LeadersProps = {
   items: Array<LeaderItem>,
+  className?: string,
 };
-
-const Wrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 334px;
-`;
 
 const WrapOther = styled.div`
   display: flex;
@@ -27,7 +22,7 @@ const WrapList = styled.div`
 
 const LeadersImpl: FC<LeadersProps> = (props) => {
   return (
-    <Wrap>
+    <div className={ props.className }>
       <SortBlock/>
       <WrapOther>
         <WrapList>
@@ -37,8 +32,14 @@ const LeadersImpl: FC<LeadersProps> = (props) => {
         </WrapList>
         <ScrollBlock/>
       </WrapOther>
-    </Wrap>
+    </div>
   );
 };
 
-export const Leaders = React.memo(LeadersImpl);
+const LeadersImplStyled = styled(LeadersImpl)`
+  display: flex;
+  flex-direction: column;
+  width: 334px;
+`;
+
+export const Leaders = React.memo(LeadersImplStyled);

@@ -57,11 +57,15 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `;
 
+const kittenHeight = 90;
+
 const WrapperContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: calc(100vh / 2 - 200px) 0 0;
+  justify-content: center;
+  flex: 1 0 50%;
+  margin-top: ${kittenHeight}px;
 `;
 
 const Footer = styled.div`
@@ -78,7 +82,7 @@ type KittenProps = {
 
 const Kitten = styled.div`
   width: 160px;
-  height: 90px;
+  height: ${kittenHeight}px;
   margin: 0 120px;
   background: url(${kittenImg}) 0 ${(props: KittenProps) => {
   if (props.sprite === 1) {

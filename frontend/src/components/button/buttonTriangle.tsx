@@ -1,16 +1,15 @@
 import React, {
   FC,
   MouseEventHandler,
-  useEffect, useMemo,
-  useState,
+  useMemo,
 } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
-import buttonArrowBlue from '../../../public/img/buttonArrow-blue.svg';
-import buttonArrowRed from '../../../public/img/buttonArrow-red.svg';
+import styled from 'styled-components';
+import classNamesBuild from 'classnames';
+import { INPUT_BORDER_BLUE, MAIN_RED, MAIN_YELLOW } from '../../../consts/styles';
 
 export enum ButtonTriangleDirection {
-  UP = 'UP',
-  DOWN = 'DOWN',
+  UP,
+  DOWN,
 }
 
 export enum ButtonTriangleSize {
@@ -26,63 +25,59 @@ type ButtonTriangleProps = {
   onClick: MouseEventHandler,
 };
 
-const GC = createGlobalStyle`
-  .small {
-    transform: scale(0.58);
+const ButtonTriangleStyled = styled.div<Partial<ButtonTriangleProps>>`
+  position: relative;
+  width: 0;
+  height: 0;
+  border-left: 17px solid transparent;
+  border-right: 17px solid transparent;
+  border-bottom: 20px solid ${(props) => { return props.isActive ? MAIN_RED : INPUT_BORDER_BLUE; }};
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: -10px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 12px solid ${MAIN_YELLOW};
   }
 
-  .active {
-    background: url(${buttonArrowBlue});
+  &.small {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 16px solid ${(props) => { return props.isActive ? MAIN_RED : INPUT_BORDER_BLUE; }};
+
+    &.small::before {
+      top: 5px;
+      left: -5px;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 8px solid ${MAIN_YELLOW};
+    }
   }
 
-  .up {
-    background-position: 0 0;
+  &.down {
+    transform: scale(-1);
   }
-
-  .down {
-    background-position: 0 -22px;
-  }
-`;
-
-const ButtonTriangleStyled = styled.div`
-  background: url(${buttonArrowRed});
-  width: 34px;
-  height: 20px;
 `;
 
 const ButtonTriangleImpl:FC<ButtonTriangleProps> = (props) => {
-  const [active, setActive] = useState<Boolean>(false);
-
-  useEffect(() => {
-    if (props.isActive) {
-      setActive(props.isActive);
-    } else {
-      setActive(false);
-    }
-  }, [props.isActive]);
-
   const classNames = useMemo(() => {
-    const classNamesTmp = [];
-    if (props.direction === ButtonTriangleDirection.UP) {
-      classNamesTmp.push('up');
-    } else {
-      classNamesTmp.push('down');
-    }
-    if (active) {
-      classNamesTmp.push('active');
-    }
-    if (props.size === ButtonTriangleSize.SMALL) {
-      classNamesTmp.push('small');
-    }
-    return classNamesTmp.join(' ');
-  }, [props.direction, props.size, active]);
+    const classNamesTmp = {
+      up: props.direction === ButtonTriangleDirection.UP,
+      down: props.direction === ButtonTriangleDirection.DOWN,
+      small: props.size === ButtonTriangleSize.SMALL,
+    };
+    return classNamesBuild(classNamesTmp);
+  }, [props.direction, props.size]);
 
   return (
-    <>
-      <GC/>
-      <ButtonTriangleStyled onClick={props.onClick}
+      <ButtonTriangleStyled onClick={props.onClick} isActive={props.isActive}
                                  className={`${props.className} ${classNames}`}/>
-    </>
   );
 };
 
