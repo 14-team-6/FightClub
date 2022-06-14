@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import MainLayout from '../../layouts/mainLayout';
-import ButtonElement from '../../components/button/button';
+import MainLayout from '@flayouts/mainLayout';
+import ButtonElement from '@fcomponents/button/button';
+import MainTitle from '@fcomponents/mainTitle/mainTitle';
+import kittenImg from '@fpublic/img/Meow-Knight_Attack_2.png';
 import { Leaders } from './components/leaders';
-import MainTitle from '../../components/mainTitle/mainTitle';
-import kittenImg from '../../../public/img/Meow-Knight_Attack_2.png';
 
 const mock = [
   {

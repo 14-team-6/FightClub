@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { ButtonTriangle, ButtonTriangleDirection, ButtonTriangleSize } from '../../../components/button/buttonTriangle';
+import { ButtonTriangle, ButtonTriangleDirection, ButtonTriangleSize } from '@fcomponents/button/buttonTriangle';
 
 type SortBlockProps = {
   className?: string,

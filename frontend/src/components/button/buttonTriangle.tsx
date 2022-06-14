@@ -5,7 +5,7 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 import classNamesBuild from 'classnames';
-import { INPUT_BORDER_BLUE, MAIN_RED, MAIN_YELLOW } from '../../../consts/styles';
+import { INPUT_BORDER_BLUE, MAIN_RED, MAIN_YELLOW } from '@f/consts/styles';
 
 export enum ButtonTriangleDirection {
   UP,

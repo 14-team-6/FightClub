@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { ScrollBlock } from '@fcomponents/scrollBlock/scrollBlock';
 import { LeaderItem, ListItem } from './leaderListItem';
-import { ScrollBlock } from '../../../components/scrollBlock/scrollBlock';
 import { SortBlock } from './sortBlock';
 
 type LeadersProps = {
