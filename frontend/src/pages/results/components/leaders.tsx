@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { ScrollBlock } from '@fcomponents/scrollBlock/scrollBlock';
+import { ScrollBlock } from '@frontend/src/components/scrollBlock/scrollBlock';
 import { LeaderItem, ListItem } from './leaderListItem';
 import { SortBlock } from './sortBlock';
 

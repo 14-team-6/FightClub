@@ -13,10 +13,7 @@
       "jsx": "react",
       "baseUrl": "./",
       "paths": {
-        "@f/*": ["frontend/*"],
-        "@fcomponents/*": ["frontend/src/components/*"],
-        "@fpublic/*": ["frontend/public/*"],
-        "@flayouts/*": ["frontend/src/layouts/*"]
+        "@frontend/*": ["frontend/*"]
       }
   },
   "exclude": [

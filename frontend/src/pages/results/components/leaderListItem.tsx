@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { StrokedText } from '@fcomponents/strokedText/strokedText';
-import { MAIN_RED, MAIN_YELLOW } from '@f/consts/styles';
+import { StrokedText } from '@frontend/src/components/strokedText/strokedText';
+import { MAIN_RED, MAIN_YELLOW } from '@frontend/consts/styles';
 
 export type LeaderItem = {
   id: number,

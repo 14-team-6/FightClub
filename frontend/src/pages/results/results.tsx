@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import MainLayout from '@flayouts/mainLayout';
-import ButtonElement from '@fcomponents/button/button';
-import MainTitle from '@fcomponents/mainTitle/mainTitle';
-import kittenImg from '@fpublic/img/Meow-Knight_Attack_2.png';
+import MainLayout from '@frontend/src/layouts/mainLayout';
+import ButtonElement from '@frontend/src/components/button/button';
+import MainTitle from '@frontend/src/components/mainTitle/mainTitle';
+import kittenImg from '@frontend/public/img/attack-right-frame-sm.png';
 import { Leaders } from './components/leaders';
 
 const mock = [
@@ -48,31 +48,32 @@ const mock = [
     score: 30000,
   },
 ];
+const kittenHeight = 131;
 
 const Wrapper = styled.div`
   display: flex;
   height: 100vh;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 `;
-
-const kittenHeight = 90;
 
 const WrapperContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex: 1 0 50%;
-  margin-top: ${kittenHeight}px;
 `;
 
 const Footer = styled.div`
+  position: absolute;
+  top: calc(100vh - ${kittenHeight}px);
+  width: 100%;
+  height: ${kittenHeight}px;
+  padding: 0 100px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  justify-self: flex-end;
 `;
 
 type KittenProps = {
@@ -84,15 +85,14 @@ const Kitten = styled.div`
   width: 160px;
   height: ${kittenHeight}px;
   margin: 0 120px;
-  background: url(${kittenImg}) 0 ${(props: KittenProps) => {
-  if (props.sprite === 1) {
+  background: url(${kittenImg}) 0 ${({ sprite }: KittenProps) => {
+  if (sprite === 1) {
     return '0';
   }
-  return `-${(props.sprite - 1) * 90}`;
+  return `-${(sprite - 1) * kittenHeight}`;
 }}px;
-  background-size: cover;
-  transform: scale(${(props: KittenProps) => {
-    return props.direction === 'right' ? '1' : '-1';
+  transform: scale(${({ direction }: KittenProps) => {
+    return direction === 'right' ? '1' : '-1';
   }
 }, 1);
 `;
@@ -106,11 +106,11 @@ const ResultsImpl: FC = () => {
           <Leaders items={mock}/>
           <ButtonElement type="button" text="Back"/>
         </WrapperContent>
-        <Footer>
-          <Kitten direction="right" sprite={1}/>
-          <Kitten direction="left" sprite={4}/>
-        </Footer>
       </Wrapper>
+      <Footer>
+        <Kitten direction="right" sprite={1}/>
+        <Kitten direction="left" sprite={4}/>
+      </Footer>
     </MainLayout>
   );
 };

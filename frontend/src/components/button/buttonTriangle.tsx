@@ -1,11 +1,10 @@
 import React, {
   FC,
   MouseEventHandler,
-  useMemo,
 } from 'react';
 import styled from 'styled-components';
-import classNamesBuild from 'classnames';
-import { INPUT_BORDER_BLUE, MAIN_RED, MAIN_YELLOW } from '@f/consts/styles';
+import cx from 'classnames';
+import { INPUT_BORDER_BLUE, MAIN_RED, MAIN_YELLOW } from '@frontend/consts/styles';
 
 export enum ButtonTriangleDirection {
   UP,
@@ -31,7 +30,7 @@ const ButtonTriangleStyled = styled.div<Partial<ButtonTriangleProps>>`
   height: 0;
   border-left: 17px solid transparent;
   border-right: 17px solid transparent;
-  border-bottom: 20px solid ${(props) => { return props.isActive ? MAIN_RED : INPUT_BORDER_BLUE; }};
+  border-bottom: 20px solid ${({ isActive }) => { return isActive ? MAIN_RED : INPUT_BORDER_BLUE; }};
   cursor: pointer;
 
   &::before {
@@ -49,7 +48,7 @@ const ButtonTriangleStyled = styled.div<Partial<ButtonTriangleProps>>`
   &.small {
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 16px solid ${(props) => { return props.isActive ? MAIN_RED : INPUT_BORDER_BLUE; }};
+    border-bottom: 16px solid ${({ isActive }) => { return isActive ? MAIN_RED : INPUT_BORDER_BLUE; }};
 
     &.small::before {
       top: 5px;
@@ -65,19 +64,23 @@ const ButtonTriangleStyled = styled.div<Partial<ButtonTriangleProps>>`
   }
 `;
 
-const ButtonTriangleImpl:FC<ButtonTriangleProps> = (props) => {
-  const classNames = useMemo(() => {
-    const classNamesTmp = {
-      up: props.direction === ButtonTriangleDirection.UP,
-      down: props.direction === ButtonTriangleDirection.DOWN,
-      small: props.size === ButtonTriangleSize.SMALL,
-    };
-    return classNamesBuild(classNamesTmp);
-  }, [props.direction, props.size]);
-
+const ButtonTriangleImpl: FC<ButtonTriangleProps> = (props) => {
+  const {
+    className,
+    direction,
+    size,
+    onClick,
+    isActive,
+  } = props;
   return (
-      <ButtonTriangleStyled onClick={props.onClick} isActive={props.isActive}
-                                 className={`${props.className} ${classNames}`}/>
+    <ButtonTriangleStyled
+      onClick={onClick}
+      isActive={isActive}
+      className={`${className} ${cx({
+        up: direction === ButtonTriangleDirection.UP,
+        down: direction === ButtonTriangleDirection.DOWN,
+        small: size === ButtonTriangleSize.SMALL,
+      })}`}/>
   );
 };
 
