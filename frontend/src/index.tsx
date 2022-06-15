@@ -7,6 +7,7 @@ import {
   Routes,
 } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
+import { Stub } from '@frontend/src/pages/game/stub';
 import LoginPage from './pages/login/login';
 import { Loading } from './pages/game/loading/loading';
 import { Errors, ErrorTypes } from './pages/errors/errors';
@@ -40,8 +41,10 @@ const App: FC = () => {
           <ul>
            <li><Link to='/login'>Login</Link></li>
            <li><Link to='/game/loading'>Load game</Link></li>
+           <li><Link to='/game/stub'>Sound check</Link></li>
           </ul>
         }/>
+        <Route path='/game/stub' element={<Stub/>}/>
         <Route path='/results' element={<Results/>}/>
         <Route path='/game/loading' element={<Loading/>}/>
         <Route path='/game/end' element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
