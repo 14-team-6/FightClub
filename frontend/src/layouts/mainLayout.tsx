@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 `;
 
 type MainLayoutProps = {
-  children: JSX.Element,
+  children: JSX.Element | JSX.Element[],
 };
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {

@@ -10,7 +10,11 @@
       "noImplicitAny": true,
       "noUnusedLocals": true,
       "noUnusedParameters": true,
-      "jsx": "react"
+      "jsx": "react",
+      "baseUrl": "./",
+      "paths": {
+        "@frontend/*": ["frontend/*"]
+      }
   },
   "exclude": [
     "node_modules"

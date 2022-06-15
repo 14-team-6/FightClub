@@ -28,9 +28,11 @@ const LifeBarName = styled.div`
   color: ${MAIN_WHITE};
 `;
 
-export const LifeBar: FC<LifeBarProps> = ({ name, lifeType, lifePercent }) => {
+const LifeBarImpl: FC<LifeBarProps> = ({ name, lifeType, lifePercent }) => {
   return <LifeBarWrap lifeType={lifeType}>
     <LifeBarBar lifePercent={lifePercent}/>
     <LifeBarName>{name}</LifeBarName>
   </LifeBarWrap>;
 };
+
+export const LifeBar = React.memo(LifeBarImpl);
