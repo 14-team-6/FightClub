@@ -6,28 +6,7 @@ import {
   ButtonTriangleSize,
 } from '@frontend/src/components/button/buttonTriangle';
 
-type ScrollBlockProps = {
-  className?: string,
-};
-
-const ScrollBlockImpl: FC<ScrollBlockProps> = ({ className }) => {
-  const onClick = (direction: string) => {
-    return () => {
-      console.log(`direction: ${direction}`);
-    };
-  };
-
-  return (
-    <div className={ className }>
-      <ButtonTriangle onClick={onClick('up')} isActive={true} size={ButtonTriangleSize.BIG}
-                      direction={ButtonTriangleDirection.UP}/>
-      <ButtonTriangle onClick={onClick('down')} size={ButtonTriangleSize.BIG}
-                      direction={ButtonTriangleDirection.DOWN}/>
-    </div>
-  );
-};
-
-const ScrollBlockStyled = styled(ScrollBlockImpl)`
+const WrapScroll = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -35,4 +14,21 @@ const ScrollBlockStyled = styled(ScrollBlockImpl)`
   margin: 5px 0;
 `;
 
-export const ScrollBlock = React.memo(ScrollBlockStyled);
+const ScrollBlockImpl: FC = () => {
+  const onClick = (direction: string) => {
+    return () => {
+      console.log(`direction: ${direction}`);
+    };
+  };
+
+  return (
+    <WrapScroll>
+      <ButtonTriangle onClick={onClick('up')} isActive={true} size={ButtonTriangleSize.BIG}
+                      direction={ButtonTriangleDirection.UP}/>
+      <ButtonTriangle onClick={onClick('down')} size={ButtonTriangleSize.BIG}
+                      direction={ButtonTriangleDirection.DOWN}/>
+    </WrapScroll>
+  );
+};
+
+export const ScrollBlock = React.memo(ScrollBlockImpl);
