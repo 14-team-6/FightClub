@@ -46,7 +46,7 @@ const makeSound = (
 class SoundFacade {
   private sounds: Record<string, Sound> = {};
 
-  public async init() {
+  public init(): Promise<any> {
     return Promise.all([
       makeSound('mainTheme', SOUND_MAIN_THEME, { loop: true, loopEnd: 0.1 }),
       makeSound('jump', SOUND_JUMP),
