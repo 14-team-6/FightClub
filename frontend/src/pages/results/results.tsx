@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import MainLayout from '@frontend/src/layouts/mainLayout';
 import ButtonElement from '@frontend/src/components/button/button';
 import MainTitle from '@frontend/src/components/mainTitle/mainTitle';
-import { Leaders } from './components/leaders';
 import Kitten from '@frontend/src/components/kitten/kitten';
 import { KITTEN_HEIGHT, KITTEN_WIDTH } from '@frontend/consts/styles';
+import { Leaders } from './components/leaders';
 
 const mock = [
   {
@@ -88,7 +88,7 @@ const ResultsImpl: FC = () => {
       </Wrapper>
       <Footer>
         <Kitten direction="right" sprite={1} width={KITTEN_WIDTH} height={KITTEN_HEIGHT} />
-        <Kitten direction="left" sprite={4}  width={KITTEN_WIDTH} height={KITTEN_HEIGHT} />
+        <Kitten direction="left" sprite={4} width={KITTEN_WIDTH} height={KITTEN_HEIGHT} />
       </Footer>
     </MainLayout>
   );

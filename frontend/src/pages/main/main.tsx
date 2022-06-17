@@ -34,21 +34,21 @@ const NavItem = styled.li`
 
 const WrapperTitle = styled.div`
   position: relative;
-  margin-top: ${1.5*KITTEN_HEIGHT}px;
+  margin-top: ${1.5 * KITTEN_HEIGHT}px;
 
   .kitten {
     position: absolute;
   }
   
   .left {
-    top: -${1.5*KITTEN_HEIGHT}px;
-    left: ${.5*KITTEN_WIDTH}px;
+    top: -${1.5 * KITTEN_HEIGHT}px;
+    left: ${0.5 * KITTEN_WIDTH}px;
   } 
   
   .right {
     position: absolute;
     top: -${KITTEN_HEIGHT}px;
-    right: ${.5*KITTEN_WIDTH}px;
+    right: ${0.5 * KITTEN_WIDTH}px;
   } 
 `;
 
