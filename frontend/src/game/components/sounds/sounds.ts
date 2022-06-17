@@ -1,23 +1,28 @@
-import { SOUND_JUMP, SOUND_MAIN_THEME } from '@frontend/consts/sounds';
+import { SOUND_JUMP, SOUND_MAIN_THEME, SAMPLING_RATE } from '@frontend/consts/sounds';
+import { LoopSettings, Nullable } from '@frontend/src/game/components/sounds/types';
+import { Sound } from '@frontend/src/game/components/sounds/sound';
 
-export class Sounds {
-  private static audioContext: AudioContext;
+const { AudioContext } = window;
 
-  private static mainTrack: AudioBufferSourceNode;
+const audioContext = new AudioContext();
 
-  private static jumpBuffer: AudioBuffer;
-
-  private static getBufferFromUrl(url: string) {
+const makeSound = (
+  name: string,
+  url: string,
+  loopSettings: Nullable<LoopSettings> = null,
+): Promise<any> => {
+  const getBufferFromUrl = (): Promise<any> => {
     return fetch(url)
       .then((res) => { return res.arrayBuffer(); })
       .then((arrayBuffer) => {
-        return this.audioContext.decodeAudioData(arrayBuffer);
+        return audioContext.decodeAudioData(arrayBuffer);
       })
       .then((audioBuffer) => {
         // using only audioContext cause to
         // gaping between key pressing and sound playing (it's critical f.e. while jumping)
         // so we need to prerender sounds to avoid uncompression
-        const offlineContext = new OfflineAudioContext(2, 44100 * audioBuffer.duration, 44100);
+        const offlineContext = new
+        OfflineAudioContext(2, SAMPLING_RATE * audioBuffer.duration, SAMPLING_RATE);
         const audioOfflineNode = offlineContext.createBufferSource();
         audioOfflineNode.buffer = audioBuffer;
         audioOfflineNode.connect(offlineContext.destination);
@@ -27,56 +32,54 @@ export class Sounds {
           return renderedAudioBuffer;
         });
       });
+  };
+
+  return getBufferFromUrl()
+    .then((audioBuffer: AudioBuffer) => {
+      return new Sound(name, audioContext, audioBuffer, loopSettings);
+    })
+    .catch(() => {
+      throw Error(`Can not load sound ${url}`);
+    });
+};
+
+class SoundFacade {
+  private sounds: Record<string, Sound> = {};
+
+  public async init() {
+    return Promise.all([
+      makeSound('mainTheme', SOUND_MAIN_THEME, { loop: true, loopEnd: 0.1 }),
+      makeSound('jump', SOUND_JUMP),
+    ]).then((res: Sound[]) => {
+      this.sounds = res.reduce((akk, val) => { return { ...akk, [val.name]: val }; }, {});
+    }).catch((e: any) => {
+      console.log(`Can not start sounds: ${e}`);
+    });
   }
 
-  private static getAudioNodeFromBuffer(audioBuffer: AudioBuffer) {
-    const audioNode = this.audioContext.createBufferSource();
-    audioNode.buffer = audioBuffer;
-    audioNode.connect(this.audioContext.destination);
-    return audioNode;
-  }
-
-  private static getAudioNodeFromUrl(url: string) {
-    return this.getBufferFromUrl(url)
-      .then((audioBuffer) => {
-        return this.getAudioNodeFromBuffer(audioBuffer);
-      });
-  }
-
-  public static async init() {
-    const { AudioContext } = window;
-
-    this.audioContext = new AudioContext();
-    await this.audioContext.resume();
-
-    this.mainTrack = await this.getAudioNodeFromUrl(SOUND_MAIN_THEME);
-    if (this.mainTrack.buffer === null) {
-      throw Error('Could not load main theme');
-    }
-    this.mainTrack.loop = true;
-
-    // to avoid small gap while looping (this gap appears due to compression / uncompression)
-    this.mainTrack.loopEnd = this.mainTrack.buffer.duration - 0.1;
-
-    this.jumpBuffer = await this.getBufferFromUrl(SOUND_JUMP);
-    if (this.jumpBuffer === null) {
-      throw Error('Could not load jump sound');
+  private playIfExist(name: string) {
+    if (name in this.sounds) {
+      this.sounds[name].play();
     }
   }
 
-  public static start() {
-    this.mainTrack.start(0);
+  private stopIfExist(name: string) {
+    if (name in this.sounds) {
+      this.sounds[name].stop();
+    }
   }
 
-  public static jump() {
-    // according to MDN it's ok to recreate this
-    const audioNode = this.audioContext.createBufferSource();
-    audioNode.buffer = this.jumpBuffer;
-    audioNode.connect(this.audioContext.destination);
-    audioNode.start(0, 0.03);
+  public playMainTheme() {
+    this.playIfExist('mainTheme');
   }
 
-  public static stop() {
-    this.mainTrack.stop();
+  public playJump() {
+    this.playIfExist('jump');
+  }
+
+  public stopMainTheme() {
+    this.stopIfExist('mainTheme');
   }
 }
+
+export default new SoundFacade();
