@@ -12,5 +12,11 @@ export const INPUT_BORDER_BLUE: string = '#5061FF';
 // Font sizes
 export const MAIN_TITLE_SIZE: string = '100px';
 export const INPUTS_FONT_SIZE: string = '30px';
+export const NAV_FONT_SIZE: string = '34px';
 
 export const MAIN_BACKGROUND = mainBackgroundImage;
+
+// Decor
+
+export const KITTEN_HEIGHT: number = 131;
+export const KITTEN_WIDTH: number = 160;

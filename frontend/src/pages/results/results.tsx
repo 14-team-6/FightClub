@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import MainLayout from '@frontend/src/layouts/mainLayout';
 import ButtonElement from '@frontend/src/components/button/button';
 import MainTitle from '@frontend/src/components/mainTitle/mainTitle';
-import kittenImg from '@frontend/public/img/attack-right-frame-sm.png';
 import { Leaders } from './components/leaders';
+import Kitten from '@frontend/src/components/kitten/kitten';
+import { KITTEN_HEIGHT, KITTEN_WIDTH } from '@frontend/consts/styles';
 
 const mock = [
   {
@@ -48,7 +49,6 @@ const mock = [
     score: 30000,
   },
 ];
-const kittenHeight = 131;
 
 const Wrapper = styled.div`
   display: flex;
@@ -67,34 +67,13 @@ const WrapperContent = styled.div`
 
 const Footer = styled.div`
   position: absolute;
-  top: calc(100vh - ${kittenHeight}px);
+  top: calc(100vh - ${KITTEN_HEIGHT}px);
   width: 100%;
-  height: ${kittenHeight}px;
-  padding: 0 100px;
+  height: ${KITTEN_HEIGHT}px;
+  padding: 0 220px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-`;
-
-type KittenProps = {
-  direction: string,
-  sprite: number,
-};
-
-const Kitten = styled.div`
-  width: 160px;
-  height: ${kittenHeight}px;
-  margin: 0 120px;
-  background: url(${kittenImg}) 0 ${({ sprite }: KittenProps) => {
-  if (sprite === 1) {
-    return '0';
-  }
-  return `-${(sprite - 1) * kittenHeight}`;
-}}px;
-  transform: scale(${({ direction }: KittenProps) => {
-    return direction === 'right' ? '1' : '-1';
-  }
-}, 1);
 `;
 
 const ResultsImpl: FC = () => {
@@ -108,8 +87,8 @@ const ResultsImpl: FC = () => {
         </WrapperContent>
       </Wrapper>
       <Footer>
-        <Kitten direction="right" sprite={1}/>
-        <Kitten direction="left" sprite={4}/>
+        <Kitten direction="right" sprite={1} width={KITTEN_WIDTH} height={KITTEN_HEIGHT} />
+        <Kitten direction="left" sprite={4}  width={KITTEN_WIDTH} height={KITTEN_HEIGHT} />
       </Footer>
     </MainLayout>
   );

@@ -2,12 +2,12 @@ import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 import {
   BrowserRouter,
-  Link,
   Route,
   Routes,
 } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import LoginPage from './pages/login/login';
+import MainPage from './pages/main/main';
 import { Loading } from './pages/game/loading/loading';
 import { Errors, ErrorTypes } from './pages/errors/errors';
 import Pixeboy from '../public/font/Pixeboy.ttf';
@@ -36,12 +36,7 @@ const App: FC = () => {
     <BrowserRouter>
       <GS/>
       <Routes>
-        <Route path='/' element={
-          <ul>
-           <li><Link to='/login'>Login</Link></li>
-           <li><Link to='/game/loading'>Load game</Link></li>
-          </ul>
-        }/>
+        <Route path='/' element={<MainPage/>}/>
         <Route path='/results' element={<Results/>}/>
         <Route path='/game/loading' element={<Loading/>}/>
         <Route path='/game/end' element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
