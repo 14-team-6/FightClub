@@ -28,11 +28,11 @@ interface CharacterSprite {
 }
 
 class Character {
-  ctx: CanvasRenderingContext2D;
+  private ctx: CanvasRenderingContext2D;
 
-  moveOption: CharacterMove;
+  private moveOption: CharacterMove;
 
-  spriteOption: CharacterSprite;
+  private spriteOption: CharacterSprite;
 
   constructor(ctx: CanvasRenderingContext2D, move: CharacterMove) {
     this.ctx = ctx;
@@ -58,18 +58,7 @@ class Character {
     };
   }
 
-  clear() {
-    const { moveOption, spriteOption, ctx } = this;
-
-    ctx.clearRect(
-      moveOption.x,
-      moveOption.y,
-      spriteOption.frameWidth,
-      spriteOption.frameHeight,
-    );
-  }
-
-  draw() {
+  public draw() {
     const { moveOption, spriteOption, ctx } = this;
 
     ctx.beginPath();
@@ -87,7 +76,7 @@ class Character {
     ctx.closePath();
   }
 
-  updateSprite() {
+  private updateSprite() {
     const { spriteOption } = this;
 
     spriteOption.tickCount += 1;
@@ -101,7 +90,7 @@ class Character {
     }
   }
 
-  update(dt: number) {
+  public update(dt: number) {
     const { moveOption, spriteOption, ctx } = this;
 
     const width = ctx.canvas.clientWidth;
@@ -123,7 +112,7 @@ class Character {
     this.updateSprite();
   }
 
-  updateVx(dt: number, k: number) {
+  private updateVx(dt: number, k: number) {
     const { moveOption } = this;
 
     if (moveOption.vX < moveOption.vMax! && moveOption.vX >= 0) {
@@ -135,7 +124,7 @@ class Character {
     }
   }
 
-  updateVy(dt: number, k: number) {
+  private updateVy(dt: number, k: number) {
     const { moveOption } = this;
 
     if (moveOption.vY < moveOption.vMax! && moveOption.vY >= 0) {
@@ -147,7 +136,7 @@ class Character {
     }
   }
 
-  run(dt: number, d: number) {
+  private run(dt: number, d: number) {
     const { moveOption, spriteOption, ctx } = this;
 
     const width = ctx.canvas.clientWidth;
@@ -157,7 +146,7 @@ class Character {
     }
   }
 
-  jump(dt: number, d: number) {
+  private jump(dt: number, d: number) {
     const { moveOption, spriteOption, ctx } = this;
 
     const height = ctx.canvas.clientHeight;
@@ -167,11 +156,11 @@ class Character {
     }
   }
 
-  rotate(direction: AllowDirection) {
+  private rotate(direction: AllowDirection) {
     this.moveOption.direction = direction;
   }
 
-  turnAround() {
+  private turnAround() {
     if (this.moveOption.direction === 'forward') {
       this.moveOption.direction = 'back';
     } else {
@@ -179,7 +168,7 @@ class Character {
     }
   }
 
-  move(dt: number, keys: Keys) {
+  public move(dt: number, keys: Keys) {
     let aDirectionX = -1;
     if (keys.right || keys.left) {
       aDirectionX = 1;
@@ -209,7 +198,7 @@ class Character {
     this.jump(dt, vDirectionY);
   }
 
-  collision(characters: Array<Character>) {
+  public collision(characters: Array<Character>) {
     characters.forEach((element) => {
       if (this !== element) {
         const dx = this.moveOption.x - element.moveOption.x;
@@ -220,10 +209,6 @@ class Character {
         }
       }
     });
-  }
-
-  kick() {
-
   }
 }
 

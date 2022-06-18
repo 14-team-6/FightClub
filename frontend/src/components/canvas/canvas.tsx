@@ -54,11 +54,21 @@ function Canvas() {
     }
   };
 
-  const renderFrame = (dt: number) => {
-    for (let i = 0; i < characters.length; i += 1) {
-      characters[i].clear();
+  const clearFrame = () => {
+    const ctx = canvasRef.current!.getContext('2d');
+
+    if (ctx) {
+      ctx.clearRect(
+        0,
+        0,
+        size.width,
+        size.height,
+      );
     }
-    hero!.clear();
+  }
+
+  const renderFrame = (dt: number) => {
+    clearFrame();
 
     for (let i = 0; i < characters.length; i += 1) {
       characters[i].update(dt);
@@ -66,8 +76,10 @@ function Canvas() {
       characters[i].collision([hero!]);
     }
 
-    hero!.move(dt, keys);
-    hero!.draw();
+    if (hero) {
+      hero.move(dt, keys);
+      hero.draw();
+    }
   };
 
   const tick = (now: number) => {
@@ -86,7 +98,9 @@ function Canvas() {
     requestIdRef = requestAnimationFrame(tick);
 
     return () => {
-      cancelAnimationFrame(requestIdRef!);
+      if (requestIdRef) {
+        cancelAnimationFrame(requestIdRef);
+      }
       Keyboard.stop();
     };
   }, []);
