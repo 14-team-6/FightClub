@@ -48,7 +48,7 @@ function Canvas() {
 
     const ctx = canvasRef.current!.getContext('2d');
 
-    if  (ctx) {
+    if (ctx) {
       initCharacters(ctx);
       initHero(ctx);
     }

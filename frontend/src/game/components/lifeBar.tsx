@@ -7,7 +7,8 @@ const LifeBarWrap = styled.div`
   width: 300px;
   display: flex;
   flex-direction: column;
-  align-items: ${({ lifeType }: Partial<LifeBarProps>) => {
+  align-items:
+    ${({ lifeType }: Partial<LifeBarProps>) => {
     return lifeType === LifeBarTypes.IAM ? 'flex-start' : 'flex-end';
   }
 };
@@ -16,10 +17,12 @@ const LifeBarWrap = styled.div`
 const LifeBarBar = styled.div<Partial<LifeBarProps>>`
   width: 100%;
   height: 30px;
-  background: linear-gradient(to right,
-    ${MAIN_GREEN} ${(props) => { return props.lifePercent; }}%,
-    ${MAIN_RED} 0% 100%
-  );
+  background:
+    linear-gradient(
+      to right,
+      ${MAIN_GREEN} ${(props) => { return props.lifePercent; }}%,
+      ${MAIN_RED} 0% 100%
+    );
 `;
 
 const LifeBarName = styled.div`
