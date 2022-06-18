@@ -12,6 +12,8 @@ import { Errors, ErrorTypes } from './pages/errors/errors';
 import Pixeboy from '../public/font/Pixeboy.ttf';
 import LoginPage from './pages/login/login';
 import RegistrationPage from './pages/registration/registration';
+import { EndGame, EndGameType } from './pages/game/endGame/endGame';
+import { Results } from './pages/results/results';
 import ForumPage from './pages/forum/forumPage';
 import TopicPage from './pages/forum/topicPage';
 import MainLayout from './layouts/mainLayout';
@@ -45,7 +47,9 @@ const App: FC = () => (
             <li><Link to="/game/loading">Load game</Link></li>
           </ul>
         } />
+        <Route path='/results' element={<Results/>}/>
         <Route path="/game/loading" element={<Loading />} />
+        <Route path='/game/end' element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
         <Route path="/login" element={<MainLayout><LoginPage /></MainLayout>} />
         <Route path="/registration" element={<MainLayout><RegistrationPage /></MainLayout>} />
         <Route path="/topics" element={<MainLayout><ForumPage /></MainLayout>} />

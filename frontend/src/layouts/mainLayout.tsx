@@ -1,18 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import mainBackgroundImage from '../../public/img/mainBackground.png';
+import { MAIN_BACKGROUND } from '../../consts/styles';
 
 const Wrapper = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
-  background-image: url(${mainBackgroundImage});
+  background-image: url(${MAIN_BACKGROUND});
   background-repeat: no-repeat;
   background-size: cover;
 `;
 
 type MainLayoutProps = {
-  children: JSX.Element,
+  children: JSX.Element | JSX.Element[],
 };
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => (
