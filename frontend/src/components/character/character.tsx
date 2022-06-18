@@ -52,9 +52,9 @@ class Character {
       frameIndex: 0,
       tickCount: 0,
       ticksPerFrame: 1,
-      numberOfFrames: 2,
-      frameWidth: 40,
-      frameHeight: 60,
+      numberOfFrames: 8,
+      frameWidth: 426,
+      frameHeight: 272,
     };
   }
 
@@ -75,8 +75,8 @@ class Character {
     ctx.beginPath();
     ctx.drawImage(
       spriteOption.img[moveOption.direction as AllowDirection],
-      spriteOption.frameIndex * spriteOption.frameWidth,
       0,
+      spriteOption.frameIndex * spriteOption.frameHeight,
       spriteOption.frameWidth,
       spriteOption.frameHeight,
       moveOption.x,

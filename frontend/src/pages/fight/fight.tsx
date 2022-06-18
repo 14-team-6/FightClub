@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Canvas from '../../components/canvas/canvas';
+import { GameLayout } from '../../layouts/gameLayout';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -13,9 +14,11 @@ export const Wrapper = styled.div`
 
 const FightPage: React.FC = () => {
   return (
-    <Wrapper>
-      <Canvas/>
-    </Wrapper>
+    <GameLayout>
+      <Wrapper>
+        <Canvas/>
+      </Wrapper>
+    </GameLayout>
   );
 };
 

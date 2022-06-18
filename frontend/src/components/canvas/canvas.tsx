@@ -6,10 +6,10 @@ function Canvas() {
   const size = { width: window.innerWidth, height: window.innerHeight };
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const requestIdRef = useRef<number>();
+  let requestIdRef: number | null = null;
 
-  const characters = useRef<Array<Character>>([]);
-  const hero = useRef<Character>();
+  const characters: Array<Character> = [];
+  let hero: Character | null = null;
 
   let then: number;
   let keys: Keys;
@@ -17,28 +17,28 @@ function Canvas() {
   const initHero = (ctx: CanvasRenderingContext2D) => {
     const move = {
       x: Math.floor(size.width * 0.1),
-      y: Math.floor(size.height * 0.9),
+      y: Math.floor(size.height - 300),
       vX: 0,
       vY: 0,
       vMax: 0.7,
       a: 0.001,
     };
 
-    hero.current = new Character(ctx, move);
+    hero = new Character(ctx, move);
   };
 
   const initCharacters = (ctx: CanvasRenderingContext2D) => {
-    while (characters.current.length < 1) {
+    while (characters.length < 1) {
       const move = {
         x: Math.floor(size.width - size.width * 0.1),
-        y: Math.floor(size.height * 0.9),
+        y: Math.floor(size.height - 300),
         vX: -0.06,
         vY: 0,
         direction: 'back' as AllowDirection,
       };
 
       const catChar = new Character(ctx, move);
-      characters.current.push(catChar);
+      characters.push(catChar);
     }
   };
 
@@ -48,24 +48,26 @@ function Canvas() {
 
     const ctx = canvasRef.current!.getContext('2d');
 
-    initCharacters(ctx!);
-    initHero(ctx!);
+    if  (ctx) {
+      initCharacters(ctx);
+      initHero(ctx);
+    }
   };
 
   const renderFrame = (dt: number) => {
-    for (let i = 0; i < characters.current.length; i += 1) {
-      characters.current[i].clear();
+    for (let i = 0; i < characters.length; i += 1) {
+      characters[i].clear();
     }
-    hero.current!.clear();
+    hero!.clear();
 
-    for (let i = 0; i < characters.current.length; i += 1) {
-      characters.current[i].update(dt);
-      characters.current[i].draw();
-      characters.current[i].collision([hero.current!]);
+    for (let i = 0; i < characters.length; i += 1) {
+      characters[i].update(dt);
+      characters[i].draw();
+      characters[i].collision([hero!]);
     }
 
-    hero.current!.move(dt, keys);
-    hero.current!.draw();
+    hero!.move(dt, keys);
+    hero!.draw();
   };
 
   const tick = (now: number) => {
@@ -75,16 +77,16 @@ function Canvas() {
     then = now;
 
     renderFrame(dt);
-    requestIdRef.current = requestAnimationFrame(tick);
+    requestIdRef = requestAnimationFrame(tick);
   };
 
   useEffect(() => {
     init();
 
-    requestIdRef.current = requestAnimationFrame(tick);
+    requestIdRef = requestAnimationFrame(tick);
 
     return () => {
-      cancelAnimationFrame(requestIdRef.current!);
+      cancelAnimationFrame(requestIdRef!);
       Keyboard.stop();
     };
   }, []);
