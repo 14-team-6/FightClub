@@ -65,7 +65,7 @@ function Canvas() {
         size.height,
       );
     }
-  }
+  };
 
   const renderFrame = (dt: number) => {
     clearFrame();
