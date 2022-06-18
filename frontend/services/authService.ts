@@ -1,32 +1,39 @@
+import DefaultHttpTransport from '../core/default-http-transport';
 import HttpTransport from '../core/http-transport';
-import HttpTransportAbstractClass from '../core/http-transport-abstract-class';
 import { LoginFormData, RegisterFormData } from '../src/models/form';
+
+const AUTH_URL: string = 'https://ya-praktikum.tech/api/v2/auth';
 
 export interface AuthError {
   reason: string;
 }
 
 class AuthService {
-  private authService: HttpTransportAbstractClass;
+  private authService: HttpTransport;
 
-  constructor(authService: HttpTransportAbstractClass) {
+  constructor(authService: HttpTransport) {
     this.authService = authService;
   }
 
   public signIn = (userInfo: LoginFormData) => {
     return this.authService
-      .post<LoginFormData>('/signin', { body: userInfo });
+      .post<LoginFormData, string>('/signin', {
+      body: userInfo,
+      handler: ((response: Response) => {
+        return response.text();
+      }),
+    });
   };
 
   public signUp = (userInfo: RegisterFormData) => {
     return this.authService
-      .post<RegisterFormData>('/signup', { body: userInfo });
+      .post<RegisterFormData, any>('/signup', { body: userInfo });
   };
 
   public signOut = () => {
     return this.authService
-      .post<RegisterFormData>('/logout', {});
+      .post<RegisterFormData, any>('/logout');
   };
 }
 
-export default new AuthService(new HttpTransport('/auth'));
+export default new AuthService(new DefaultHttpTransport(AUTH_URL));

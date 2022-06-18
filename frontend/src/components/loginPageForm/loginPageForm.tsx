@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import FormElement from '../form/form';
@@ -9,18 +8,7 @@ import { FormInputsNames, LoginFormData } from '../../models/form';
 import { ButtonProps } from '../button/button';
 import AuthService, { AuthError } from '../../../services/authService';
 import SubmitFormError from '../submitFormError/submitFormError';
-
-const schema = yup.object({
-  [FormInputsNames.LOGIN]: yup.string()
-    .required()
-    .trim()
-    .min(5),
-  [FormInputsNames.PASSWORD]: yup.string()
-    .required()
-    .trim()
-    .min(5),
-})
-  .required();
+import schema from './schema';
 
 const LoginPageForm: React.FC = () => {
   const {

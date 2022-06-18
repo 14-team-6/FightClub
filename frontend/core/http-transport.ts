@@ -1,72 +1,38 @@
-import HttpTransportAbstractClass, { METHODS, Options } from './http-transport-abstract-class';
+export enum METHODS {
+  GET = 'GET',
+  POST = 'POST',
+  DELETE = 'DELETE',
+  PUT = 'PUT',
+}
 
-class HttpTransport implements HttpTransportAbstractClass {
-  private domain: string = 'https://ya-praktikum.tech/api/v2';
+export type ResponseHandler<T> = (response: Response) => Promise<T>;
 
-  private readonly baseUrl: string;
+export interface Options<Body, ResponseType> {
+  method: METHODS;
+  headers?: Map<string, string>;
+  body?: Body;
+  handler?: ResponseHandler<ResponseType>;
+}
 
-  constructor(baseUrl: string) {
-    this.baseUrl = baseUrl;
-  }
+export type GetOptions<R> = Pick<Options<any, R>, 'headers' | 'handler'>;
 
-  public get = (url: string, options: Options<any> = {}): Promise<any> => {
-    return this.request(
-      url,
-      { ...options, method: METHODS.GET },
-    );
-  };
+export type DefaultOptions<T, R> = Omit<Options<T, R>, 'method'>;
 
-  public post = <Body = {}>(url: string, options: Options<Body> = {}): Promise<any> => {
-    return this.request(
-      url,
-      { ...options, method: METHODS.POST },
-    );
-  };
+abstract class HttpTransport {
+  abstract delete<Body, ResponseType>(url: string, options: DefaultOptions<Body, ResponseType>)
+  : Promise<ResponseType>;
 
-  public delete = <Body = {}>(url: string, options: Options<Body> = {}): Promise<any> => {
-    return this.request(
-      url,
-      { ...options, method: METHODS.DELETE },
-    );
-  };
+  abstract get<ResponseType>(url: string, options?: GetOptions<ResponseType>)
+  : Promise<ResponseType>;
 
-  public put = <Body = {}>(url: string, options: Options<Body> = {}): Promise<any> => {
-    return this.request(
-      url,
-      { ...options, method: METHODS.PUT },
-    );
-  };
+  abstract post<Body, ResponseType>(url: string, options?: DefaultOptions<Body, ResponseType>)
+  : Promise<ResponseType>;
 
-  public request = (url: string, options: Options<any>): Promise<any> => {
-    const { method = METHODS.GET, body, headers = {} } = options;
-    const fullUrl: string = this.domain + this.baseUrl + url;
-    let requestBody: BodyInit;
+  abstract put<Body, ResponseType>(url: string, options?: DefaultOptions<Body, ResponseType>)
+  : Promise<ResponseType>;
 
-    if (body instanceof FormData) {
-      requestBody = body;
-    } else {
-      headers['Content-Type'] = 'application/json';
-      requestBody = JSON.stringify(body);
-    }
-
-    return new Promise((resolve, reject) => {
-      fetch(fullUrl, {
-        method,
-        headers,
-        body: requestBody,
-        credentials: 'same-origin',
-      }).then((response: Response) => {
-        if (response.ok) {
-          response.json()
-            .then(resolve)
-            .catch(() => { return resolve(null); });
-        } else {
-          response.json()
-            .then(reject);
-        }
-      });
-    });
-  };
+  abstract request<Body, ResponseType>(url: string, options: DefaultOptions<Body, ResponseType>)
+  : Promise<ResponseType>;
 }
 
 export default HttpTransport;
