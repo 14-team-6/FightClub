@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import MainLayout from '@frontend/src/layouts/mainLayout';
 import MainTitle from '@frontend/src/components/mainTitle/mainTitle';
+import NavList from '@frontend/src/components/navlist/navlist';
 import StyledLink from '@frontend/src/components/link/link';
 import ButtonElement from '@frontend/src/components/button/button';
 import Kitten from '@frontend/src/components/kitten/kitten';
@@ -20,16 +21,6 @@ const WrapperContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
-
-const NavList = styled.ul`
-  margin: 30px 0;
-`;
-
-const NavItem = styled.li`
-  margin: 0;
-  padding: 0;
-  list-style: none;
 `;
 
 const WrapperTitle = styled.div`
@@ -62,13 +53,15 @@ const MainPage: FC = () => {
             <Kitten direction="left" sprite={4} width={KITTEN_WIDTH} height={KITTEN_HEIGHT} className="kitten right" />
             <MainTitle/>
           </WrapperTitle>
-          <NavList>
-            <NavItem><StyledLink to="/game/loading">Start</StyledLink></NavItem>
-            <NavItem><StyledLink to="#">Options</StyledLink></NavItem>
-            <NavItem><StyledLink to="/results">Leaders</StyledLink></NavItem>
-            <NavItem><StyledLink to="/topics">Forum</StyledLink></NavItem>
-            <NavItem><ButtonElement type="button" text="Logout"/></NavItem>
-          </NavList>
+          <div>
+            <NavList>
+              <li><StyledLink to="/game/loading">Start</StyledLink></li>
+              <li><StyledLink to="#">Options</StyledLink></li>
+              <li><StyledLink to="/results">Leaders</StyledLink></li>
+              <li><StyledLink to="/topics">Forum</StyledLink></li>
+            </NavList>
+            <ButtonElement type="button" text="Logout"/>
+          </div>
         </WrapperContent>
       </Wrapper>
     </MainLayout>

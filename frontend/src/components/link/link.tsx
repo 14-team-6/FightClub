@@ -4,7 +4,7 @@ import {
   INPUT_BORDER_BLUE, NAV_FONT_SIZE, MAIN_RED, MAIN_YELLOW,
 } from '../../../consts/styles';
 
-export default styled(Link)`
+ const StyledLink = styled(Link)`
   font-family: Pixeboy, sans-serif;
   font-size: ${NAV_FONT_SIZE};
   background-color: transparent;
@@ -30,3 +30,5 @@ export default styled(Link)`
     }
   }
 `;
+
+export default StyledLink;
