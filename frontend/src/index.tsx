@@ -15,6 +15,7 @@ import MainLayout from './layouts/mainLayout';
 import RegistrationPage from './pages/registration/registration';
 import { EndGame, EndGameType } from './pages/game/endGame/endGame';
 import { Results } from './pages/results/results';
+import { ProfilePage } from './pages/profile/profile';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -46,6 +47,7 @@ const App: FC = () => {
         <Route path='/game/loading' element={<Loading/>}/>
         <Route path='/game/end' element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
         <Route path='*' element={<Errors errorType={ErrorTypes.e404}/>}/>
+        <Route path='/profile' element={<MainLayout><ProfilePage/></MainLayout>}/>
         <Route path='/login' element={<MainLayout><LoginPage/></MainLayout>}/>
         <Route path='/registration' element={<MainLayout><RegistrationPage/></MainLayout>}/>
       </Routes>
