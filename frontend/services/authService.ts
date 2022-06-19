@@ -15,19 +15,30 @@ class AuthService {
     this.authService = authService;
   }
 
+  private async authHandler(response: Response): Promise<string | AuthError> {
+    if (response.ok) {
+      return response.text();
+    }
+
+    const authError: AuthError = await response.json();
+
+    return Promise.reject(authError);
+  }
+
   public signIn = (userInfo: LoginFormData) => {
     return this.authService
-      .post<LoginFormData, string>('/signin', {
+      .post<LoginFormData, string | AuthError>('/signin', {
       body: userInfo,
-      handler: ((response: Response) => {
-        return response.text();
-      }),
+      handler: this.authHandler,
     });
   };
 
   public signUp = (userInfo: RegisterFormData) => {
     return this.authService
-      .post<RegisterFormData, any>('/signup', { body: userInfo });
+      .post<RegisterFormData, any>('/signup', {
+      body: userInfo,
+      handler: this.authHandler,
+    });
   };
 
   public signOut = () => {

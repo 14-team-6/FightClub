@@ -80,11 +80,7 @@ class DefaultHttpTransport implements HttpTransport {
       credentials: 'same-origin',
     })
       .then((response: Response) => {
-        if (response.ok) {
-          return handler(response);
-        }
-
-        throw new Error(`Get error with status - ${response.status}`);
+        return handler(response);
       });
   }
 }
