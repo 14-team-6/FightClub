@@ -8,6 +8,10 @@ export interface AuthError {
   reason: string;
 }
 
+export interface SuccessSignUp {
+  id: string;
+}
+
 class AuthService {
   private authService: HttpTransport;
 
@@ -15,29 +19,35 @@ class AuthService {
     this.authService = authService;
   }
 
-  private async authHandler(response: Response): Promise<string | AuthError> {
+  private async signInHandler(response: Response): Promise<string | AuthError> {
     if (response.ok) {
       return response.text();
     }
 
-    const authError: AuthError = await response.json();
+    return Promise.reject(await response.json());
+  }
 
-    return Promise.reject(authError);
+  private async signUpHandler(response: Response): Promise<SuccessSignUp | AuthError> {
+    if (response.ok) {
+      return response.json();
+    }
+
+    return Promise.reject(await response.json());
   }
 
   public signIn = (userInfo: LoginFormData) => {
     return this.authService
       .post<LoginFormData, string | AuthError>('/signin', {
       body: userInfo,
-      handler: this.authHandler,
+      handler: this.signInHandler,
     });
   };
 
   public signUp = (userInfo: RegisterFormData) => {
     return this.authService
-      .post<RegisterFormData, any>('/signup', {
+      .post<RegisterFormData, SuccessSignUp | AuthError>('/signup', {
       body: userInfo,
-      handler: this.authHandler,
+      handler: this.signUpHandler,
     });
   };
 
