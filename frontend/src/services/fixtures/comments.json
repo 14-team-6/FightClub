@@ -1,101 +1,133 @@
 {
   "topic": {
     "id": 1,
-    "name": "GAME QUESTIONS",
+    "name": "game questions",
     "counts": 100
   },
   "post": {
     "id": 1,
-    "name": "HOW TO PLAY “FIGHT KITTENS”"
+    "name": "how to play “fight kittens”"
   },
   "comments": [
     {
       "id": 1,
-      "name": "HI ALL I DON’T UNDERSTANS HOW TO PLAY?? I USE MY MOUSE BUT NOTHING HAPPENS. WHAT AM I DOING WRONG???? HI ALL I DON’T UNDERSTANS HOW TO PLAY?? I USE MY MOUSE BUT NOTHING HAPPENS. WHAT AM I DOING WRONG???? HI ALL I DON’T UNDERSTANS HOW TO PLAY?? I USE MY MOUSE BUT NOTHING HAPPENS. WHAT AM I DOING WRONG???? HI ALL I DON’T UNDERSTANS HOW TO PLAY?? I USE MY MOUSE BUT NOTHING HAPPENS. WHAT AM I DOING WRONG????"
+      "user": {
+        "id": 1,
+        "name": "Joao"
+      },
+      "comment": "hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong????"
     },
     {
       "id": 2,
-      "name": "RUI@ AHAHA DONT TRY TO PLAY, JUST PLAY!"
+      "user": {
+        "id": 2,
+        "name": "Rui"
+      },
+      "comment": "ahaha dont try to play, just play!"
     },
     {
       "id": 3,
-      "name": "MARIA@ TRY TO REFRESH THE GAME WITH “R” BUTTON PRESSED?"
+      "user": {
+        "id": 3,
+        "name": "Maria"
+      },
+      "comment": "try to refresh the game with “r” button pressed?"
     },
     {
       "id": 4,
-      "name": "HI ALL I DON’T UNDERSTANS HOW TO PLAY?? I USE MY MOUSE BUT NOTHING HAPPENS. WHAT AM I DOING WRONG????"
+      "user": {
+        "id": 1,
+        "name": "Joao"
+      },
+      "comment": "hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong????"
     },
     {
       "id": 5,
-      "name": "RUI@ AHAHA DONT TRY TO PLAY, JUST PLAY!"
+      "user": {
+        "id": 2,
+        "name": "Rui"
+      },
+      "comment": "ahaha dont try to play, just play!"
     },
     {
       "id": 6,
-      "name": "MARIA@ TRY TO REFRESH THE GAME WITH “R” BUTTON PRESSED?"
+      "user": {
+        "id": 3,
+        "name": "Maria"
+      },
+      "comment": "try to refresh the game with “r” button pressed?"
     },
     {
       "id": 7,
-      "name": "HI ALL I DON’T UNDERSTANS HOW TO PLAY?? I USE MY MOUSE BUT NOTHING HAPPENS. WHAT AM I DOING WRONG????"
+      "user": {
+        "id": 1,
+        "name": "Joao"
+      },
+      "comment": "hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong????"
     },
     {
       "id": 8,
-      "name": "RUI@ AHAHA DONT TRY TO PLAY, JUST PLAY!"
+      "user": {
+        "id": 2,
+        "name": "Rui"
+      },
+      "comment": "ahaha dont try to play, just play!"
     },
     {
       "id": 9,
-      "name": "MARIA@ TRY TO REFRESH THE GAME WITH “R” BUTTON PRESSED?"
+      "user": {
+        "id": 3,
+        "name": "Maria"
+      },
+      "comment": "try to refresh the game with “r” button pressed?"
     },
     {
       "id": 10,
-      "name": "HI ALL I DON’T UNDERSTANS HOW TO PLAY?? I USE MY MOUSE BUT NOTHING HAPPENS. WHAT AM I DOING WRONG????"
+      "user": {
+        "id": 1,
+        "name": "Joao"
+      },
+      "comment": "hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong????"
     },
     {
       "id": 11,
-      "name": "RUI@ AHAHA DONT TRY TO PLAY, JUST PLAY!"
+      "user": {
+        "id": 2,
+        "name": "Rui"
+      },
+      "comment": "ahaha dont try to play, just play!"
     },
     {
       "id": 12,
-      "name": "MARIA@ TRY TO REFRESH THE GAME WITH “R” BUTTON PRESSED?"
+      "user": {
+        "id": 3,
+        "name": "Maria"
+      },
+      "comment": "try to refresh the game with “r” button pressed?"
     },
     {
       "id": 13,
-      "name": "RUI@ AHAHA DONT TRY TO PLAY, JUST PLAY!"
+      "user": {
+        "id": 1,
+        "name": "Joao"
+      },
+      "comment": "hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong???? hi all i don’t understand how to play?? i use my mouse but nothing happens. what am i doing wrong????"
     },
     {
       "id": 14,
-      "name": "MARIA@ TRY TO REFRESH THE GAME WITH “R” BUTTON PRESSED?"
+      "user": {
+        "id": 2,
+        "name": "Rui"
+      },
+      "comment": "ahaha dont try to play, just play!"
     },
     {
       "id": 15,
-      "name": "HI ALL I DON’T UNDERSTANS HOW TO PLAY?? I USE MY MOUSE BUT NOTHING HAPPENS. WHAT AM I DOING WRONG????"
-    },
-    {
-      "id": 16,
-      "name": "RUI@ AHAHA DONT TRY TO PLAY, JUST PLAY!"
-    },
-    {
-      "id": 17,
-      "name": "MARIA@ TRY TO REFRESH THE GAME WITH “R” BUTTON PRESSED?"
-    },
-    {
-      "id": 18,
-      "name": "HI ALL I DON’T UNDERSTANS HOW TO PLAY?? I USE MY MOUSE BUT NOTHING HAPPENS. WHAT AM I DOING WRONG????"
-    },
-    {
-      "id": 19,
-      "name": "HI ALL I DON’T UNDERSTANS HOW TO PLAY?? I USE MY MOUSE BUT NOTHING HAPPENS. WHAT AM I DOING WRONG????"
-    },
-    {
-      "id": 20,
-      "name": "RUI@ AHAHA DONT TRY TO PLAY, JUST PLAY!"
-    },
-    {
-      "id": 21,
-      "name": "MARIA@ TRY TO REFRESH THE GAME WITH “R” BUTTON PRESSED?"
-    },
-    {
-      "id": 22,
-      "name": "HI ALL I DON’T UNDERSTANS HOW TO PLAY?? I USE MY MOUSE BUT NOTHING HAPPENS. WHAT AM I DOING WRONG????"
+      "user": {
+        "id": 3,
+        "name": "Maria"
+      },
+      "comment": "try to refresh the game with “r” button pressed?"
     }
   ]
 }

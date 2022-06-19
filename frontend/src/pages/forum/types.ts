@@ -1,3 +1,8 @@
+export type User = {
+  id: number,
+  name: string
+};
+
 export type Topic = {
   id: number,
   name: string,
@@ -11,7 +16,8 @@ export type Post = {
 
 export type Comment = {
   id: number,
-  name: string
+  user: User,
+  comment: string
 };
 
 export type TopicData = {

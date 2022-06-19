@@ -3,17 +3,17 @@ import styled from 'styled-components';
 import {
   MAIN_BLUE,
   MAIN_FONT_SIZE,
-  MAIN_RED,
+  MAIN_WHITE,
   MAIN_YELLOW,
 } from '../../../consts/styles';
 
 const Textarea = styled.textarea`
   font-family: Pixeboy, sans-serif;
   margin: 8px 0;
-  background-color: ${MAIN_YELLOW};
+  background-color: ${MAIN_WHITE};
   font-weight: 400;
   font-size: ${MAIN_FONT_SIZE};
-  border: 6px solid ${MAIN_RED};
+  border: 6px solid ${MAIN_YELLOW};
   padding-left: 6px;
   max-width: 70%;
   resize: none;
@@ -30,7 +30,6 @@ const Wrapper = styled.span`
 `;
 
 export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  placeholder: string,
   ref?: ForwardedRef<any>,
 }
 

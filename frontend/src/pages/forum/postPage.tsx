@@ -53,7 +53,9 @@ const PostPage: React.FC = () => {
   const [postData, setPostData] = useState<PostData>();
 
   useEffect(() => {
-    getComments(topicId!, postId!).then((topicPst: PostData) => { setPostData(topicPst); });
+    if (topicId === undefined || postId === undefined) return;
+
+    getComments(topicId, postId).then((topicPst: PostData) => { setPostData(topicPst); });
   }, []);
 
   return (

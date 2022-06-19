@@ -37,7 +37,9 @@ const TopicPage: React.FC = () => {
   const [topicData, setTopicData] = useState<TopicData>();
 
   useEffect(() => {
-    getPosts(topicId!).then((topicPst: TopicData) => { setTopicData(topicPst); });
+    if (topicId === undefined) return;
+
+    getPosts(topicId).then((topicPst: TopicData) => { setTopicData(topicPst); });
   }, []);
 
   return (

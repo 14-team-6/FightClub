@@ -1,21 +1,21 @@
 {
   "topic": {
     "id": 1,
-    "name": "GAME QUESTIONS",
+    "name": "game questions",
     "counts": 100
   },
   "posts": [
     {
       "id": 1,
-      "name": "HOW TO PLAY “FIGHT KITTENS”"
+      "name": "how to play “fight kittens”"
     },
     {
       "id": 2,
-      "name": "NOT WORKING ON IMAC 29”"
+      "name": "not working on imac 29”"
     },
     {
       "id": 3,
-      "name": "HIGHT ALL!!!"
+      "name": "hight all!!!"
     }
   ]
 }

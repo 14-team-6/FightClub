@@ -24,7 +24,7 @@ const ActionButtons = styled.div`
 
 const Wrapper = styled.div`
   margin-left: 20px;
-  height: 69%;
+  height: 63%;
 `;
 
 const TopicWrapper = styled.div`
@@ -50,7 +50,9 @@ const AnswerPage: React.FC = () => {
   const [postData, setPostData] = useState<PostData>();
 
   useEffect(() => {
-    getComments(topicId!, postId!).then((topicPst: PostData) => { setPostData(topicPst); });
+    if (topicId === undefined || postId === undefined) return;
+
+    getComments(topicId, postId).then((topicPst: PostData) => { setPostData(topicPst); });
   }, []);
 
   return (
@@ -75,12 +77,12 @@ const AnswerPage: React.FC = () => {
               <CommentWrapper>
                 <CommentElement {...postData.comments[0]} />
               </CommentWrapper>
-              <Textarea rows={12} placeholder='WRITE COMMENT HERE!' />
+              <Textarea rows={9} placeholder="WRITE COMMENT HERE!" />
+              <Send type="button" text="SEND" />
             </>
           ) : 'Loading...'
         }
       </Wrapper>
-      <Send type="button" text="SEND" />
     </>
   );
 };

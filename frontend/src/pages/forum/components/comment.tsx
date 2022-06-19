@@ -1,7 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { MAIN_WHITE, MIDDLE_FONT_SIZE } from '../../../../consts/styles';
+import { MAIN_WHITE, MAIN_YELLOW, MIDDLE_FONT_SIZE } from '@frontend/consts/styles';
 import { Comment } from '../types';
+
+const StyledUsername = styled.div`
+  font-family: Pixeboy, serif;
+  color: ${MAIN_YELLOW};
+  font-size: ${MIDDLE_FONT_SIZE};
+`;
 
 const StyledComment = styled.div`
   display: flex;
@@ -16,9 +22,13 @@ const StyledComment = styled.div`
 `;
 
 const CommentElement: React.FC<Comment> = ({
-  name,
+  user,
+  comment,
 }) => (
-  <StyledComment>{name}</StyledComment>
+  <>
+    <StyledUsername>{user.name.toUpperCase()}@</StyledUsername>
+    <StyledComment>{comment.toUpperCase()}</StyledComment>
+  </>
 );
 
 export default CommentElement;

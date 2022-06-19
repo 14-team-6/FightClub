@@ -47,9 +47,9 @@ const App: FC = () => (
             <li><Link to="/game/loading">Load game</Link></li>
           </ul>
         } />
-        <Route path='/results' element={<Results/>}/>
+        <Route path="/results" element={<Results/>}/>
         <Route path="/game/loading" element={<Loading />} />
-        <Route path='/game/end' element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
+        <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
         <Route path="/login" element={<MainLayout><LoginPage /></MainLayout>} />
         <Route path="/registration" element={<MainLayout><RegistrationPage /></MainLayout>} />
         <Route path="/topics" element={<MainLayout><ForumPage /></MainLayout>} />

@@ -1,32 +1,32 @@
 [
   {
     "id": 1,
-    "name": "GAME QUESTIONS",
+    "name": "game questions",
     "counts": 100
   },
   {
     "id": 2,
-    "name": "ALL ABOUT NFT",
+    "name": "all about nft",
     "counts": 20
   },
   {
     "id": 3,
-    "name": "BUY KITTENZ",
+    "name": "buy kittenz",
     "counts": 35
   },
   {
     "id": 4,
-    "name": "SELL KITTENZ",
+    "name": "sell kittenz",
     "counts": 64
   },
   {
     "id": 5,
-    "name": "BUY EQUIPMENT",
+    "name": "buy equipment",
     "counts": 99
   },
   {
     "id": 6,
-    "name": "SELL EQUIPMENT",
-    "counts": 87
+    "name": "sell equipment",
+    "counts": 1
   }
 ]

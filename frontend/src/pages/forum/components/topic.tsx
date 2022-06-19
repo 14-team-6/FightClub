@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { MAIN_BLUE, MAIN_FONT_SIZE, MAIN_YELLOW } from '../../../../consts/styles';
+import { MAIN_BLUE, MAIN_FONT_SIZE, MAIN_YELLOW } from '@frontend/consts/styles';
 import { Topic } from '../types';
 import Link from '../../../components/link/link';
 
@@ -35,8 +35,8 @@ const TopicElement: React.FC<Topic> = ({
   counts,
 }) => (
   <StyledTopic>
-    <StyledLink to={`/topics/${id}`}>{name}</StyledLink>
-    {counts ? <Counts>{counts} POSTS</Counts> : null}
+    <StyledLink to={`/topics/${id}`}>{name.toUpperCase()}</StyledLink>
+    {counts ? <Counts>{counts} {counts > 1 ? 'POSTS' : 'POST'}</Counts> : null}
   </StyledTopic>
 );
 
