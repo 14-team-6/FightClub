@@ -19,7 +19,7 @@ export type GetOptions<R> = Pick<Options<any, R>, 'headers' | 'handler'>;
 export type DefaultOptions<T, R> = Omit<Options<T, R>, 'method'>;
 
 abstract class HttpTransport {
-  abstract delete<Body, ResponseType>(url: string, options: DefaultOptions<Body, ResponseType>)
+  abstract delete<Body, ResponseType>(url: string, options?: DefaultOptions<Body, ResponseType>)
   : Promise<ResponseType>;
 
   abstract get<ResponseType>(url: string, options?: GetOptions<ResponseType>)
