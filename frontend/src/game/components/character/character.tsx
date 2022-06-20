@@ -1,6 +1,6 @@
-import { KeyboardControl } from '../../game/keyboard';
-import forwardSprite from '../../../public/img/forward.png';
-import backSprite from '../../../public/img/back.png';
+import { KeyboardControl } from '../../keyboard';
+import forwardSprite from '../../../../public/img/forward.png';
+import backSprite from '../../../../public/img/back.png';
 
 export enum Directions {
   forward = 'forward',

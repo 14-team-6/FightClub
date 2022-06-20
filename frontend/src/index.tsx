@@ -7,10 +7,9 @@ import {
   Routes,
   Link,
 } from 'react-router-dom';
-import { Stub } from '@frontend/src/pages/game/stub';
 import LoginPage from './pages/login/login';
 import { Loading } from './pages/game/loading/loading';
-import FightPage from './pages/fight/fight';
+import FightPage from './pages/game/fight';
 import { Errors, ErrorTypes } from './pages/errors/errors';
 import Pixeboy from '../public/font/Pixeboy.ttf';
 import RegistrationPage from './pages/registration/registration';
@@ -48,11 +47,10 @@ const App: FC = () => (
             <li><Link to='/fight'>Fight!</Link></li>
             <li><Link to="/login">Login</Link></li>
             <li><Link to="/game/loading">Load game</Link></li>
-            <li><Link to='/game/stub'>Sound check</Link></li>
+            <li><Link to='/fight'>Sound check</Link></li>
           </ul>
         } />
         <Route path='/fight' element={<FightPage/>}/>
-        <Route path='/game/stub' element={<Stub/>}/>
         <Route path="/results" element={<Results/>}/>
         <Route path="/game/loading" element={<Loading />} />
         <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE}/>}/>

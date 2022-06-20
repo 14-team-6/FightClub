@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { KeyboardControl } from '../../game/keyboard';
+import { KeyboardControl } from '../../keyboard';
 import Character, { Directions, Controls } from '../character/character';
 
 function Canvas() {

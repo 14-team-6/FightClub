@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Canvas from '../../components/canvas/canvas';
+import Canvas from '../../game/components/canvas/canvas';
 import { GameLayout } from '../../layouts/gameLayout';
 
 export const Wrapper = styled.div`
