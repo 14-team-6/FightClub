@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
+import { usePost } from '@frontend/src/pages/forum/hooks/usePost';
 import Link from '../../components/link/link';
-import { getComments } from '../../services/forum';
-import { PostData } from './types';
 import TopicElement from './components/topic';
 import CommentElement from './components/comment';
 import PostElement from './components/post';
@@ -46,14 +45,7 @@ const Send = styled(Button)`
 
 const AnswerPage: React.FC = () => {
   const { topicId, postId } = useParams();
-
-  const [postData, setPostData] = useState<PostData>();
-
-  useEffect(() => {
-    if (topicId === undefined || postId === undefined) return;
-
-    getComments(topicId, postId).then((topicPst: PostData) => { setPostData(topicPst); });
-  }, []);
+  const postData = usePost(topicId, postId);
 
   return (
     <>
