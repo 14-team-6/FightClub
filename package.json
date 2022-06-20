@@ -6,7 +6,7 @@
     "dev": "webpack serve",
     "build": "webpack",
     "lint:css": "stylelint './frontend/src/**/*.tsx'",
-    "lint:ts": "eslint --fix frontend/src",
+    "lint:ts": "eslint frontend/src",
     "prepare": "husky install"
   },
   "keywords": [],

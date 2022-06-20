@@ -1,13 +1,15 @@
-import { Keys } from '../../game/keyboard';
-import forward from '../../../public/img/forward.png';
-import back from '../../../public/img/back.png';
+import { KeyboardControl } from '../../game/keyboard';
+import forwardSprite from '../../../public/img/forward.png';
+import backSprite from '../../../public/img/back.png';
 
-interface SpriteMap {
-  forward: HTMLImageElement;
-  back: HTMLImageElement;
+export enum Directions {
+  forward = 'forward',
+  back = 'back',
 }
 
-export type AllowDirection = keyof SpriteMap;
+type SpriteMap = Record<Directions, HTMLImageElement>;
+
+export type Controls = KeyboardControl | 'ai';
 interface CharacterMove {
   x: number;
   y: number;
@@ -15,7 +17,7 @@ interface CharacterMove {
   vY: number;
   vMax?: number;
   a?: number;
-  direction?: AllowDirection;
+  direction?: Directions;
 }
 interface CharacterSprite {
   img: SpriteMap,
@@ -30,22 +32,25 @@ interface CharacterSprite {
 class Character {
   private ctx: CanvasRenderingContext2D;
 
+  private control: Controls;
+
   private moveOption: CharacterMove;
 
   private spriteOption: CharacterSprite;
 
-  constructor(ctx: CanvasRenderingContext2D, move: CharacterMove) {
+  constructor(ctx: CanvasRenderingContext2D, move: CharacterMove, control: Controls = 'ai') {
     this.ctx = ctx;
     this.moveOption = move;
-    this.moveOption.direction = this.moveOption.direction || 'forward';
+    this.moveOption.direction = this.moveOption.direction || Directions.forward;
+    this.control = control;
 
     const spriteImg = {
       forward: new Image(),
       back: new Image(),
     };
 
-    spriteImg.forward.src = forward;
-    spriteImg.back.src = back;
+    spriteImg.forward.src = forwardSprite;
+    spriteImg.back.src = backSprite;
 
     this.spriteOption = {
       img: spriteImg,
@@ -63,7 +68,7 @@ class Character {
 
     ctx.beginPath();
     ctx.drawImage(
-      spriteOption.img[moveOption.direction as AllowDirection],
+      spriteOption.img[moveOption.direction as Directions],
       0,
       spriteOption.frameIndex * spriteOption.frameHeight,
       spriteOption.frameWidth,
@@ -76,7 +81,15 @@ class Character {
     ctx.closePath();
   }
 
-  private updateSprite() {
+  public update(dt: number) {
+    if (this.control === 'ai') {
+      this._update(dt);
+    } else {
+      this._move(dt);
+    }
+  }
+
+  private _updateSprite() {
     const { spriteOption } = this;
 
     spriteOption.tickCount += 1;
@@ -90,7 +103,7 @@ class Character {
     }
   }
 
-  public update(dt: number) {
+  public _update(dt: number) {
     const { moveOption, spriteOption, ctx } = this;
 
     const width = ctx.canvas.clientWidth;
@@ -99,7 +112,7 @@ class Character {
     if (moveOption.x + spriteOption.frameWidth >= width
       || moveOption.x - spriteOption.frameWidth <= 0) {
       moveOption.vX = -moveOption.vX;
-      this.turnAround();
+      this._turnAround();
     }
     if (moveOption.y + spriteOption.frameHeight >= height
       || moveOption.y - spriteOption.frameHeight <= 0) {
@@ -109,10 +122,10 @@ class Character {
     moveOption.x = Math.floor(moveOption.x + moveOption.vX * dt);
     moveOption.y = Math.floor(moveOption.y + moveOption.vY * dt);
 
-    this.updateSprite();
+    this._updateSprite();
   }
 
-  private updateVx(dt: number, k: number) {
+  private _updateVx(dt: number, k: number) {
     const { moveOption } = this;
 
     if (moveOption.vX < moveOption.vMax! && moveOption.vX >= 0) {
@@ -124,7 +137,7 @@ class Character {
     }
   }
 
-  private updateVy(dt: number, k: number) {
+  private _updateVy(dt: number, k: number) {
     const { moveOption } = this;
 
     if (moveOption.vY < moveOption.vMax! && moveOption.vY >= 0) {
@@ -136,7 +149,7 @@ class Character {
     }
   }
 
-  private run(dt: number, d: number) {
+  private _run(dt: number, d: number) {
     const { moveOption, spriteOption, ctx } = this;
 
     const width = ctx.canvas.clientWidth;
@@ -146,7 +159,7 @@ class Character {
     }
   }
 
-  private jump(dt: number, d: number) {
+  private _jump(dt: number, d: number) {
     const { moveOption, spriteOption, ctx } = this;
 
     const height = ctx.canvas.clientHeight;
@@ -156,46 +169,48 @@ class Character {
     }
   }
 
-  private rotate(direction: AllowDirection) {
+  private _rotate(direction: Directions) {
     this.moveOption.direction = direction;
   }
 
-  private turnAround() {
-    if (this.moveOption.direction === 'forward') {
-      this.moveOption.direction = 'back';
+  private _turnAround() {
+    if (this.moveOption.direction === Directions.forward) {
+      this.moveOption.direction = Directions.back;
     } else {
-      this.moveOption.direction = 'forward';
+      this.moveOption.direction = Directions.forward;
     }
   }
 
-  public move(dt: number, keys: Keys) {
+  public _move(dt: number) {
+    const keyboard = this.control as KeyboardControl;
+
     let aDirectionX = -1;
-    if (keys.right || keys.left) {
+    if (keyboard.keys.right || keyboard.keys.left) {
       aDirectionX = 1;
     }
-    this.updateVx(dt, aDirectionX);
+    this._updateVx(dt, aDirectionX);
 
     let vDirectionX = 0;
-    if (keys.left) {
+    if (keyboard.keys.left) {
       vDirectionX = -1;
-      this.rotate('back');
-    } else if (keys.right) {
+      this._rotate(Directions.back);
+    } else if (keyboard.keys.right) {
       vDirectionX = 1;
-      this.rotate('forward');
+      this._rotate(Directions.forward);
     }
     if (vDirectionX) {
-      this.run(dt, vDirectionX);
-      this.updateSprite();
+      this._run(dt, vDirectionX);
+      this._updateSprite();
     }
 
     const aDirectionY = 1;
-    this.updateVy(dt, aDirectionY);
+    this._updateVy(dt, aDirectionY);
 
     let vDirectionY = 2;
-    if (keys.up) {
+    if (keyboard.keys.up) {
       vDirectionY = -1;
     }
-    this.jump(dt, vDirectionY);
+    this._jump(dt, vDirectionY);
   }
 
   public collision(characters: Array<Character>) {
@@ -205,7 +220,7 @@ class Character {
 
         if (dx < this.spriteOption.frameWidth) {
           this.moveOption.vX = -this.moveOption.vX;
-          this.turnAround();
+          this._turnAround();
         }
       }
     });

@@ -14,53 +14,63 @@ export interface Keys {
 
 type AllowKey = keyof Keys;
 
-const Keyboard = (() => {
-  let active = false;
+export class KeyboardControl {
+  private static __instance: KeyboardControl;
 
-  const keys = {
-    left: false,
-    right: false,
-    up: false,
-  };
-
-  const keyCodeMap = {
+  private _keyCodeMap: CodeMap = {
     KeyA: 'left',
     KeyD: 'right',
     KeyW: 'up',
   };
 
-  function keyEvents(event: KeyboardEvent) {
+  private _active;
+  
+  public keys: Keys;
+
+  private constructor() {
+    this._active = false;
+
+    this.keys = {
+      left: false,
+      right: false,
+      up: false,
+    };
+  }
+
+  public static getInstance(): KeyboardControl {
+    if (!KeyboardControl.__instance) {
+      KeyboardControl.__instance = new KeyboardControl();
+    }
+
+    return KeyboardControl.__instance;
+  }
+
+  private keyEvents = (event: KeyboardEvent) => {
     const { code } = event;
 
-    if (code in keyCodeMap) {
-      const key = keyCodeMap[code as AllowKeyCode];
+    if (code in this._keyCodeMap) {
+      const key = this._keyCodeMap[code as AllowKeyCode];
 
-      if (key in keys) {
-        keys[key as AllowKey] = event.type === 'keydown';
+      if (key in this.keys) {
+        this.keys[key as AllowKey] = event.type === 'keydown';
         event.preventDefault();
       }
     }
-  }
-
-  const API = {
-    start() {
-      if (!active) {
-        window.addEventListener('keyup', keyEvents);
-        window.addEventListener('keydown', keyEvents);
-        active = true;
-      }
-      return keys;
-    },
-
-    stop() {
-      if (active) {
-        window.removeEventListener('keyup', keyEvents);
-        window.removeEventListener('keydown', keyEvents);
-        active = false;
-      }
-    },
   };
-  return API;
-})();
 
-export default Keyboard;
+  public start = () => {
+    if (!this._active) {
+      window.addEventListener('keyup', this.keyEvents);
+      window.addEventListener('keydown', this.keyEvents);
+      this._active = true;
+    }
+  };
+
+  public stop = () => {
+    if (this._active) {
+      window.removeEventListener('keyup', this.keyEvents);
+      window.removeEventListener('keydown', this.keyEvents);
+      this._active = false;
+    }
+  };
+}

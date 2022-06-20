@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import Keyboard, { Keys } from '../../game/keyboard';
-import Character, { AllowDirection } from '../character/character';
+import { KeyboardControl } from '../../game/keyboard';
+import Character, { Directions, Controls } from '../character/character';
 
 function Canvas() {
   const size = { width: window.innerWidth, height: window.innerHeight };
@@ -9,12 +9,11 @@ function Canvas() {
   let requestIdRef: number | null = null;
 
   const characters: Array<Character> = [];
-  let hero: Character | null = null;
 
   let then: number;
-  let keys: Keys;
+  let keyboard: KeyboardControl;
 
-  const initHero = (ctx: CanvasRenderingContext2D) => {
+  const initHero = (ctx: CanvasRenderingContext2D, control: Controls) => {
     const move = {
       x: Math.floor(size.width * 0.1),
       y: Math.floor(size.height - 300),
@@ -24,17 +23,18 @@ function Canvas() {
       a: 0.001,
     };
 
-    hero = new Character(ctx, move);
+    const hero = new Character(ctx, move, control);
+    characters.push(hero);
   };
 
   const initCharacters = (ctx: CanvasRenderingContext2D) => {
     while (characters.length < 1) {
       const move = {
-        x: Math.floor(size.width - size.width * 0.1),
+        x: Math.floor(size.width - 500),
         y: Math.floor(size.height - 300),
         vX: -0.06,
         vY: 0,
-        direction: 'back' as AllowDirection,
+        direction: Directions.back,
       };
 
       const catChar = new Character(ctx, move);
@@ -44,18 +44,23 @@ function Canvas() {
 
   const init = () => {
     then = performance.now();
-    keys = Keyboard.start();
+    keyboard = KeyboardControl.getInstance();
+    keyboard.start();
 
-    const ctx = canvasRef.current!.getContext('2d');
+    if (!canvasRef.current) return;
+
+    const ctx = canvasRef.current.getContext('2d');
 
     if (ctx) {
       initCharacters(ctx);
-      initHero(ctx);
+      initHero(ctx, keyboard);
     }
   };
 
   const clearFrame = () => {
-    const ctx = canvasRef.current!.getContext('2d');
+    if (!canvasRef.current) return;
+
+    const ctx = canvasRef.current.getContext('2d');
 
     if (ctx) {
       ctx.clearRect(
@@ -73,12 +78,6 @@ function Canvas() {
     for (let i = 0; i < characters.length; i += 1) {
       characters[i].update(dt);
       characters[i].draw();
-      characters[i].collision([hero!]);
-    }
-
-    if (hero) {
-      hero.move(dt, keys);
-      hero.draw();
     }
   };
 
@@ -101,7 +100,7 @@ function Canvas() {
       if (requestIdRef) {
         cancelAnimationFrame(requestIdRef);
       }
-      Keyboard.stop();
+      keyboard.stop();
     };
   }, []);
 
