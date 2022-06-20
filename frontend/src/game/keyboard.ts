@@ -24,7 +24,7 @@ export class KeyboardControl {
   };
 
   private _active;
-  
+
   public keys: Keys;
 
   private constructor() {
