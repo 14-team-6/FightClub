@@ -91,28 +91,24 @@ const Kitten = styled.div`
   }
   return `-${(sprite - 1) * kittenHeight}`;
 }}px;
-  transform: scale(${({ direction }: KittenProps) => {
-    return direction === 'right' ? '1' : '-1';
-  }
+  transform: scale(${({ direction }: KittenProps) => (direction === 'right' ? '1' : '-1')
 }, 1);
 `;
 
-const ResultsImpl: FC = () => {
-  return (
-    <MainLayout>
-      <Wrapper>
-        <WrapperContent>
-          <MainTitle text={'Leaders'}/>
-          <Leaders items={mock}/>
-          <ButtonElement type="button" text="Back"/>
-        </WrapperContent>
-      </Wrapper>
-      <Footer>
-        <Kitten direction="right" sprite={1}/>
-        <Kitten direction="left" sprite={4}/>
-      </Footer>
-    </MainLayout>
-  );
-};
+const ResultsImpl: FC = () => (
+  <MainLayout>
+    <Wrapper>
+      <WrapperContent>
+        <MainTitle text={'Leaders'} />
+        <Leaders items={mock} />
+        <ButtonElement type="button" text="Back" />
+      </WrapperContent>
+    </Wrapper>
+    <Footer>
+      <Kitten direction="right" sprite={1} />
+      <Kitten direction="left" sprite={4} />
+    </Footer>
+  </MainLayout>
+);
 
 export const Results = React.memo(ResultsImpl);

@@ -10,16 +10,14 @@ export type LeaderItem = {
   className?: string,
 };
 
-const ListItemImpl: FC<Omit<LeaderItem, 'id'>> = (props) => {
-  return (
-    <div className={ props.className }>
-      <StrokedText className="stroked-text" fontSize="30px" textColor={MAIN_YELLOW}
-                   strokeColor={MAIN_RED}>{props.name}</StrokedText>
-      <StrokedText className="stroked-text" fontSize="30px" textColor={MAIN_YELLOW}
-                   strokeColor={MAIN_RED}>{props.score}</StrokedText>
-    </div>
-  );
-};
+const ListItemImpl: FC<Omit<LeaderItem, 'id'>> = (props) => (
+  <div className={props.className}>
+    <StrokedText className="stroked-text" fontSize="30px" textColor={MAIN_YELLOW}
+                 strokeColor={MAIN_RED}>{props.name}</StrokedText>
+    <StrokedText className="stroked-text" fontSize="30px" textColor={MAIN_YELLOW}
+                 strokeColor={MAIN_RED}>{props.score}</StrokedText>
+  </div>
+);
 
 const ListItemStyled = styled(ListItemImpl)`
   display: flex;

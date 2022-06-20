@@ -59,9 +59,7 @@ class DefaultHttpTransport implements HttpTransport {
       method = METHODS.GET,
       body,
       headers = new Map(),
-      handler = (response: Response) => {
-        return response.json();
-      },
+      handler = (response: Response) => response.json(),
     } = options;
     const fullUrl: string = this.baseUrl + url;
     let requestBody: BodyInit;
@@ -79,9 +77,7 @@ class DefaultHttpTransport implements HttpTransport {
       body: requestBody,
       credentials: 'same-origin',
     })
-      .then((response: Response) => {
-        return handler(response);
-      });
+      .then((response: Response) => handler(response));
   }
 }
 

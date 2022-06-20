@@ -35,26 +35,20 @@ class AuthService {
     return Promise.reject(await response.json());
   }
 
-  public signIn = (userInfo: LoginFormData) => {
-    return this.authService
-      .post<LoginFormData, string | AuthError>('/signin', {
-      body: userInfo,
-      handler: this.signInHandler,
-    });
-  };
+  public signIn = (userInfo: LoginFormData) => this.authService
+    .post<LoginFormData, string | AuthError>('/signin', {
+    body: userInfo,
+    handler: this.signInHandler,
+  });
 
-  public signUp = (userInfo: RegisterFormData) => {
-    return this.authService
-      .post<RegisterFormData, SuccessSignUp | AuthError>('/signup', {
-      body: userInfo,
-      handler: this.signUpHandler,
-    });
-  };
+  public signUp = (userInfo: RegisterFormData) => this.authService
+    .post<RegisterFormData, SuccessSignUp | AuthError>('/signup', {
+    body: userInfo,
+    handler: this.signUpHandler,
+  });
 
-  public signOut = () => {
-    return this.authService
-      .post<RegisterFormData, any>('/logout');
-  };
+  public signOut = () => this.authService
+    .post<RegisterFormData, any>('/logout');
 }
 
 export default new AuthService(new DefaultHttpTransport(AUTH_URL));

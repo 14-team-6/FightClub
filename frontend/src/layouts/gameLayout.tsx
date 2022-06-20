@@ -42,18 +42,16 @@ const RoundString = styled.h1`
   font-size: 30px;
 `;
 
-export const GameLayout: FC<GameProps> = ({ children }) => {
-  return (
-    <Wrap>
-      <Hud>
-        <LifeBar lifePercent={0} lifeType={LifeBarTypes.IAM} name={'Stan'}/>
-        <RoundWrap>
-          <StrokedText fontSize={'40px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>Round 1</StrokedText>
-          <RoundString>vs</RoundString>
-        </RoundWrap>
-        <LifeBar lifePercent={70} lifeType={LifeBarTypes.ENEMY} name={'Joao'}/>
-      </Hud>
-      {children}
-    </Wrap>
-  );
-};
+export const GameLayout: FC<GameProps> = ({ children }) => (
+  <Wrap>
+    <Hud>
+      <LifeBar lifePercent={0} lifeType={LifeBarTypes.IAM} name={'Stan'} />
+      <RoundWrap>
+        <StrokedText fontSize={'40px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>Round 1</StrokedText>
+        <RoundString>vs</RoundString>
+      </RoundWrap>
+      <LifeBar lifePercent={70} lifeType={LifeBarTypes.ENEMY} name={'Joao'} />
+    </Hud>
+    {children}
+  </Wrap>
+);

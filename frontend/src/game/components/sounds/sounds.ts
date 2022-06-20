@@ -11,33 +11,25 @@ const makeSound = (
   url: string,
   loopSettings: Nullable<LoopSettings> = null,
 ): Promise<any> => {
-  const getBufferFromUrl = (): Promise<any> => {
-    return fetch(url)
-      .then((res) => { return res.arrayBuffer(); })
-      .then((arrayBuffer) => {
-        return audioContext.decodeAudioData(arrayBuffer);
-      })
-      .then((audioBuffer) => {
-        // using only audioContext cause to
-        // gaping between key pressing and sound playing (it's critical f.e. while jumping)
-        // so we need to prerender sounds to avoid uncompression
-        const offlineContext = new
-        OfflineAudioContext(2, SAMPLING_RATE * audioBuffer.duration, SAMPLING_RATE);
-        const audioOfflineNode = offlineContext.createBufferSource();
-        audioOfflineNode.buffer = audioBuffer;
-        audioOfflineNode.connect(offlineContext.destination);
-        audioOfflineNode.start();
+  const getBufferFromUrl = (): Promise<any> => fetch(url)
+    .then((res) => res.arrayBuffer())
+    .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
+    .then((audioBuffer) => {
+      // using only audioContext cause to
+      // gaping between key pressing and sound playing (it's critical f.e. while jumping)
+      // so we need to prerender sounds to avoid uncompression
+      const offlineContext = new
+      OfflineAudioContext(2, SAMPLING_RATE * audioBuffer.duration, SAMPLING_RATE);
+      const audioOfflineNode = offlineContext.createBufferSource();
+      audioOfflineNode.buffer = audioBuffer;
+      audioOfflineNode.connect(offlineContext.destination);
+      audioOfflineNode.start();
 
-        return offlineContext.startRendering().then((renderedAudioBuffer) => {
-          return renderedAudioBuffer;
-        });
-      });
-  };
+      return offlineContext.startRendering().then((renderedAudioBuffer) => renderedAudioBuffer);
+    });
 
   return getBufferFromUrl()
-    .then((audioBuffer: AudioBuffer) => {
-      return new Sound(name, audioContext, audioBuffer, loopSettings);
-    })
+    .then((audioBuffer: AudioBuffer) => new Sound(name, audioContext, audioBuffer, loopSettings))
     .catch(() => {
       throw Error(`Can not load sound ${url}`);
     });
@@ -51,7 +43,7 @@ class SoundFacade {
       makeSound('mainTheme', SOUND_MAIN_THEME, { loop: true, loopEnd: 0.1 }),
       makeSound('jump', SOUND_JUMP),
     ]).then((res: Sound[]) => {
-      this.sounds = res.reduce((akk, val) => { return { ...akk, [val.name]: val }; }, {});
+      this.sounds = res.reduce((akk, val) => ({ ...akk, [val.name]: val }), {});
     }).catch((e: any) => {
       console.log(`Can not start sounds: ${e}`);
     });

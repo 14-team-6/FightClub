@@ -34,29 +34,25 @@ const LoginPageForm: React.FC = () => {
     },
   ), []);
 
-  const loginPageFormItems: InputProps[] = React.useMemo(() => {
-    return ([
-      {
-        placeholder: 'Login',
-        type: 'text',
-        error: errors[FormInputsNames.LOGIN],
-        ...register(FormInputsNames.LOGIN),
-      },
-      {
-        placeholder: 'Password',
-        type: FormInputsNames.PASSWORD,
-        error: errors[FormInputsNames.PASSWORD],
-        ...register(FormInputsNames.PASSWORD),
-      },
-    ]);
-  }, [errors]);
+  const loginPageFormItems: InputProps[] = React.useMemo(() => ([
+    {
+      placeholder: 'Login',
+      type: 'text',
+      error: errors[FormInputsNames.LOGIN],
+      ...register(FormInputsNames.LOGIN),
+    },
+    {
+      placeholder: 'Password',
+      type: FormInputsNames.PASSWORD,
+      error: errors[FormInputsNames.PASSWORD],
+      ...register(FormInputsNames.PASSWORD),
+    },
+  ]), [errors]);
 
-  const loginPageMenuButtons: ButtonProps[] = React.useMemo(() => {
-    return ([{
-      text: 'Login',
-      type: 'submit',
-    }]);
-  }, []);
+  const loginPageMenuButtons: ButtonProps[] = React.useMemo(() => ([{
+    text: 'Login',
+    type: 'submit',
+  }]), []);
 
   return (
     <>
