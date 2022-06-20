@@ -7,10 +7,15 @@
       "strictNullChecks": true,
       "sourceMap": true,
       "esModuleInterop": true,
+      "resolveJsonModule": true,
       "noImplicitAny": true,
       "noUnusedLocals": true,
       "noUnusedParameters": true,
-      "jsx": "react"
+      "jsx": "react",
+      "baseUrl": "./",
+      "paths": {
+        "@frontend/*": ["frontend/*"]
+      }
   },
   "exclude": [
     "node_modules"

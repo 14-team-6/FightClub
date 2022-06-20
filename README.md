@@ -7,6 +7,8 @@
 
 Макеты: https://www.figma.com/file/ZL8FK0h8kpuxQFMwUKHSQe/Fight-Club?node-id=0%3A1
 
+Спрайты котят: https://www.figma.com/file/W4TFEVYmn4cQYCHmreoq4H/Kittens-sprites?node-id=0%3A1
+
 Ассеты: https://disk.yandex.ru/d/IGQN_0FJL51hhw
 
 ## Как запустить?

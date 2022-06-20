@@ -7,22 +7,15 @@ const LifeBarWrap = styled.div`
   width: 300px;
   display: flex;
   flex-direction: column;
-  align-items:
-    ${({ lifeType }: Partial<LifeBarProps>) => {
-    return lifeType === LifeBarTypes.IAM ? 'flex-start' : 'flex-end';
-  }
-};
+  align-items: ${({ lifeType }: Partial<LifeBarProps>) => (lifeType === LifeBarTypes.IAM ? 'flex-start' : 'flex-end')};
 `;
 
 const LifeBarBar = styled.div<Partial<LifeBarProps>>`
   width: 100%;
   height: 30px;
-  background:
-    linear-gradient(
-      to right,
-      ${MAIN_GREEN} ${(props) => { return props.lifePercent; }}%,
-      ${MAIN_RED} 0% 100%
-    );
+  background: linear-gradient(to right,
+  ${MAIN_GREEN} ${(props) => props.lifePercent}%,
+  ${MAIN_RED} 0% 100%);
 `;
 
 const LifeBarName = styled.div`
@@ -31,11 +24,11 @@ const LifeBarName = styled.div`
   color: ${MAIN_WHITE};
 `;
 
-const LifeBarImpl: FC<LifeBarProps> = ({ name, lifeType, lifePercent }) => {
-  return <LifeBarWrap lifeType={lifeType}>
-    <LifeBarBar lifePercent={lifePercent}/>
+const LifeBarImpl: FC<LifeBarProps> = ({ name, lifeType, lifePercent }) => (
+  <LifeBarWrap lifeType={lifeType}>
+    <LifeBarBar lifePercent={lifePercent} />
     <LifeBarName>{name}</LifeBarName>
-  </LifeBarWrap>;
-};
+  </LifeBarWrap>
+);
 
 export const LifeBar = React.memo(LifeBarImpl);

@@ -1,5 +1,6 @@
 const path = require('path');
 const hwp = require('html-webpack-plugin');
+const tpp = require('tsconfig-paths-webpack-plugin');
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 
 const styledComponentsTransformer = createStyledComponentsTransformer();
@@ -10,9 +11,13 @@ module.exports = {
   devtool: 'inline-source-map',
   devServer: {
     historyApiFallback: true,
+    static: {
+      directory: path.join(__dirname, 'frontend', 'public'),
+      publicPath: '/public',
+    }
   },
   output: {
-    path: path.join(__dirname, '/dist'),
+    path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
   },
   plugins: [
@@ -22,6 +27,7 @@ module.exports = {
     }),
   ],
   resolve: {
+    plugins: [new tpp()],
     modules: ['src', 'node_modules'],
     extensions: ['.ts', '.tsx', '.js'],
   },
@@ -50,6 +56,6 @@ module.exports = {
         test: /\.(woff|woff2|ttf|eot)$/,
         loader: 'file-loader'
       }
-    ]
+    ],
   }
-}
+};
