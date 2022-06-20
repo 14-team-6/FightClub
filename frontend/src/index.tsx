@@ -21,6 +21,20 @@ import MainLayout from './layouts/mainLayout';
 import PostPage from './pages/forum/postPage';
 import AnswerPage from './pages/forum/answerPage';
 
+(function startServiceWorker () {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('../public/sw.js').then((registration) => {
+        // eslint-disable-next-line no-console
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }).catch((error: string) => {
+        // eslint-disable-next-line no-console
+        console.log('ServiceWorker registration failed: ', error);
+      });
+    });
+  }
+}());
+
 const GS = createGlobalStyle`
   @font-face {
     font-family: Pixeboy;
@@ -46,13 +60,13 @@ const App: FC = () => (
           <ul>
             <li><Link to="/login">Login</Link></li>
             <li><Link to="/game/loading">Load game</Link></li>
-            <li><Link to='/game/stub'>Sound check</Link></li>
+            <li><Link to="/game/stub">Sound check</Link></li>
           </ul>
         } />
-        <Route path='/game/stub' element={<Stub/>}/>
-        <Route path="/results" element={<Results/>}/>
+        <Route path="/game/stub" element={<Stub />} />
+        <Route path="/results" element={<Results />} />
         <Route path="/game/loading" element={<Loading />} />
-        <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
+        <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE} />} />
         <Route path="/login" element={<MainLayout><LoginPage /></MainLayout>} />
         <Route path="/registration" element={<MainLayout><RegistrationPage /></MainLayout>} />
         <Route path="/topics" element={<MainLayout><ForumPage /></MainLayout>} />

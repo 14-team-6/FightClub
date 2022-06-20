@@ -9,6 +9,7 @@ module.exports = {
   mode: 'development',
   entry: './frontend/src/index.tsx',
   devtool: 'inline-source-map',
+  cache: false,
   devServer: {
     historyApiFallback: true,
     static: {
