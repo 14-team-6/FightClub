@@ -1,5 +1,10 @@
 import { LoopSettings, Nullable } from '@frontend/src/game/components/sounds/types';
 
+const DEFAULT_LOOP_SETTINGS = {
+  loop: false,
+  loopEnd: 0,
+};
+
 export class Sound {
   private readonly audioBuffer: AudioBuffer;
 
@@ -17,12 +22,12 @@ export class Sound {
     name: string,
     audioContext: AudioContext,
     audioBuffer: AudioBuffer,
-    loopSettings: Nullable<LoopSettings>,
+    loopSettings: Nullable<Partial<LoopSettings>>,
   ) {
     this.name = name;
     this.audioBuffer = audioBuffer;
     this.audioContext = audioContext;
-    this.loopSettings = loopSettings !== null ? loopSettings : { loop: false, loopEnd: 0 };
+    this.loopSettings = { ...DEFAULT_LOOP_SETTINGS, ...loopSettings };
   }
 
   public play() {
