@@ -1,3 +1,5 @@
+import { KeyboardControl } from '@frontend/src/game/keyboard';
+
 export enum LifeBarTypes {
   IAM,
   ENEMY,
@@ -9,9 +11,27 @@ export type LifeBarProps = {
   name: string
 };
 
-export interface SpriteMap {
-  right: HTMLImageElement;
-  left: HTMLImageElement;
+export enum Directions {
+  RIGHT = 'RIGHT',
+  LEFT = 'LEFT',
+}
+
+export type Rect = {
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+};
+
+export type SpriteMap = Record<Directions, HTMLImageElement>;
+
+export enum CharacterState {
+  IDLE = 'IDLE',
+  RUN = 'RUN',
+  JUMP = 'JUMP',
+  ATTACK = 'ATTACK',
+  HURT = 'HURT',
+  DIE = 'DIE',
 }
 
 export interface CharacterSprite {
@@ -26,4 +46,22 @@ export interface CharacterSprite {
   collisionRectHeight: number;
   tickCount: number;
   ticksPerFrame: number;
+}
+
+export type Controls = KeyboardControl | 'ai';
+
+export interface CharacterMove {
+  x: number;
+  y: number;
+  vX: number;
+  vY: number;
+  vMax?: number;
+  a?: number;
+  direction?: Directions;
+}
+
+export enum JumpPhase {
+  NOJUMP,
+  FIRST,
+  SECOND,
 }

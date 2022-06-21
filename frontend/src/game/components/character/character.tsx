@@ -1,24 +1,15 @@
-import { KeyboardControl } from '../../keyboard';
-import forwardSprite from '../../../../public/img/forward.png';
-import backSprite from '../../../../public/img/back.png';
-
-export enum Directions {
-  forward = 'forward',
-  back = 'back',
-}
-
-type SpriteMap = Record<Directions, HTMLImageElement>;
-
-export type Controls = KeyboardControl | 'ai';
-interface CharacterMove {
-  x: number;
-  y: number;
-  vX: number;
-  vY: number;
-  vMax?: number;
-  a?: number;
-  direction?: Directions;
-}
+import { KeyboardControl, Keys } from '../../keyboard';
+import {
+  CharacterMove,
+  CharacterSprite,
+  CharacterState,
+  Controls,
+  Directions,
+  JumpPhase,
+  Rect
+} from '@frontend/src/game/types';
+import spriteCollection from '@frontend/src/game/spriteCollection';
+import Sounds from '@frontend/src/game/components/sounds/sounds';
 
 class Character {
   private ctx: CanvasRenderingContext2D;
@@ -27,35 +18,93 @@ class Character {
 
   private moveOption: CharacterMove;
 
-  private spriteOption: CharacterSprite;
+  private spriteOption: Record<string, CharacterSprite>;
 
-  constructor(ctx: CanvasRenderingContext2D, move: CharacterMove, control: Controls = 'ai') {
+  private currentState: CharacterState;
+
+  private prevState: CharacterState;
+
+  private isJump: boolean;
+
+  private jumpPhase: JumpPhase;
+
+  private isHurt: boolean;
+
+  private isAttack: boolean;
+
+  private isMove: boolean;
+
+  constructor(ctx: CanvasRenderingContext2D, move: CharacterMove, control: Controls = 'ai', state = 1) {
     this.ctx = ctx;
     this.moveOption = move;
-    this.moveOption.direction = this.moveOption.direction || Directions.forward;
+    this.moveOption.direction = this.moveOption.direction || Directions.RIGHT;
     this.control = control;
+    this.spriteOption = spriteCollection;
+    this.currentState = CharacterState.IDLE;
+    this.prevState = this.currentState;
+    if (state === 1) {
+      this.currentState = CharacterState.ATTACK;
+    }
+  }
 
-    const spriteImg = {
-      forward: new Image(),
-      back: new Image(),
-    };
+  // @ts-ignore-line
+  private updateState(keys: Keys) {
+    let nextState = this.currentState;
 
-    spriteImg.forward.src = forwardSprite;
-    spriteImg.back.src = backSprite;
+    if (this.isJump || this.isHurt || this.isAttack) {
+      return;
+    }
 
-    this.spriteOption = {
-      img: spriteImg,
-      frameIndex: 0,
-      tickCount: 0,
-      ticksPerFrame: 1,
-      numberOfFrames: 8,
-      frameWidth: 426,
-      frameHeight: 272,
-    };
+    if (keys.up) {
+      nextState = CharacterState.JUMP;
+      Sounds.playJump();
+      this.isJump = true;
+      this.jumpPhase = JumpPhase.FIRST;
+      this.moveOption.vY = 0.7;
+    } else if (keys.attack && !this.isAttack) {
+      Sounds.playAttack();
+      nextState = CharacterState.ATTACK;
+      this.isAttack = true;
+    } else if (keys.left) {
+      nextState = CharacterState.RUN;
+      this.isMove = true;
+    } else if (keys.right) {
+      nextState = CharacterState.RUN;
+      this.isMove = true;
+    } else {
+      nextState = CharacterState.IDLE;
+      this.moveOption.vX = 0;
+    }
+    if (nextState != this.prevState) {
+      this.spriteOption[nextState].frameIndex = 0;
+    }
+    this.prevState = this.currentState;
+    this.currentState = nextState;
+  }
+
+  private getCollisionRect(): Rect {
+    const spriteOption = this.spriteOption[this.currentState];
+    if (this.moveOption.direction === Directions.RIGHT) {
+      return {
+        x: this.moveOption.x + spriteOption.collisionRectX,
+        y: this.moveOption.y + spriteOption.collisionRectY,
+        width: spriteOption.collisionRectWidth,
+        height: spriteOption.collisionRectHeight,
+      };
+    } else {
+      return {
+        x: this.moveOption.x + spriteOption.frameWidth - (spriteOption.collisionRectX + spriteOption.collisionRectWidth),
+        y: this.moveOption.y + spriteOption.collisionRectY,
+        width: spriteOption.collisionRectWidth,
+        height: spriteOption.collisionRectHeight,
+      };
+    }
   }
 
   public draw() {
-    const { moveOption, spriteOption, ctx } = this;
+    const { moveOption, ctx } = this;
+
+    const spriteOption = this.spriteOption[this.currentState];
 
     ctx.beginPath();
     ctx.drawImage(
@@ -69,6 +118,14 @@ class Character {
       spriteOption.frameWidth,
       spriteOption.frameHeight,
     );
+    ctx.strokeStyle = 'blue';
+    const crt = this.getCollisionRect();
+    ctx.strokeRect(
+      crt.x,
+      crt.y,
+      crt.width,
+      crt.height,
+    );
     ctx.closePath();
   }
 
@@ -81,36 +138,65 @@ class Character {
   }
 
   private _updateSprite() {
-    const { spriteOption } = this;
+    const spriteOption = this.spriteOption[this.currentState];
 
     spriteOption.tickCount += 1;
+
     if (spriteOption.tickCount > spriteOption.ticksPerFrame) {
       spriteOption.tickCount = 0;
       if (spriteOption.frameIndex < spriteOption.numberOfFrames - 1) {
         spriteOption.frameIndex += 1;
       } else {
         spriteOption.frameIndex = 0;
+        if (this.isHurt) {
+          this.isHurt = false;
+        }
+        if (this.isAttack) {
+          this.isAttack = false;
+        }
       }
     }
   }
 
+  turnAround() {
+    if (this.moveOption.direction === Directions.RIGHT) {
+      this.moveOption.direction = Directions.LEFT;
+    } else {
+      this.moveOption.direction = Directions.RIGHT;
+    }
+  }
+
+  // @ts-ignore-line
   public _update(dt: number) {
-    const { moveOption, spriteOption, ctx } = this;
+    this._updateSprite();
+    return;
+    const { moveOption, ctx } = this;
+
+    if (!this.isHurt && !this.isAttack) {
+      this.currentState = CharacterState.IDLE;
+    }
+
+    const spriteOption = this.spriteOption[this.currentState];
 
     const width = ctx.canvas.clientWidth;
     const height = ctx.canvas.clientHeight;
 
+    if (Math.random()*100 > 99) {
+      this.currentState = CharacterState.ATTACK;
+      this.isAttack = true;
+    }
+
     if (moveOption.x + spriteOption.frameWidth >= width
       || moveOption.x - spriteOption.frameWidth <= 0) {
       moveOption.vX = -moveOption.vX;
-      this._turnAround();
+      this.turnAround();
     }
     if (moveOption.y + spriteOption.frameHeight >= height
       || moveOption.y - spriteOption.frameHeight <= 0) {
       moveOption.vY = -moveOption.vY;
     }
 
-    moveOption.x = Math.floor(moveOption.x + moveOption.vX * dt);
+    //moveOption.x = Math.floor(moveOption.x + moveOption.vX * dt);
     moveOption.y = Math.floor(moveOption.y + moveOption.vY * dt);
 
     this._updateSprite();
@@ -121,27 +207,17 @@ class Character {
 
     if (moveOption.vX < moveOption.vMax! && moveOption.vX >= 0) {
       moveOption.vX += k * moveOption.a! * dt;
-    } else if (moveOption.vX > moveOption.vMax!) {
+    } else if (moveOption.vX >= moveOption.vMax!) {
       moveOption.vX = moveOption.vMax!;
     } else {
       moveOption.vX = 0;
     }
   }
 
-  private _updateVy(dt: number, k: number) {
-    const { moveOption } = this;
-
-    if (moveOption.vY < moveOption.vMax! && moveOption.vY >= 0) {
-      moveOption.vY += k * moveOption.a! * dt;
-    } else if (moveOption.vY > moveOption.vMax!) {
-      moveOption.vY = moveOption.vMax!;
-    } else {
-      moveOption.vY = 0;
-    }
-  }
-
   private _run(dt: number, d: number) {
-    const { moveOption, spriteOption, ctx } = this;
+    const { moveOption, ctx } = this;
+
+    const spriteOption = this.spriteOption[this.currentState];
 
     const width = ctx.canvas.clientWidth;
     const x = Math.floor(moveOption.x + d * moveOption.vX * dt);
@@ -151,12 +227,41 @@ class Character {
   }
 
   private _jump(dt: number, d: number) {
-    const { moveOption, spriteOption, ctx } = this;
+    const { moveOption, ctx } = this;
+
+    const spriteOption = this.spriteOption[this.currentState];
 
     const height = ctx.canvas.clientHeight;
     const y = Math.floor(moveOption.y + d * moveOption.vY * dt);
-    if (y > 0 && y < height - spriteOption.frameHeight) {
+
+    // bounds are inverted!
+    // so the lower bound is around the bottom of the screen
+    const lowerBound = height - spriteOption.frameHeight;
+
+    // to avoid roundness problem - when the cat jumps
+    // almost down to the lower bound, but not reach 3 pixels
+    const whenEndJump = lowerBound - 20;
+
+    if (this.jumpPhase === JumpPhase.FIRST) {
+      moveOption.vY -= 0.017;
+    } else {
+      moveOption.vY += 0.017;
+    }
+
+    if (y < lowerBound) {
       moveOption.y = y;
+    }
+
+    if ( moveOption.vY <= 0 ) {
+      this.jumpPhase = JumpPhase.SECOND;
+    }
+
+    if (y >= whenEndJump && this.jumpPhase === JumpPhase.SECOND) {
+      this.moveOption.y = lowerBound;
+      this.jumpPhase = JumpPhase.NOJUMP;
+      this.isJump = false;
+      this.prevState = this.currentState;
+      this.currentState = CharacterState.IDLE;
     }
   }
 
@@ -164,19 +269,21 @@ class Character {
     this.moveOption.direction = direction;
   }
 
-  private _turnAround() {
-    if (this.moveOption.direction === Directions.forward) {
-      this.moveOption.direction = Directions.back;
-    } else {
-      this.moveOption.direction = Directions.forward;
-    }
-  }
+  // private _turnAround() {
+  //   if (this.moveOption.direction === Directions.RIGHT) {
+  //     this.moveOption.direction = Directions.LEFT;
+  //   } else {
+  //     this.moveOption.direction = Directions.RIGHT;
+  //   }
+  // }
 
-  public _move(dt: number) {
+  private _move(dt: number) {
     const keyboard = this.control as KeyboardControl;
 
+    //this.updateState(keyboard.keys);
+
     let aDirectionX = -1;
-    if (keyboard.keys.right || keyboard.keys.left) {
+    if (keyboard.keys.right || keyboard.keys.left || this.isMove) {
       aDirectionX = 1;
     }
     this._updateVx(dt, aDirectionX);
@@ -184,37 +291,53 @@ class Character {
     let vDirectionX = 0;
     if (keyboard.keys.left) {
       vDirectionX = -1;
-      this._rotate(Directions.back);
+      this._rotate(Directions.LEFT);
     } else if (keyboard.keys.right) {
       vDirectionX = 1;
-      this._rotate(Directions.forward);
+      this._rotate(Directions.RIGHT);
     }
     if (vDirectionX) {
       this._run(dt, vDirectionX);
-      this._updateSprite();
     }
-
-    const aDirectionY = 1;
-    this._updateVy(dt, aDirectionY);
-
-    let vDirectionY = 2;
-    if (keyboard.keys.up) {
-      vDirectionY = -1;
+    if (this.isJump) {
+      let vDirectionY = 2;
+      if (this.jumpPhase === JumpPhase.FIRST) {
+        vDirectionY = -1;
+      }
+      this._jump(dt, vDirectionY);
     }
-    this._jump(dt, vDirectionY);
+    this._updateSprite();
   }
 
+  // TODO: there is a bug now: no attack priority. Each cat can attack simultaneously
   public collision(characters: Array<Character>) {
     characters.forEach((element) => {
       if (this !== element) {
-        const dx = this.moveOption.x - element.moveOption.x;
+        const iam = this.getCollisionRect();
+        const they = element.getCollisionRect();
 
-        if (dx < this.spriteOption.frameWidth) {
-          this.moveOption.vX = -this.moveOption.vX;
-          this._turnAround();
+        const x1 = Math.max(iam.x, they.x);
+        const x2 = Math.min(iam.x + iam.width, they.x + they.width);
+
+        const y1 = Math.max(iam.y, they.y);
+        const y2 = Math.min(iam.y + iam.height, they.y + they.height);
+
+        if (x1 < x2 && y1 < y2) {
+          if (element.currentState === CharacterState.ATTACK && !this.isHurt) {
+            this.kick();
+          }
         }
       }
     });
+  }
+
+  public kick() {
+    Sounds.playMeow();
+    const nextState = CharacterState.HURT;
+    this.spriteOption[nextState].frameIndex = 0;
+    this.prevState = this.currentState;
+    this.currentState = nextState;
+    this.isHurt = true;
   }
 }
 
