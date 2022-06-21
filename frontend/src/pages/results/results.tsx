@@ -76,8 +76,7 @@ const Footer = styled.div`
   justify-content: space-between;
 `;
 
-const ResultsImpl: FC = () => {
-  return (
+const ResultsImpl: FC = () => (
     <MainLayout>
       <Wrapper>
         <WrapperContent>
@@ -91,7 +90,6 @@ const ResultsImpl: FC = () => {
         <Kitten direction="left" sprite={4} width={KITTEN_WIDTH} height={KITTEN_HEIGHT} />
       </Footer>
     </MainLayout>
-  );
-};
+);
 
 export const Results = React.memo(ResultsImpl);

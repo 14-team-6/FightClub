@@ -4,7 +4,7 @@ import { createGlobalStyle } from 'styled-components';
 import {
   BrowserRouter,
   Route,
-  Routes
+  Routes,
 } from 'react-router-dom';
 import { Stub } from '@frontend/src/pages/game/stub';
 import LoginPage from './pages/login/login';

@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import { MAIN_FONT_SIZE, MAIN_BLUE, MAIN_YELLOW, MAIN_RED } from '@frontend/consts/styles';
+import {
+  MAIN_FONT_SIZE, MAIN_BLUE, MAIN_YELLOW, MAIN_RED,
+} from '@frontend/consts/styles';
 
 const NavList = styled.ul`
   margin: 30px 0;
