@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`black page layout should render should render 1`] = `
+<div
+  className="sc-bczRLJ kkcMAq"
+/>
+`;
