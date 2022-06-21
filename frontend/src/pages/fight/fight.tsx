@@ -12,14 +12,12 @@ export const Wrapper = styled.div`
   height: 100%;
 `;
 
-const FightPage: React.FC = () => {
-  return (
+const FightPage: React.FC = () => (
     <GameLayout>
       <Wrapper>
         <Canvas/>
       </Wrapper>
     </GameLayout>
-  );
-};
+);
 
 export default FightPage;

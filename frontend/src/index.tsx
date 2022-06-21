@@ -5,7 +5,6 @@ import {
   BrowserRouter,
   Route,
   Routes,
-  Link,
 } from 'react-router-dom';
 import { Stub } from '@frontend/src/pages/game/stub';
 import LoginPage from './pages/login/login';

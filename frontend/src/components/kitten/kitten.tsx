@@ -22,9 +22,7 @@ const KittenElement = styled.div`
   }
   return `-${(sprite - 1) * height}`;
 }}px;
-  transform: scale(${({ direction }: KittenProps) => {
-    return direction === 'right' ? '1' : '-1';
-  }
+  transform: scale(${({ direction }: KittenProps) => (direction === 'right' ? '1' : '-1')
 }, 1);
 `;
 
@@ -34,8 +32,7 @@ const Kitten: React.FC<KittenProps> = ({
   width,
   height,
   className,
-}) => {
-  return (
+}) => (
     <KittenElement
       className={className}
       direction={direction}
@@ -43,7 +40,6 @@ const Kitten: React.FC<KittenProps> = ({
       width={width}
       height={height}
     />
-  );
-};
+);
 
 export default Kitten;

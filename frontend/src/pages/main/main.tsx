@@ -43,8 +43,7 @@ const WrapperTitle = styled.div`
   } 
 `;
 
-const MainPage: FC = () => {
-  return (
+const MainPage: FC = () => (
     <MainLayout>
       <Wrapper>
         <WrapperContent>
@@ -65,7 +64,6 @@ const MainPage: FC = () => {
         </WrapperContent>
       </Wrapper>
     </MainLayout>
-  );
-};
+);
 
 export default MainPage;
