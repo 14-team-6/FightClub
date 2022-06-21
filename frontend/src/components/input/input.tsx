@@ -2,8 +2,8 @@ import React, { ForwardedRef, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { FieldError } from 'react-hook-form';
 import {
-  INPUT_BORDER_BLUE,
-  INPUTS_FONT_SIZE, MAIN_RED, MAIN_WHITE, MAIN_YELLOW,
+  MAIN_BLUE,
+  MAIN_FONT_SIZE, MAIN_RED, MAIN_WHITE, MAIN_YELLOW,
 } from '../../../consts/styles';
 
 const Input = styled.input`
@@ -12,13 +12,13 @@ const Input = styled.input`
   height: 42px;
   background-color: ${MAIN_YELLOW};
   font-weight: 400;
-  font-size: ${INPUTS_FONT_SIZE};
+  font-size: ${MAIN_FONT_SIZE};
   border: 6px solid ${MAIN_RED};
   padding-left: 6px;
   max-width: 205px;
 
   &:focus {
-    border: 6px solid ${INPUT_BORDER_BLUE};
+    border: 6px solid ${MAIN_BLUE};
   }
 `;
 
@@ -46,13 +46,11 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const InputElement: React.FC<InputProps> = React.forwardRef(({
   error,
   ...props
-}, ref) => {
-  return (
-    <Wrapper>
-      <Input ref={ref} {...props}/>
-      <Span>{error?.message}</Span>
-    </Wrapper>
-  );
-});
+}, ref) => (
+  <Wrapper>
+    <Input ref={ref} {...props} />
+    <Span>{error?.message}</Span>
+  </Wrapper>
+));
 
 export default React.memo(InputElement);

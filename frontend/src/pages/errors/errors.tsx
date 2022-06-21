@@ -34,18 +34,18 @@ interface ErrorProps {
   errorType: ErrorTypes,
 }
 
-export const Errors: FC<ErrorProps> = (props: ErrorProps) => {
-  return <BlackPageLayout>
-      <ErrorBox>
-        <StrokedText
-          fontSize="100px"
-          textColor={MAIN_RED}
-          strokeColor={MAIN_YELLOW}
-        >{props.errorType}</StrokedText>
-      </ErrorBox>
-      <Img/>
-      <BBox>
-        <ButtonElement type="button" text="Back"/>
-      </BBox>
-  </BlackPageLayout>;
-};
+export const Errors: FC<ErrorProps> = (props: ErrorProps) => (
+  <BlackPageLayout>
+    <ErrorBox>
+      <StrokedText
+        fontSize="100px"
+        textColor={MAIN_RED}
+        strokeColor={MAIN_YELLOW}
+      >{props.errorType}</StrokedText>
+    </ErrorBox>
+    <Img />
+    <BBox>
+      <ButtonElement type="button" text="Back" />
+    </BBox>
+  </BlackPageLayout>
+);

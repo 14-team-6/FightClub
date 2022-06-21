@@ -12,13 +12,11 @@ export const Wrapper = styled.div`
   height: 100%;
 `;
 
-const LoginPage: React.FC = () => {
-  return (
-    <Wrapper>
-      <MainTitle/>
-      <LoginPageForm/>
-    </Wrapper>
-  );
-};
+const LoginPage: React.FC = () => (
+  <Wrapper>
+    <MainTitle />
+    <LoginPageForm />
+  </Wrapper>
+);
 
 export default LoginPage;
