@@ -22,14 +22,14 @@ const LoadingText = styled(StrokedText)`
   }
 `;
 
-export const Loading: FC = () => {
-  return <BlackPageLayout>
-      <LoadingText
-        fontSize='40px'
-        textColor={MAIN_RED}
-        strokeColor={MAIN_YELLOW}
-      >
-        Loading
-      </LoadingText>
-  </BlackPageLayout>;
-};
+export const Loading: FC = () => (
+  <BlackPageLayout>
+    <LoadingText
+      fontSize="40px"
+      textColor={MAIN_RED}
+      strokeColor={MAIN_YELLOW}
+    >
+      Loading
+    </LoadingText>
+  </BlackPageLayout>
+);

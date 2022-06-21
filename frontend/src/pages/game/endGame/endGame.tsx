@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { MAIN_RED, MAIN_YELLOW } from '@frontend/consts/styles';
 import { StrokedText } from '../../../components/strokedText/strokedText';
-import { MAIN_RED, MAIN_YELLOW } from '../../../../consts/styles';
 import { GameLayout } from '../../../layouts/gameLayout';
 
 const Paranja = styled.div`
@@ -30,16 +30,14 @@ type EndGameProps = {
   endGameType: EndGameType,
 };
 
-export const EndGame: FC<EndGameProps> = (props: EndGameProps) => {
-  return (
-    <GameLayout>
-      <Paranja>
-        <Wrap>
-          <StrokedText fontSize={'140px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>
-            {props.endGameType}
-          </StrokedText>
-        </Wrap>
-      </Paranja>
-    </GameLayout>
-  );
-};
+export const EndGame: FC<EndGameProps> = (props: EndGameProps) => (
+  <GameLayout>
+    <Paranja>
+      <Wrap>
+        <StrokedText fontSize={'140px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>
+          {props.endGameType}
+        </StrokedText>
+      </Wrap>
+    </Paranja>
+  </GameLayout>
+);

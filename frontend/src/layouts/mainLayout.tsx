@@ -15,12 +15,10 @@ type MainLayoutProps = {
   children: JSX.Element | JSX.Element[],
 };
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  return (
-    <Wrapper>
-      {children}
-    </Wrapper>
-  );
-};
+const MainLayout: React.FC<MainLayoutProps> = ({ children }) => (
+  <Wrapper>
+    {children}
+  </Wrapper>
+);
 
 export default MainLayout;
