@@ -19,15 +19,6 @@ interface CharacterMove {
   a?: number;
   direction?: Directions;
 }
-interface CharacterSprite {
-  img: SpriteMap,
-  frameIndex: number;
-  numberOfFrames: number;
-  frameWidth: number;
-  frameHeight: number;
-  tickCount: number;
-  ticksPerFrame:number;
-}
 
 class Character {
   private ctx: CanvasRenderingContext2D;
