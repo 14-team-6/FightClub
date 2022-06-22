@@ -1,11 +1,14 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import AuthService from '@frontend/src/services/authService';
+import { useAuth } from '@frontend/src/hooks/useAuth';
 import MainLayout from '@frontend/src/layouts/mainLayout';
 import MainTitle from '@frontend/src/components/mainTitle/mainTitle';
 import NavList from '@frontend/src/components/navlist/navlist';
 import StyledLink from '@frontend/src/components/link/link';
 import Kitten from '@frontend/src/components/kitten/kitten';
 import { KITTEN_HEIGHT, KITTEN_WIDTH } from '@frontend/consts/styles';
+import ButtonElement from '@frontend/src/components/button/button';
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,14 +45,22 @@ const WrapperTitle = styled.div`
   }
 `;
 
-const MainPage: FC = () => (
+const MainPage: FC = () => {
+  const auth = useAuth();
+
+  const handleLogout = () => {
+    AuthService.signOut()
+      .then(auth.logout);
+  };
+
+  return (
     <MainLayout>
       <Wrapper>
         <WrapperContent>
           <WrapperTitle>
             <Kitten direction="right" sprite={1} width={KITTEN_WIDTH} height={KITTEN_HEIGHT} className="kitten left" />
             <Kitten direction="left" sprite={4} width={KITTEN_WIDTH} height={KITTEN_HEIGHT} className="kitten right" />
-            <MainTitle/>
+            <MainTitle />
           </WrapperTitle>
           <div>
             <NavList>
@@ -57,10 +68,12 @@ const MainPage: FC = () => (
               <li><StyledLink to="/results">Leaders</StyledLink></li>
               <li><StyledLink to="/topics">Forum</StyledLink></li>
             </NavList>
+            <ButtonElement type="button" text="Logout" onClick={handleLogout} />
           </div>
         </WrapperContent>
       </Wrapper>
     </MainLayout>
-);
+  );
+};
 
 export default MainPage;

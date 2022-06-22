@@ -20,6 +20,9 @@ import TopicPage from './pages/forum/topicPage';
 import MainLayout from './layouts/mainLayout';
 import PostPage from './pages/forum/postPage';
 import AnswerPage from './pages/forum/answerPage';
+import PublicRoutes from './components/routes/PublicRoutes';
+import { AuthProvider } from '@frontend/src/hooks/useAuth';
+import ProtectedRoutes from '@frontend/src/components/routes/ProtectedRoutes';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -41,22 +44,28 @@ const App: FC = () => (
   <React.Fragment>
     <BrowserRouter>
       <GS />
-      <Routes>
-        <Route path='/' element={<MainPage/>}/>
-        <Route path='/game/fight' element={<FightPage/>}/>
-        <Route path="/results" element={<Results/>}/>
-        <Route path="/game/loading" element={<Loading />} />
-        <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
-        <Route path="/login" element={<MainLayout><LoginPage /></MainLayout>} />
-        <Route path="/registration" element={<MainLayout><RegistrationPage /></MainLayout>} />
-        <Route path="/topics" element={<MainLayout><ForumPage /></MainLayout>} />
-        <Route path="/topics/:topicId" element={<MainLayout><TopicPage /></MainLayout>} />
-        <Route path="/topics/add" element={<MainLayout><ForumPage /></MainLayout>} />
-        <Route path="/topics/:topicId/posts/:postId" element={<MainLayout><PostPage /></MainLayout>} />
-        <Route path="/topics/:topicId/posts/add" element={<MainLayout><ForumPage /></MainLayout>} />
-        <Route path="/topics/:topicId/posts/:postId/comments/add" element={<MainLayout><AnswerPage /></MainLayout>} />
-        <Route path="*" element={<Errors errorType={ErrorTypes.e404} />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<ProtectedRoutes />}>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/game/fight" element={<FightPage />} />
+            <Route path="/results" element={<Results />} />
+            <Route path="/game/loading" element={<Loading />} />
+            <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE} />} />
+            <Route path="/topics" element={<MainLayout><ForumPage /></MainLayout>} />
+            <Route path="/topics/:topicId" element={<MainLayout><TopicPage /></MainLayout>} />
+            <Route path="/topics/add" element={<MainLayout><ForumPage /></MainLayout>} />
+            <Route path="/topics/:topicId/posts/:postId" element={<MainLayout><PostPage /></MainLayout>} />
+            <Route path="/topics/:topicId/posts/add" element={<MainLayout><ForumPage /></MainLayout>} />
+            <Route path="/topics/:topicId/posts/:postId/comments/add" element={<MainLayout><AnswerPage /></MainLayout>} />
+            <Route path="*" element={<Errors errorType={ErrorTypes.e404} />} />
+          </Route>
+          <Route path="/" element={<PublicRoutes />}>
+            <Route path="/login" element={<MainLayout><LoginPage /></MainLayout>} />
+            <Route path="/registration" element={<MainLayout><RegistrationPage /></MainLayout>} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   </React.Fragment>
 );

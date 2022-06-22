@@ -328,7 +328,6 @@ class Character {
     this._updateSprite();
   }
 
-  // TODO: there is a bug now: no attack priority. Each cat can attack simultaneously
   public collision(characters: Array<Character>) {
     characters.forEach((element) => {
       if (this !== element) {
@@ -340,6 +339,15 @@ class Character {
 
         const y1 = Math.max(iam.y, they.y);
         const y2 = Math.min(iam.y + iam.height, they.y + they.height);
+
+        if (this.control === 'ai' && !this.isAttack) {
+          if (iam.x < they.x && this.moveOption.direction === Directions.LEFT) {
+            this.turnAround();
+          }
+          if (iam.x > they.x && this.moveOption.direction === Directions.RIGHT) {
+            this.turnAround();
+          }
+        }
 
         if (x1 < x2 && y1 < y2) {
           if (element.currentState === CharacterState.ATTACK && !this.isHurt && !this.isAttack) {
