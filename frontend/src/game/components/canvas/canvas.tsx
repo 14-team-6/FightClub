@@ -1,19 +1,16 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, FC } from 'react';
 import { KeyboardControl } from '../../keyboard';
 import Character from '../character/character';
 import { Controls, Directions } from '@frontend/src/game/types';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
 
-function Canvas() {
+const Canvas:FC = () => {
   const size = { width: window.innerWidth, height: window.innerHeight };
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  let requestIdRef: number | null = null;
+  let requestIdRef: number = 0;
 
-  //const characters: Array<Character> = [];
-
-  let hero: Character | undefined = undefined;
-  let cat: Character | undefined = undefined;
+  const characters: Array<Character> = [];
 
   let then: number;
   let keyboard: KeyboardControl;
@@ -28,12 +25,12 @@ function Canvas() {
       a: 0.001,
     };
 
-    hero = new Character(ctx, move, control, 0);
-    //characters.push(hero);
+    const hero = new Character(ctx, move, control);
+    characters.push(hero);
   };
 
   const initCharacters = (ctx: CanvasRenderingContext2D) => {
-    //while (characters.length < 1) {
+    while (characters.length < 1) {
       const move = {
         x: Math.floor(size.width - size.width * 0.5),
         y: Math.floor(size.height - 271),
@@ -42,9 +39,9 @@ function Canvas() {
         direction: Directions.LEFT,
       };
 
-      cat = new Character(ctx, move, undefined, 0);
-      //characters.push(catChar);
-    //}
+      const cat = new Character(ctx, move, undefined);
+      characters.push(cat);
+    }
   };
 
   const init = () => {
@@ -66,7 +63,6 @@ function Canvas() {
     });
   };
 
-  // @ts-ignore-line
   const clearFrame = () => {
     if (!canvasRef.current) return;
 
@@ -85,17 +81,11 @@ function Canvas() {
   const renderFrame = (dt: number) => {
     clearFrame();
 
-    hero!.update(dt);
-    hero!.draw();
-
-    cat!.update(dt);
-    cat!.draw();
-
-    // for (let i = 0; i < characters.length; i += 1) {
-    //   characters[i].update(dt);
-    //   characters[i].draw();
-    //   characters[i].collision(characters);
-    // }
+    for (let i = 0; i < characters.length; i += 1) {
+      characters[i].update(dt);
+      characters[i].draw();
+      characters[i].collision(characters);
+    }
   };
 
   const tick = (now: number) => {
@@ -116,16 +106,16 @@ function Canvas() {
     return () => {
       if (requestIdRef) {
         cancelAnimationFrame(requestIdRef);
+        Sounds.stopMainTheme();
       }
       keyboard.stop();
     };
   }, []);
 
   return (
-    <>
-      <canvas {...size} ref={canvasRef} />
-    </>
-  );
+    <canvas {...size} ref={canvasRef}/>
+  )
+  ;
 }
 
 export default Canvas;

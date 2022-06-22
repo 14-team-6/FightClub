@@ -43,7 +43,7 @@ const App: FC = () => (
       <GS />
       <Routes>
         <Route path='/' element={<MainPage/>}/>
-        <Route path='/fight' element={<FightPage/>}/>
+        <Route path='/game/fight' element={<FightPage/>}/>
         <Route path="/results" element={<Results/>}/>
         <Route path="/game/loading" element={<Loading />} />
         <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE}/>}/>

@@ -6,9 +6,11 @@ export enum LifeBarTypes {
 }
 
 export type LifeBarProps = {
-  lifePercent: number,
   lifeType: LifeBarTypes,
-  name: string
+  name: string,
+  lifePercent?: number,
+  lifePercentCallback?: Function,
+  lifePercentPropName: string,
 };
 
 export enum Directions {

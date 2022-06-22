@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { LifeBar } from '../game/components/lifeBar';
 import { StrokedText } from '../components/strokedText/strokedText';
 import {
   MAIN_BACKGROUND,
@@ -8,7 +7,6 @@ import {
   MAIN_WHITE,
   MAIN_YELLOW,
 } from '../../consts/styles';
-import { LifeBarTypes } from '../game/types';
 
 type GameProps = {
   children: React.ReactNode,
@@ -45,12 +43,10 @@ const RoundString = styled.h1`
 export const GameLayout: FC<GameProps> = ({ children }) => (
   <Wrap>
     <Hud>
-      <LifeBar lifePercent={0} lifeType={LifeBarTypes.IAM} name={'Stan'} />
       <RoundWrap>
         <StrokedText fontSize={'40px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>Round 1</StrokedText>
         <RoundString>vs</RoundString>
       </RoundWrap>
-      <LifeBar lifePercent={70} lifeType={LifeBarTypes.ENEMY} name={'Joao'} />
     </Hud>
     {children}
   </Wrap>

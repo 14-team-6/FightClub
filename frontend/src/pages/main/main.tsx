@@ -4,7 +4,6 @@ import MainLayout from '@frontend/src/layouts/mainLayout';
 import MainTitle from '@frontend/src/components/mainTitle/mainTitle';
 import NavList from '@frontend/src/components/navlist/navlist';
 import StyledLink from '@frontend/src/components/link/link';
-import ButtonElement from '@frontend/src/components/button/button';
 import Kitten from '@frontend/src/components/kitten/kitten';
 import { KITTEN_HEIGHT, KITTEN_WIDTH } from '@frontend/consts/styles';
 
@@ -30,17 +29,17 @@ const WrapperTitle = styled.div`
   .kitten {
     position: absolute;
   }
-  
+
   .left {
     top: -${1.5 * KITTEN_HEIGHT}px;
     left: ${0.5 * KITTEN_WIDTH}px;
-  } 
-  
+  }
+
   .right {
     position: absolute;
     top: -${KITTEN_HEIGHT}px;
     right: ${0.5 * KITTEN_WIDTH}px;
-  } 
+  }
 `;
 
 const MainPage: FC = () => (
@@ -54,12 +53,10 @@ const MainPage: FC = () => (
           </WrapperTitle>
           <div>
             <NavList>
-              <li><StyledLink to="/game/loading">Start</StyledLink></li>
-              <li><StyledLink to="#">Options</StyledLink></li>
+              <li><StyledLink to="/game/fight">Start</StyledLink></li>
               <li><StyledLink to="/results">Leaders</StyledLink></li>
               <li><StyledLink to="/topics">Forum</StyledLink></li>
             </NavList>
-            <ButtonElement type="button" text="Logout"/>
           </div>
         </WrapperContent>
       </Wrapper>

@@ -1,4 +1,11 @@
-import { SOUND_JUMP, SOUND_MAIN_THEME, SAMPLING_RATE, SOUND_ATTACK, SOUND_MEOW } from '@frontend/consts/sounds';
+import {
+  SOUND_JUMP,
+  SOUND_MAIN_THEME,
+  SAMPLING_RATE,
+  SOUND_ATTACK,
+  SOUND_MEOW,
+  SOUND_DEAD, SOUND_ENEMY_SWORD
+} from '@frontend/consts/sounds';
 import { LoopSettings, Nullable } from '@frontend/src/game/components/sounds/types';
 import { Sound } from '@frontend/src/game/components/sounds/sound';
 
@@ -44,6 +51,8 @@ class SoundFacade {
       makeSound('jump', SOUND_JUMP),
       makeSound('attack', SOUND_ATTACK),
       makeSound('meow', SOUND_MEOW),
+      makeSound('dead', SOUND_DEAD),
+      makeSound('enemyAttack', SOUND_ENEMY_SWORD),
     ]).then((res: Sound[]) => {
       this.sounds = res.reduce((akk, val) => ({ ...akk, [val.name]: val }), {});
     }).catch((e: any) => {
@@ -75,12 +84,20 @@ class SoundFacade {
     this.playIfExist('attack');
   }
 
+  public playEnemyAttack() {
+    this.playIfExist('enemyAttack');
+  }
+
   public playMeow() {
     this.playIfExist('meow');
   }
 
   public stopMainTheme() {
     this.stopIfExist('mainTheme');
+  }
+
+  public playDead() {
+    this.playIfExist('dead');
   }
 }
 

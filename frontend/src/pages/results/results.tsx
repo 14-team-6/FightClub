@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import MainLayout from '@frontend/src/layouts/mainLayout';
-import ButtonElement from '@frontend/src/components/button/button';
 import MainTitle from '@frontend/src/components/mainTitle/mainTitle';
 import Kitten from '@frontend/src/components/kitten/kitten';
 import { KITTEN_HEIGHT, KITTEN_WIDTH } from '@frontend/consts/styles';
 import { Leaders } from './components/leaders';
+import Link from '../../components/link/link';
 
 const mock = [
   {
@@ -82,7 +82,7 @@ const ResultsImpl: FC = () => (
         <WrapperContent>
           <MainTitle text={'Leaders'}/>
           <Leaders items={mock}/>
-          <ButtonElement type="button" text="Back"/>
+          <Link to="#" onClick={() => history.back()}>Back</Link>
         </WrapperContent>
       </Wrapper>
       <Footer>

@@ -10,6 +10,7 @@ import {
 } from '@frontend/src/game/types';
 import spriteCollection from '@frontend/src/game/spriteCollection';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
+import { store, updateEnemyLifePercent, updateMyLifePercent } from '@frontend/src/game/store/store';
 
 class Character {
   private ctx: CanvasRenderingContext2D;
@@ -34,24 +35,26 @@ class Character {
 
   private isMove: boolean;
 
-  constructor(ctx: CanvasRenderingContext2D, move: CharacterMove, control: Controls = 'ai', state = 1) {
+  private life: number;
+
+  private isDied: boolean;
+
+  constructor(ctx: CanvasRenderingContext2D, move: CharacterMove, control: Controls = 'ai') {
     this.ctx = ctx;
     this.moveOption = move;
     this.moveOption.direction = this.moveOption.direction || Directions.RIGHT;
     this.control = control;
-    this.spriteOption = spriteCollection;
+    this.spriteOption = spriteCollection();
     this.currentState = CharacterState.IDLE;
     this.prevState = this.currentState;
-    if (state === 1) {
-      this.currentState = CharacterState.ATTACK;
-    }
+    this.life = 100;
+    this.isDied = false;
   }
 
-  // @ts-ignore-line
   private updateState(keys: Keys) {
     let nextState = this.currentState;
 
-    if (this.isJump || this.isHurt || this.isAttack) {
+    if (this.isJump || this.isHurt || this.isAttack || this.isDied) {
       return;
     }
 
@@ -118,18 +121,24 @@ class Character {
       spriteOption.frameWidth,
       spriteOption.frameHeight,
     );
-    ctx.strokeStyle = 'blue';
-    const crt = this.getCollisionRect();
-    ctx.strokeRect(
-      crt.x,
-      crt.y,
-      crt.width,
-      crt.height,
-    );
+    //ctx.strokeStyle = 'blue';
+    // const crt = this.getCollisionRect();
+    // ctx.strokeRect(
+    //   crt.x,
+    //   crt.y,
+    //   crt.width,
+    //   crt.height,
+    // );
     ctx.closePath();
   }
 
   public update(dt: number) {
+    if (this.life <= 0) {
+      this.prevState = this.currentState;
+      this.currentState = CharacterState.DIE;
+      this.isDied = true;
+      this._updateSprite();
+    }
     if (this.control === 'ai') {
       this._update(dt);
     } else {
@@ -147,18 +156,23 @@ class Character {
       if (spriteOption.frameIndex < spriteOption.numberOfFrames - 1) {
         spriteOption.frameIndex += 1;
       } else {
-        spriteOption.frameIndex = 0;
-        if (this.isHurt) {
-          this.isHurt = false;
-        }
-        if (this.isAttack) {
-          this.isAttack = false;
+        if (!this.isDied) {
+          spriteOption.frameIndex = 0;
+          if (this.isHurt) {
+            this.isHurt = false;
+          }
+          if (this.isAttack) {
+            this.isAttack = false;
+          }
         }
       }
     }
   }
 
-  turnAround() {
+  private turnAround() {
+    if (this.isDied) {
+      return;
+    }
     if (this.moveOption.direction === Directions.RIGHT) {
       this.moveOption.direction = Directions.LEFT;
     } else {
@@ -166,11 +180,12 @@ class Character {
     }
   }
 
-  // @ts-ignore-line
-  public _update(dt: number) {
-    this._updateSprite();
-    return;
+  private _update(dt: number) {
     const { moveOption, ctx } = this;
+
+    if (this.isDied) {
+      return;
+    }
 
     if (!this.isHurt && !this.isAttack) {
       this.currentState = CharacterState.IDLE;
@@ -183,6 +198,7 @@ class Character {
 
     if (Math.random()*100 > 99) {
       this.currentState = CharacterState.ATTACK;
+      Sounds.playEnemyAttack();
       this.isAttack = true;
     }
 
@@ -196,7 +212,6 @@ class Character {
       moveOption.vY = -moveOption.vY;
     }
 
-    //moveOption.x = Math.floor(moveOption.x + moveOption.vX * dt);
     moveOption.y = Math.floor(moveOption.y + moveOption.vY * dt);
 
     this._updateSprite();
@@ -215,14 +230,23 @@ class Character {
   }
 
   private _run(dt: number, d: number) {
-    const { moveOption, ctx } = this;
-
+    if (this.isDied) {
+      return;
+    }
+    const {moveOption, ctx} = this;
     const spriteOption = this.spriteOption[this.currentState];
-
+    const cr = this.getCollisionRect();
     const width = ctx.canvas.clientWidth;
-    const x = Math.floor(moveOption.x + d * moveOption.vX * dt);
-    if (x > 0 && x < width - spriteOption.frameWidth) {
-      moveOption.x = x;
+    if (this.moveOption.direction === Directions.RIGHT) {
+      const x = Math.min(width - cr.width, Math.floor(moveOption.x + d * moveOption.vX * dt));
+      if (cr.x <= width - cr.width) {
+        moveOption.x = x;
+      }
+    } else {
+      const x = Math.max( -1 * spriteOption.collisionRectX , Math.floor(moveOption.x + d * moveOption.vX * dt));
+      if (cr.x >= 0) {
+        moveOption.x = x;
+      }
     }
   }
 
@@ -266,21 +290,16 @@ class Character {
   }
 
   private _rotate(direction: Directions) {
+    if (this.isDied) {
+      return;
+    }
     this.moveOption.direction = direction;
   }
-
-  // private _turnAround() {
-  //   if (this.moveOption.direction === Directions.RIGHT) {
-  //     this.moveOption.direction = Directions.LEFT;
-  //   } else {
-  //     this.moveOption.direction = Directions.RIGHT;
-  //   }
-  // }
 
   private _move(dt: number) {
     const keyboard = this.control as KeyboardControl;
 
-    //this.updateState(keyboard.keys);
+    this.updateState(keyboard.keys);
 
     let aDirectionX = -1;
     if (keyboard.keys.right || keyboard.keys.left || this.isMove) {
@@ -323,7 +342,7 @@ class Character {
         const y2 = Math.min(iam.y + iam.height, they.y + they.height);
 
         if (x1 < x2 && y1 < y2) {
-          if (element.currentState === CharacterState.ATTACK && !this.isHurt) {
+          if (element.currentState === CharacterState.ATTACK && !this.isHurt && !this.isAttack) {
             this.kick();
           }
         }
@@ -331,13 +350,23 @@ class Character {
     });
   }
 
-  public kick() {
-    Sounds.playMeow();
+  private kick() {
     const nextState = CharacterState.HURT;
     this.spriteOption[nextState].frameIndex = 0;
     this.prevState = this.currentState;
     this.currentState = nextState;
     this.isHurt = true;
+    this.life -= Math.random() * 10;
+    if (this.life <= 0) {
+      Sounds.playDead();
+    } else {
+      Sounds.playMeow();
+    }
+    if (this.control === 'ai') {
+      store.dispatch(updateEnemyLifePercent({ type: 'lifeBar', payload: this.life }));
+    } else {
+      store.dispatch(updateMyLifePercent({ type: 'lifeBar', payload: this.life }));
+    }
   }
 }
 
