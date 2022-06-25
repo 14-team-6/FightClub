@@ -1,31 +1,25 @@
 import React, { FC } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createGlobalStyle } from 'styled-components';
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  Navigate,
-} from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import ProtectedRoutes from '@frontend/src/components/routes/ProtectedRoutes';
 import { store } from '@frontend/src/game/store/store';
 import { AuthProvider } from '@frontend/src/hooks/useAuth';
 import LoginPage from './pages/login/login';
 import MainPage from './pages/main/main';
-import { Loading } from './pages/game/loading/loading';
 import FightPage from './pages/game/fight';
 import { Errors, ErrorTypes } from './pages/errors/errors';
 import Pixeboy from '../public/font/Pixeboy.ttf';
 import RegistrationPage from './pages/registration/registration';
-import { EndGame, EndGameType } from './pages/game/endGame/endGame';
 import { Results } from './pages/results/results';
 import ForumPage from './pages/forum/forumPage';
 import TopicPage from './pages/forum/topicPage';
 import MainLayout from './layouts/mainLayout';
 import PostPage from './pages/forum/postPage';
 import AnswerPage from './pages/forum/answerPage';
-import PublicRoutes from './components/routes/PublicRoutes';
+import { ProfilePage } from './pages/profile/profile';
+import { Provider } from 'react-redux';
+import PublicRoutes from '@frontend/src/components/routes/PublicRoutes';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -55,8 +49,7 @@ const App: FC = () => (
               <Route path="/game/fight" element={<FightPage />} />
               <Route path="/game/fight/newgame" element={<Navigate to={'/game/fight'} />} />
               <Route path="/results" element={<Results />} />
-              <Route path="/game/loading" element={<Loading />} />
-              <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE} />} />
+              <Route path='/profile' element={<MainLayout><ProfilePage/></MainLayout>}/>
               <Route path="/topics" element={<MainLayout><ForumPage /></MainLayout>} />
               <Route path="/topics/:topicId" element={<MainLayout><TopicPage /></MainLayout>} />
               <Route path="/topics/add" element={<MainLayout><ForumPage /></MainLayout>} />
