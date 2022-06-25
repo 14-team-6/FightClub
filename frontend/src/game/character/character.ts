@@ -24,7 +24,6 @@ export class Character {
   }
 
   public init(): void {
-    this.life = 10;
     this.isPaused = true;
     this.characterVisual.moveOption = { ...this.storedMoveOption };
     this.stateStack = [];

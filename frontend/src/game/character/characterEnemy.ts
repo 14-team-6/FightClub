@@ -4,6 +4,7 @@ import { HandleInputOptions } from '@frontend/src/game/character/state/character
 import { AI } from '@frontend/src/game/character/controls/ai';
 import { store, updateEnemyLifePercent } from '@frontend/src/game/store/store';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
+import { LIFE_LEVEL_ENEMY } from '@frontend/consts/game';
 
 export class CharacterEnemy extends Character {
   private ai: AI;
@@ -25,6 +26,7 @@ export class CharacterEnemy extends Character {
 
   public init(): void {
     super.init();
+    this.life = LIFE_LEVEL_ENEMY;
     store.dispatch(updateEnemyLifePercent({ type: 'lifeBar', payload: this.life }));
   }
 

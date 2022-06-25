@@ -1,5 +1,6 @@
 import { Controls } from '@frontend/src/game/character/controls/controls';
 import { Character } from '@frontend/src/game/character/character';
+import { ENEMY_ATTACK_PROBABILITY } from '@frontend/consts/game';
 
 export class AI {
   update(characters: Record<string, Character>): Controls {
@@ -17,7 +18,7 @@ export class AI {
     }
 
     if (hero.life > 0) {
-      res.attack = Math.random() * 10 > 9;
+      res.attack = Math.random() * 100 > ENEMY_ATTACK_PROBABILITY;
     }
 
     const heroRect = hero.characterVisual.getCollisionRect(hero.curState.state);
