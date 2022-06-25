@@ -59,6 +59,7 @@ export class Character {
         left: false,
         right: false,
         attack: false,
+        pause: false,
       };
     }
     const hadSomethingOnStack = this.stateStack.length !== 1;

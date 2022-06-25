@@ -5,7 +5,6 @@ import React, {
   ReactNode,
   useState,
 } from 'react';
-import Sounds from '@frontend/src/game/components/sounds/sounds';
 import { Game } from '@frontend/src/game/core';
 import { KeyboardControl } from '../../character/controls/keyboard';
 
@@ -38,10 +37,6 @@ const Canvas:FC = () => {
     if (ctx) {
       game = new Game(ctx, setUIElement);
     }
-
-    Sounds.init().then(() => {
-      Sounds.playMainTheme();
-    });
   };
 
   const clearFrame = () => {
@@ -82,7 +77,7 @@ const Canvas:FC = () => {
     return () => {
       if (requestIdRef) {
         cancelAnimationFrame(requestIdRef);
-        Sounds.stopMainTheme();
+        game.beforeDestroy();
       }
       keyboard.stop();
     };

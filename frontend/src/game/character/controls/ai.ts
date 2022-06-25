@@ -11,6 +11,7 @@ export class AI {
       left: false,
       right: false,
       attack: false,
+      pause: false,
     };
 
     if (hero === undefined || enemy === undefined) {

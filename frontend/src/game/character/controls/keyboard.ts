@@ -5,6 +5,7 @@ interface CodeMap {
   KeyA : string;
   KeyW : string;
   Space: string;
+  Escape: string;
 }
 
 type AllowKeyCode = keyof CodeMap;
@@ -21,6 +22,7 @@ export class KeyboardControl {
     KeyD: 'right',
     KeyW: 'up',
     Space: 'attack',
+    Escape: 'pause',
   };
 
   private _active;
@@ -35,6 +37,7 @@ export class KeyboardControl {
       right: false,
       up: false,
       attack: false,
+      pause: false,
     };
   }
 

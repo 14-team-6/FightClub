@@ -2,7 +2,7 @@ import { Character } from '@frontend/src/game/character/character';
 import { CharacterState, Directions } from '@frontend/src/game/types';
 import { store, updateMyLifePercent } from '@frontend/src/game/store/store';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
-import { LIFE_LEVEL_HERO } from '@frontend/consts/game';
+import { ATTACK_LEVEL_HERO, LIFE_LEVEL_HERO } from '@frontend/consts/game';
 
 export class CharacterHero extends Character {
   constructor(ctx: CanvasRenderingContext2D) {
@@ -27,7 +27,7 @@ export class CharacterHero extends Character {
 
   protected onExitState(_fromState: CharacterState) {
     if (_fromState === CharacterState.HURT) {
-      this.life -= Math.random() * 10;
+      this.life -= Math.random() * ATTACK_LEVEL_HERO;
       store.dispatch(updateMyLifePercent({ type: 'lifeBar', payload: this.life }));
     }
   }

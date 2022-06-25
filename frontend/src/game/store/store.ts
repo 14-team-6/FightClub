@@ -1,4 +1,5 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
+import { LIFE_LEVEL_ENEMY, LIFE_LEVEL_HERO } from '@frontend/consts/game';
 
 const initialState = {
   myLifePercent: 100,
@@ -10,12 +11,14 @@ const lifeBarStore = createSlice({
   name: 'lifeBar',
   initialState,
   reducers: {
-    updateMyLifePercent: (state, action) => (
-      { ...state, myLifePercent: action.payload.payload }
-    ),
-    updateEnemyLifePercent: (state, action) => (
-      { ...state, enemyLifePercent: action.payload.payload }
-    ),
+    updateMyLifePercent: (state, action) => {
+      const myLifePercent = (action.payload.payload * 100) / LIFE_LEVEL_HERO;
+      return { ...state, myLifePercent };
+    },
+    updateEnemyLifePercent: (state, action) => {
+      const enemyLifePercent = (action.payload.payload * 100) / LIFE_LEVEL_ENEMY;
+      return { ...state, enemyLifePercent };
+    },
     updateRoundName: (state, action) => (
       { ...state, roundName: action.payload.payload }
     ),

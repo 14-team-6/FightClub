@@ -6,6 +6,9 @@ import { CharacterHero } from '@frontend/src/game/character/characterHero';
 import { CharacterEnemy } from '@frontend/src/game/character/characterEnemy';
 import { store, updateRoundName } from '@frontend/src/game/store/store';
 import { EndGame, EndGameType } from '@frontend/src/pages/game/endGame/endGame';
+import Sounds from '@frontend/src/game/components/sounds/sounds';
+import { KeyboardControl } from '@frontend/src/game/character/controls/keyboard';
+import { PauseGame } from '@frontend/src/pages/game/pauseGame/pauseGame';
 
 enum GameState {
   ROUND_1 = 'ROUND 1',
@@ -38,6 +41,11 @@ export class Game {
     this.setUIElements = setUIElements;
     this.hero = new CharacterHero(ctx);
     this.enemy = new CharacterEnemy(ctx);
+
+    Sounds.init().then(() => {
+      Sounds.playMainTheme();
+    });
+
     this.currentRound = new Round({
       roundName: 'ROUND 1',
       hero: this.hero,
@@ -58,6 +66,27 @@ export class Game {
     this.setUIElements(EndGame({ endGameType, score }));
   }
 
+  private handleResumeGame(oldState: GameState): Function {
+    return () => {
+      Sounds.playMainTheme();
+      this.gameState = oldState;
+      this.hero.isPaused = false;
+      this.enemy.isPaused = false;
+      this.setUIElements(null);
+    };
+  }
+
+  private handlePausing(): void {
+    if (KeyboardControl.getInstance().keys.pause && this.currentRound.roundState === RoundState.FIGHT) {
+      const handler = this.handleResumeGame(this.gameState);
+      Sounds.stopMainTheme();
+      this.setUIElements(PauseGame({ resumeCallback: handler.bind(this) }));
+      this.hero.isPaused = true;
+      this.enemy.isPaused = true;
+      this.gameState = GameState.PAUSED;
+    }
+  }
+
   public update(props: GameUpdateProps): void {
     const characterProps = {
       ...props, characters: { hero: this.hero, enemy: this.enemy },
@@ -66,11 +95,9 @@ export class Game {
     this.currentRound.update();
 
     switch (this.gameState) {
-      case GameState.PAUSED:
-        this.setUIElements('PAUSED');
-        break;
       case GameState.ROUND_1:
         this.updateCharacters(characterProps);
+        this.handlePausing();
         if (this.currentRound.roundState === RoundState.END) {
           this.currentWinner = this.currentRound.winner;
           this.currentRound = new Round({
@@ -85,6 +112,7 @@ export class Game {
         break;
       case GameState.ROUND_2:
         this.updateCharacters(characterProps);
+        this.handlePausing();
         if (this.currentRound.roundState === RoundState.END) {
           if (this.currentWinner === this.currentRound.winner) {
             this.gameState = GameState.FINISHED;
@@ -103,6 +131,7 @@ export class Game {
         break;
       case GameState.ROUND_3:
         this.updateCharacters(characterProps);
+        this.handlePausing();
         if (this.currentRound.roundState === RoundState.END) {
           this.currentWinner = this.currentRound.winner;
           this.gameState = GameState.FINISHED;
@@ -114,5 +143,9 @@ export class Game {
         break;
       default:
     }
+  }
+
+  public beforeDestroy(): void {
+    Sounds.stopMainTheme();
   }
 }

@@ -3,4 +3,5 @@ export interface Controls {
   right : boolean;
   up : boolean;
   attack: boolean;
+  pause: boolean;
 }
