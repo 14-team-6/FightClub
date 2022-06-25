@@ -8,6 +8,7 @@ import {
   Link,
 } from 'react-router-dom';
 import { Stub } from '@frontend/src/pages/game/stub';
+import { Provider } from 'react-redux';
 import LoginPage from './pages/login/login';
 import { Loading } from './pages/game/loading/loading';
 import { Errors, ErrorTypes } from './pages/errors/errors';
@@ -20,6 +21,7 @@ import TopicPage from './pages/forum/topicPage';
 import MainLayout from './layouts/mainLayout';
 import PostPage from './pages/forum/postPage';
 import AnswerPage from './pages/forum/answerPage';
+import store from './store/store';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -38,7 +40,7 @@ const GS = createGlobalStyle`
 `;
 
 const App: FC = () => (
-  <React.Fragment>
+  <Provider store={store}>
     <BrowserRouter>
       <GS />
       <Routes>
@@ -64,7 +66,7 @@ const App: FC = () => (
         <Route path="*" element={<Errors errorType={ErrorTypes.e404} />} />
       </Routes>
     </BrowserRouter>
-  </React.Fragment>
+  </Provider>
 );
 
 const container = document.getElementById('app');

@@ -1,3 +1,4 @@
+import { User } from '@frontend/src/reducers/user';
 import DefaultHttpTransport from '../core/default-http-transport';
 import HttpTransport from '../core/http-transport';
 import { LoginFormData, RegisterFormData } from '../src/models/form';
@@ -35,6 +36,10 @@ class AuthService {
     return Promise.reject(await response.json());
   }
 
+  public isAuthError(user: User | AuthError): user is AuthError {
+    return (user as AuthError).reason !== undefined;
+  }
+
   public signIn = (userInfo: LoginFormData) => this.authService
     .post<LoginFormData, string | AuthError>('/signin', {
     body: userInfo,
@@ -49,6 +54,11 @@ class AuthService {
 
   public signOut = () => this.authService
     .post<RegisterFormData, any>('/logout');
+
+  public getUser = () => this.authService
+    .get<User | AuthError>('/user', {
+    handler: async (response: Response) => response.json(),
+  });
 }
 
 export default new AuthService(new DefaultHttpTransport(AUTH_URL));
