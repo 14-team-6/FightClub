@@ -1,4 +1,4 @@
-import { KeyboardControl } from '@frontend/src/game/character/controls/keyboard';
+import { Controls } from '@frontend/src/game/components/controls/controls';
 
 export enum LifeBarTypes {
   IAM,
@@ -50,8 +50,6 @@ export interface CharacterSprite {
   ticksPerFrame: number;
 }
 
-export type Controls = KeyboardControl | 'ai';
-
 export interface CharacterMove {
   x: number;
   y: number;
@@ -62,8 +60,12 @@ export interface CharacterMove {
   direction?: Directions;
 }
 
-export enum JumpPhase {
-  NOJUMP,
-  FIRST,
-  SECOND,
+export type Keys = Controls;
+
+export enum RoundState {
+  PREPARE = 'PREPARE',
+  PREPARED = 'PREPARED',
+  FIGHT = 'FIGHT',
+  ENDING = 'ENDING',
+  END = 'END',
 }

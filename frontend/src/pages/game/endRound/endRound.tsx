@@ -3,7 +3,7 @@ import {
   MAIN_RED,
   MAIN_YELLOW,
 } from '@frontend/consts/styles';
-import { GameSplashLayout } from '@frontend/src/pages/game/gameSplashLayout/gameSplashLayout';
+import { GameSplashLayout } from '@frontend/src/pages/game/layout/gameSplashLayout';
 import { EndGameType } from '@frontend/src/pages/game/endGame/endGame';
 import { StrokedText } from '../../../components/strokedText/strokedText';
 

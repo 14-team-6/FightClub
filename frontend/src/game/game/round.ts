@@ -2,14 +2,7 @@ import { Character } from '@frontend/src/game/character/character';
 import { StartGame } from '@frontend/src/pages/game/startGame/startGame';
 import { EndRound } from '@frontend/src/pages/game/endRound/endRound';
 import { EndGameType } from '@frontend/src/pages/game/endGame/endGame';
-
-export enum RoundState {
-  PREPARE = 'PREPARE',
-  PREPARED = 'PREPARED',
-  FIGHT = 'FIGHT',
-  ENDING = 'ENDING',
-  END = 'END',
-}
+import { RoundState } from '@frontend/src/game/types';
 
 type RoundProps = {
   roundName: string,

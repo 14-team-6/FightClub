@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { GameSplashLayout } from '@frontend/src/pages/game/gameSplashLayout/gameSplashLayout';
+import { GameSplashLayout } from '@frontend/src/pages/game/layout/gameSplashLayout';
 import NavList from '@frontend/src/components/navlist/navlist';
 import StyledLink from '@frontend/src/components/link/link';
 import ButtonElement from '@frontend/src/components/button/button';

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { MAIN_GREEN, MAIN_RED, MAIN_WHITE } from '@frontend/consts/styles';
-import { LifeBarProps, LifeBarTypes } from '../../types';
+import { LifeBarProps, LifeBarTypes } from '../../../../game/types';
 
 const LifeBarWrap = styled.div`
   width: 300px;

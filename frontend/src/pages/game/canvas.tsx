@@ -5,8 +5,8 @@ import React, {
   ReactNode,
   useState,
 } from 'react';
-import { Game } from '@frontend/src/game/core';
-import { KeyboardControl } from '../../character/controls/keyboard';
+import { Game } from '@frontend/src/game/game';
+import { KeyboardControl } from '../../game/components/controls/keyboard';
 
 const Canvas:FC = () => {
   const size = { width: window.innerWidth, height: window.innerHeight };

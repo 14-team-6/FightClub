@@ -1,7 +1,7 @@
 import { Character } from '@frontend/src/game/character/character';
 import { CharacterState, Directions } from '@frontend/src/game/types';
 import { HandleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
-import { AI } from '@frontend/src/game/character/controls/ai';
+import { AI } from '@frontend/src/game/components/controls/ai';
 import { store, updateEnemyLifePercent } from '@frontend/src/game/store/store';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
 import { ATTACK_LEVEL_ENEMY, LIFE_LEVEL_ENEMY } from '@frontend/consts/game';

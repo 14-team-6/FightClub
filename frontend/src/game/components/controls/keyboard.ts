@@ -1,4 +1,4 @@
-import { Controls } from '@frontend/src/game/character/controls/controls';
+import { Keys } from '@frontend/src/game/types';
 
 interface CodeMap {
   KeyD : string;
@@ -9,8 +9,6 @@ interface CodeMap {
 }
 
 type AllowKeyCode = keyof CodeMap;
-
-export type Keys = Controls;
 
 type AllowKey = keyof Keys;
 

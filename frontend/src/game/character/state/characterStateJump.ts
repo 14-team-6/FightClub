@@ -1,6 +1,6 @@
 import { CharacterStateAbstract, HandleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
 import { CharacterState } from '@frontend/src/game/types';
-import { Controls } from '@frontend/src/game/character/controls/controls';
+import { Controls } from '@frontend/src/game/components/controls/controls';
 import { CharacterStateMove } from '@frontend/src/game/character/state/characterStateMove';
 
 enum JumpPhase {

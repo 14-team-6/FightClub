@@ -1,14 +1,15 @@
 import { Character } from '@frontend/src/game/character/character';
-import { Round, RoundState } from '@frontend/src/game/game/round';
+import { Round } from '@frontend/src/game/game/round';
 import { HandleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
-import { Controls } from '@frontend/src/game/character/controls/controls';
+import { Controls } from '@frontend/src/game/components/controls/controls';
 import { CharacterHero } from '@frontend/src/game/character/characterHero';
 import { CharacterEnemy } from '@frontend/src/game/character/characterEnemy';
 import { store, updateRoundName } from '@frontend/src/game/store/store';
 import { EndGame, EndGameType } from '@frontend/src/pages/game/endGame/endGame';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
-import { KeyboardControl } from '@frontend/src/game/character/controls/keyboard';
+import { KeyboardControl } from '@frontend/src/game/components/controls/keyboard';
 import { PauseGame } from '@frontend/src/pages/game/pauseGame/pauseGame';
+import { RoundState } from '@frontend/src/game/types';
 
 enum GameState {
   ROUND_1 = 'ROUND 1',

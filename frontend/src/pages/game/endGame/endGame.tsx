@@ -4,7 +4,7 @@ import {
   MAIN_RED,
   MAIN_YELLOW,
 } from '@frontend/consts/styles';
-import { GameSplashLayout } from '@frontend/src/pages/game/gameSplashLayout/gameSplashLayout';
+import { GameSplashLayout } from '@frontend/src/pages/game/layout/gameSplashLayout';
 import { StrokedText } from '@frontend/src/components/strokedText/strokedText';
 import NavList from '@frontend/src/components/navlist/navlist';
 import StyledLink from '@frontend/src/components/link/link';

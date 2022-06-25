@@ -7,10 +7,10 @@ import {
   MAIN_WHITE,
   MAIN_YELLOW,
 } from '@frontend/consts/styles';
-import { LifeBar } from '@frontend/src/game/components/lifeBar/lifeBar';
+import { LifeBar } from '@frontend/src/pages/game/components/lifeBar/lifeBar';
 import { LifeBarTypes } from '@frontend/src/game/types';
 import { StrokedText } from '@frontend/src/components/strokedText/strokedText';
-import Canvas from '../../game/components/canvas/canvas';
+import Canvas from '../canvas';
 
 const Wrap = styled.div`
   background: url(${MAIN_BACKGROUND}) no-repeat;

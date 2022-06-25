@@ -1,6 +1,6 @@
 import { CharacterStateAbstract, HandleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
 import { CharacterState, Directions } from '@frontend/src/game/types';
-import { Controls } from '@frontend/src/game/character/controls/controls';
+import { Controls } from '@frontend/src/game/components/controls/controls';
 import { CharacterStateHurt } from '@frontend/src/game/character/state/characterStateHurt';
 import { CharacterStateJump } from '@frontend/src/game/character/state/characterStateJump';
 

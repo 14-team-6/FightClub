@@ -14,7 +14,7 @@ import { AuthProvider } from '@frontend/src/hooks/useAuth';
 import PublicRoutes from '@frontend/src/components/routes/PublicRoutes';
 import LoginPage from './pages/login/login';
 import MainPage from './pages/main/main';
-import FightPage from './pages/game/fight';
+import FightPage from './pages/game/fight/fight';
 import { Errors, ErrorTypes } from './pages/errors/errors';
 import Pixeboy from '../public/font/Pixeboy.ttf';
 import RegistrationPage from './pages/registration/registration';

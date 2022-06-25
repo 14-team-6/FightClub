@@ -1,4 +1,4 @@
-import { Controls } from '@frontend/src/game/character/controls/controls';
+import { Controls } from '@frontend/src/game/components/controls/controls';
 import { Character } from '@frontend/src/game/character/character';
 import { ENEMY_ATTACK_PROBABILITY } from '@frontend/consts/game';
 
