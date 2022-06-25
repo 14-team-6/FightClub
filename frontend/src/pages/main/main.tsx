@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import AuthService from '@frontend/src/services/authService';
+import { useAuth } from '@frontend/src/hooks/useAuth';
 import MainLayout from '@frontend/src/layouts/mainLayout';
 import MainTitle from '@frontend/src/components/mainTitle/mainTitle';
 import NavList from '@frontend/src/components/navlist/navlist';
@@ -30,40 +32,49 @@ const WrapperTitle = styled.div`
   .kitten {
     position: absolute;
   }
-  
+
   .left {
     top: -${1.5 * KITTEN_HEIGHT}px;
     left: ${0.5 * KITTEN_WIDTH}px;
-  } 
-  
+  }
+
   .right {
     position: absolute;
     top: -${KITTEN_HEIGHT}px;
     right: ${0.5 * KITTEN_WIDTH}px;
-  } 
+  }
 `;
 
-const MainPage: FC = () => (
+const MainPage: FC = () => {
+  const auth = useAuth();
+
+  const handleLogout = () => {
+    AuthService.signOut()
+      .then(auth.logout);
+  };
+
+  return (
     <MainLayout>
       <Wrapper>
         <WrapperContent>
           <WrapperTitle>
             <Kitten direction="right" sprite={1} width={KITTEN_WIDTH} height={KITTEN_HEIGHT} className="kitten left" />
             <Kitten direction="left" sprite={4} width={KITTEN_WIDTH} height={KITTEN_HEIGHT} className="kitten right" />
-            <MainTitle/>
+            <MainTitle />
           </WrapperTitle>
           <div>
             <NavList>
-              <li><StyledLink to="/game/loading">Start</StyledLink></li>
+              <li><StyledLink to="/fight">Start</StyledLink></li>
               <li><StyledLink to="#">Options</StyledLink></li>
               <li><StyledLink to="/results">Leaders</StyledLink></li>
               <li><StyledLink to="/topics">Forum</StyledLink></li>
             </NavList>
-            <ButtonElement type="button" text="Logout"/>
+            <ButtonElement type="button" text="Logout" onClick={handleLogout} />
           </div>
         </WrapperContent>
       </Wrapper>
     </MainLayout>
-);
+  );
+};
 
 export default MainPage;
