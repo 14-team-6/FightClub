@@ -6,6 +6,10 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import ProtectedRoutes from '@frontend/src/components/routes/ProtectedRoutes';
+import { store } from '@frontend/src/game/store/store';
+import { AuthProvider } from '@frontend/src/hooks/useAuth';
 import LoginPage from './pages/login/login';
 import MainPage from './pages/main/main';
 import { Loading } from './pages/game/loading/loading';
@@ -21,10 +25,6 @@ import MainLayout from './layouts/mainLayout';
 import PostPage from './pages/forum/postPage';
 import AnswerPage from './pages/forum/answerPage';
 import PublicRoutes from './components/routes/PublicRoutes';
-import { AuthProvider } from '@frontend/src/hooks/useAuth';
-import ProtectedRoutes from '@frontend/src/components/routes/ProtectedRoutes';
-import { store } from '@frontend/src/game/store/store';
-import { Provider } from 'react-redux';
 
 const GS = createGlobalStyle`
   @font-face {

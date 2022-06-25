@@ -25,7 +25,7 @@ export class CharacterHero extends Character {
 
   protected onExitState(_fromState: CharacterState) {
     if (_fromState === CharacterState.HURT) {
-      this.life -= Math.random()*10;
+      this.life -= Math.random() * 10;
       store.dispatch(updateMyLifePercent({ type: 'lifeBar', payload: this.life }));
     }
   }

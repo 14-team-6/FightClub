@@ -82,7 +82,7 @@ const ResultsImpl: FC = () => (
         <WrapperContent>
           <MainTitle text={'Leaders'}/>
           <Leaders items={mock}/>
-          <Link to="#" onClick={() => history.back()}>Back</Link>
+          <Link to="#">Back</Link>
         </WrapperContent>
       </Wrapper>
       <Footer>

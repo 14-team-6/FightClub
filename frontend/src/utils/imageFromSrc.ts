@@ -9,4 +9,4 @@ export const imageFromSrc = (srcLeft: string, srcRight: string): SpriteMap => {
     [Directions.RIGHT]: imageR,
     [Directions.LEFT]: imageL,
   };
-}
+};

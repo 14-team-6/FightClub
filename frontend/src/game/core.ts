@@ -1,6 +1,6 @@
 import { Character } from '@frontend/src/game/character/character';
 import { Round, RoundState } from '@frontend/src/game/game/round';
-import { handleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
+import { HandleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
 import { Controls } from '@frontend/src/game/character/controls/controls';
 import { CharacterHero } from '@frontend/src/game/character/characterHero';
 import { CharacterEnemy } from '@frontend/src/game/character/characterEnemy';
@@ -17,7 +17,7 @@ enum GameState {
 type GameUpdateProps = {
   controls: Controls,
   dt: number,
-}
+};
 
 export class Game {
   public hero: Character;
@@ -37,19 +37,23 @@ export class Game {
     this.setUIElements = setUIElements;
     this.hero = new CharacterHero(ctx);
     this.enemy = new CharacterEnemy(ctx);
-    this.currentRound = new Round({ roundName: 'ROUND 1', hero: this.hero, enemy: this.enemy, setUIElements: this.setUIElements });
+    this.currentRound = new Round({
+      roundName: 'ROUND 1',
+      hero: this.hero,
+      enemy: this.enemy,
+      setUIElements: this.setUIElements,
+    });
     store.dispatch(updateRoundName({ type: 'lifeBar', payload: 'ROUND 1' }));
   }
 
-  private updateCharacters(props: Omit<handleInputOptions, "life">): void {
+  private updateCharacters(props: Omit<HandleInputOptions, 'life'>): void {
     this.hero.update(props);
     this.enemy.update(props);
   }
 
   public update(props: GameUpdateProps): void {
-
     const characterProps = {
-      ...props, characters: { hero: this.hero, enemy: this.enemy }
+      ...props, characters: { hero: this.hero, enemy: this.enemy },
     };
 
     this.currentRound.update();
@@ -62,7 +66,12 @@ export class Game {
         this.updateCharacters(characterProps);
         if (this.currentRound.roundState === RoundState.END) {
           this.currentWinner = this.currentRound.winner;
-          this.currentRound = new Round({ roundName: 'ROUND 2', hero: this.hero, enemy: this.enemy, setUIElements: this.setUIElements });
+          this.currentRound = new Round({
+            roundName: 'ROUND 2',
+            hero: this.hero,
+            enemy: this.enemy,
+            setUIElements: this.setUIElements,
+          });
           store.dispatch(updateRoundName({ type: 'lifeBar', payload: 'ROUND 2' }));
           this.gameState = GameState.ROUND_2;
         }
@@ -74,7 +83,12 @@ export class Game {
             this.gameState = GameState.FINISHED;
           } else {
             this.currentWinner = this.currentRound.winner;
-            this.currentRound = new Round({ roundName: 'ROUND 3', hero: this.hero, enemy: this.enemy, setUIElements: this.setUIElements });
+            this.currentRound = new Round({
+              roundName: 'ROUND 3',
+              hero: this.hero,
+              enemy: this.enemy,
+              setUIElements: this.setUIElements,
+            });
             store.dispatch(updateRoundName({ type: 'lifeBar', payload: 'ROUND 3' }));
             this.gameState = GameState.ROUND_3;
           }
@@ -89,7 +103,6 @@ export class Game {
         break;
       case GameState.FINISHED:
         this.updateCharacters(characterProps);
-        //this.setUIElements('FINISH');
         break;
       default:
     }

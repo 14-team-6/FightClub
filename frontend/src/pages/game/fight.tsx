@@ -1,11 +1,16 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import Canvas from '../../game/components/canvas/canvas';
-import { MAIN_BACKGROUND, MAIN_RED, MAIN_WHITE, MAIN_YELLOW } from '@frontend/consts/styles';
+import {
+  MAIN_BACKGROUND,
+  MAIN_RED,
+  MAIN_WHITE,
+  MAIN_YELLOW,
+} from '@frontend/consts/styles';
 import { LifeBar } from '@frontend/src/game/components/lifeBar/lifeBar';
 import { LifeBarTypes } from '@frontend/src/game/types';
 import { StrokedText } from '@frontend/src/components/strokedText/strokedText';
-import { useSelector } from 'react-redux';
+import Canvas from '../../game/components/canvas/canvas';
 
 const Wrap = styled.div`
   background: url(${MAIN_BACKGROUND}) no-repeat;
@@ -44,7 +49,7 @@ const RoundString = styled.h1`
 `;
 
 const FightPage: React.FC = () => {
-  const roundName = useSelector((state: any) => { return state.roundName; });
+  const roundName = useSelector((state: any) => state.roundName);
 
   return (
     <Wrap>

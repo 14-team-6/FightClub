@@ -1,7 +1,13 @@
-import React, { useRef, useEffect, FC, ReactNode, useState } from 'react';
-import { KeyboardControl } from '../../character/controls/keyboard';
+import React, {
+  useRef,
+  useEffect,
+  FC,
+  ReactNode,
+  useState,
+} from 'react';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
 import { Game } from '@frontend/src/game/core';
+import { KeyboardControl } from '../../character/controls/keyboard';
 
 const Canvas:FC = () => {
   const size = { width: window.innerWidth, height: window.innerHeight };
@@ -13,7 +19,7 @@ const Canvas:FC = () => {
 
   const setUIElement = (reactNode: ReactNode): void => {
     setUIElements(reactNode);
-  }
+  };
 
   let game: Game;
 
@@ -88,8 +94,7 @@ const Canvas:FC = () => {
       <canvas {...size} ref={canvasRef}/>
     </>
 
-  )
-  ;
-}
+  );
+};
 
 export default Canvas;

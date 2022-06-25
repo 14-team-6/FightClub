@@ -3,7 +3,7 @@ import {
   CharacterSprite,
   CharacterState,
   Directions,
-  Rect
+  Rect,
 } from '@frontend/src/game/types';
 import spriteCollection from '@frontend/src/game/spriteCollection';
 
@@ -29,14 +29,13 @@ export class CharacterVisual {
         width: spriteOption.collisionRectWidth,
         height: spriteOption.collisionRectHeight,
       };
-    } else {
-      return {
-        x: this.moveOption.x + spriteOption.frameWidth - (spriteOption.collisionRectX + spriteOption.collisionRectWidth),
-        y: this.moveOption.y + spriteOption.collisionRectY,
-        width: spriteOption.collisionRectWidth,
-        height: spriteOption.collisionRectHeight,
-      };
     }
+    return {
+      x: this.moveOption.x + spriteOption.frameWidth - (spriteOption.collisionRectX + spriteOption.collisionRectWidth),
+      y: this.moveOption.y + spriteOption.collisionRectY,
+      width: spriteOption.collisionRectWidth,
+      height: spriteOption.collisionRectHeight,
+    };
   }
 
   public draw(state: CharacterState) {

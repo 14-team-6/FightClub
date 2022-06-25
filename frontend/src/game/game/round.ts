@@ -28,7 +28,12 @@ export class Round {
   public roundName: string;
 
   constructor(props: RoundProps) {
-    const { roundName, hero, enemy, setUIElements } = props;
+    const {
+      roundName,
+      hero,
+      enemy,
+      setUIElements,
+    } = props;
     this.roundState = RoundState.PREPARE;
     this.hero = hero;
     this.enemy = enemy;
@@ -42,9 +47,8 @@ export class Round {
     if (this.hero.life <= 0 || this.enemy.life <= 0) {
       if (this.hero.life <= 0) {
         return this.enemy;
-      } else {
-        return this.hero;
       }
+      return this.hero;
     }
     throw Error('Could not determine the winner');
   }
@@ -71,7 +75,6 @@ export class Round {
           }
           setTimeout(() => {
             this.roundState = RoundState.END;
-            //this.setUIElements(null);
           }, 3000);
         }
         break;

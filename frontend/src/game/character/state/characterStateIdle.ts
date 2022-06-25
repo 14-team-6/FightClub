@@ -1,15 +1,15 @@
-import { CharacterStateAbstract, handleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
+import { CharacterStateAbstract, HandleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
 import { CharacterStateMove } from '@frontend/src/game/character/state/characterStateMove';
 import { CharacterState } from '@frontend/src/game/types';
-import { characterStateAttack } from '@frontend/src/game/character/state/characterStateAttack';
+import { CharacterStateAttack } from '@frontend/src/game/character/state/characterStateAttack';
 import { CharacterStateHurt } from '@frontend/src/game/character/state/characterStateHurt';
 import { CharacterStateJump } from '@frontend/src/game/character/state/characterStateJump';
 import { CharacterStateDie } from '@frontend/src/game/character/state/characterStateDie';
 
-export class characterStateIdle extends CharacterStateAbstract {
+export class CharacterStateIdle extends CharacterStateAbstract {
   public state: CharacterState = CharacterState.IDLE;
 
-  public handleInput(props:handleInputOptions): CharacterStateAbstract | null {
+  public handleInput(props:HandleInputOptions): CharacterStateAbstract | null {
     const { controls, characters, life } = props;
     this.update();
     if (life < 0) {
@@ -22,7 +22,7 @@ export class characterStateIdle extends CharacterStateAbstract {
       return new CharacterStateMove(this.characterVisual);
     }
     if (controls.attack) {
-      return new characterStateAttack(this.characterVisual);
+      return new CharacterStateAttack(this.characterVisual);
     }
     const isCollision = this.collision(characters);
     if (isCollision) {

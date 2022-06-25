@@ -3,7 +3,7 @@ import { Character } from '@frontend/src/game/character/character';
 import { CharacterVisual } from '@frontend/src/game/character/characterVisual';
 import { CharacterState } from '@frontend/src/game/types';
 
-export type handleInputOptions = {
+export type HandleInputOptions = {
   controls: Controls,
   dt: number,
   characters: Record<string, Character>,
@@ -19,7 +19,7 @@ export abstract class CharacterStateAbstract {
     this.characterVisual = character;
   }
 
-  public abstract handleInput(props: handleInputOptions): CharacterStateAbstract | null;
+  public abstract handleInput(props: HandleInputOptions): CharacterStateAbstract | null;
 
   public enterState(_callback: Function): void {
     this.characterVisual.spriteOption[this.state].frameIndex = 0;
@@ -28,7 +28,7 @@ export abstract class CharacterStateAbstract {
 
   public exitState(_callback: Function): void {
     _callback(this.state);
-  };
+  }
 
   protected collision(characters: Record<string, Character>): boolean {
     const iAm = this.characterVisual;

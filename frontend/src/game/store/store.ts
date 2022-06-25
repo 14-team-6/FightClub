@@ -10,15 +10,15 @@ const lifeBarStore = createSlice({
   name: 'lifeBar',
   initialState,
   reducers: {
-    updateMyLifePercent: (state, action) => {
-      state.myLifePercent = action.payload.payload;
-    },
-    updateEnemyLifePercent: (state, action) => {
-      state.enemyLifePercent = action.payload.payload;
-    },
-    updateRoundName: (state, action) => {
-      state.roundName = action.payload.payload;
-    },
+    updateMyLifePercent: (state, action) => (
+      { ...state, myLifePercent: action.payload.payload }
+    ),
+    updateEnemyLifePercent: (state, action) => (
+      { ...state, enemyLifePercent: action.payload.payload }
+    ),
+    updateRoundName: (state, action) => (
+      { ...state, roundName: action.payload.payload }
+    ),
   },
 });
 

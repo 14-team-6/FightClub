@@ -1,4 +1,4 @@
-import { CharacterStateAbstract, handleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
+import { CharacterStateAbstract, HandleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
 import { CharacterState } from '@frontend/src/game/types';
 import { Controls } from '@frontend/src/game/character/controls/controls';
 import { CharacterStateMove } from '@frontend/src/game/character/state/characterStateMove';
@@ -14,7 +14,7 @@ export class CharacterStateJump extends CharacterStateAbstract {
 
   private jumpPhase: JumpPhase;
 
-  handleInput(props: handleInputOptions): CharacterStateAbstract | null {
+  handleInput(props: HandleInputOptions): CharacterStateAbstract | null {
     const { controls, dt } = props;
     this.update(controls, dt);
     if (this.jumpPhase !== JumpPhase.NOJUMP) {
@@ -32,7 +32,7 @@ export class CharacterStateJump extends CharacterStateAbstract {
   protected update(controls: Controls, dt: number) {
     this.jump(dt);
     if (controls.right || controls.left) {
-      const characterMove =  new CharacterStateMove(this.characterVisual);
+      const characterMove = new CharacterStateMove(this.characterVisual);
       characterMove.move(controls, dt);
     }
     this.characterVisual.updateSprite(this.state);
@@ -67,7 +67,7 @@ export class CharacterStateJump extends CharacterStateAbstract {
       moveOption.y = y;
     }
 
-    if ( moveOption.vY <= 0 ) {
+    if (moveOption.vY <= 0) {
       this.jumpPhase = JumpPhase.SECOND;
     }
 

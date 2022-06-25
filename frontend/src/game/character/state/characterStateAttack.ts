@@ -1,7 +1,7 @@
 import { CharacterStateAbstract } from '@frontend/src/game/character/state/characterStateAbstract';
 import { CharacterState } from '@frontend/src/game/types';
 
-export class characterStateAttack extends CharacterStateAbstract {
+export class CharacterStateAttack extends CharacterStateAbstract {
   private isAttack: boolean = false;
 
   public state: CharacterState = CharacterState.ATTACK;

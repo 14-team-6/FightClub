@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import { MAIN_GREEN, MAIN_RED, MAIN_WHITE } from '@frontend/consts/styles';
 import { LifeBarProps, LifeBarTypes } from '../../types';
-import { useSelector } from 'react-redux';
 
 const LifeBarWrap = styled.div`
   width: 300px;
@@ -17,10 +17,12 @@ const LifeBarBar = styled.div<Partial<LifeBarProps>>`
 `;
 
 const LifeBarBarImpl: FC<Pick<LifeBarProps, 'lifePercentPropName'>> = ({ lifePercentPropName }) => {
-  const lifePercent = useSelector((state: any) => { return state[lifePercentPropName]; });
-  const style = {background: `linear-gradient(to right,
+  const lifePercent = useSelector((state: any) => state[lifePercentPropName]);
+  const style = {
+    background: `linear-gradient(to right,
   ${MAIN_GREEN} ${lifePercent}%,
-  ${MAIN_RED} 0% 100%)`};
+  ${MAIN_RED} 0% 100%)`,
+  };
   return (
     <LifeBarBar style={style} lifePercent={lifePercent}/>
   );
@@ -31,13 +33,11 @@ const LifeBarName = styled.div`
   color: ${MAIN_WHITE};
 `;
 
-const LifeBarImpl: FC<LifeBarProps> = ({ name, lifeType, lifePercentPropName }) => {
-  return (
-    <LifeBarWrap lifeType={lifeType}>
-      <LifeBarBarImpl lifePercentPropName={lifePercentPropName}/>
-      <LifeBarName>{name}</LifeBarName>
-    </LifeBarWrap>
-  );
-};
+const LifeBarImpl: FC<LifeBarProps> = ({ name, lifeType, lifePercentPropName }) => (
+  <LifeBarWrap lifeType={lifeType}>
+    <LifeBarBarImpl lifePercentPropName={lifePercentPropName}/>
+    <LifeBarName>{name}</LifeBarName>
+  </LifeBarWrap>
+);
 
 export const LifeBar = React.memo(LifeBarImpl);

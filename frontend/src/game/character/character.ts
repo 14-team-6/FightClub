@@ -1,5 +1,5 @@
-import { CharacterStateAbstract, handleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
-import { characterStateIdle } from '@frontend/src/game/character/state/characterStateIdle';
+import { CharacterStateAbstract, HandleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
+import { CharacterStateIdle } from '@frontend/src/game/character/state/characterStateIdle';
 import { CharacterVisual } from '@frontend/src/game/character/characterVisual';
 import { CharacterMove, CharacterState } from '@frontend/src/game/types';
 
@@ -28,7 +28,7 @@ export class Character {
     this.isPaused = true;
     this.characterVisual.moveOption = { ...this.storedMoveOption };
     this.stateStack = [];
-    this.stateStack.push(new characterStateIdle(this.characterVisual));
+    this.stateStack.push(new CharacterStateIdle(this.characterVisual));
     this.stateStack[0].enterState(this.onEnterState.bind(this));
   }
 
@@ -40,40 +40,46 @@ export class Character {
     return curState;
   }
 
+  /* eslint-disable */
   protected onExitState(_fromState: CharacterState): void {
     // to overload
-  };
+  }
 
   protected onEnterState(_fromState: CharacterState): void {
     // to overload
   }
+  /* eslint-enable */
 
-  public update(props: Omit<handleInputOptions, 'life'>): void {
-    let { controls, dt, characters } = props;
+  public update(props: Omit<HandleInputOptions, 'life'>): void {
+    const { dt, characters } = props;
+    let { controls } = props;
     if (this.isPaused) {
       controls = {
         up: false,
         left: false,
         right: false,
         attack: false,
-      }
+      };
     }
     const hadSomethingOnStack = this.stateStack.length !== 1;
     const curState = this.stateStack.length === 1 ? this.stateStack[0] : this.stateStack.pop();
     if (curState === undefined) {
       throw Error('There is no initial state');
     }
-    const newState = curState.handleInput({ controls, dt, characters, life: this.life });
+    const newState = curState.handleInput({
+      controls,
+      dt,
+      characters,
+      life: this.life,
+    });
     if (newState !== null) {
       if (newState !== curState) {
         curState.exitState(this.onExitState.bind(this));
         newState.enterState(this.onEnterState.bind(this));
       }
       this.stateStack.push(newState);
-    } else {
-      if (hadSomethingOnStack) {
-        curState.exitState(this.onExitState.bind(this));
-      }
+    } else if (hadSomethingOnStack) {
+      curState.exitState(this.onExitState.bind(this));
     }
   }
 }

@@ -3,8 +3,7 @@ import { Character } from '@frontend/src/game/character/character';
 
 export class AI {
   update(characters: Record<string, Character>): Controls {
-    const hero = characters.hero;
-    const enemy = characters.enemy;
+    const { hero, enemy } = characters;
 
     const res = {
       up: false,

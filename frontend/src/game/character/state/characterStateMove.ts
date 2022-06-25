@@ -1,4 +1,4 @@
-import { CharacterStateAbstract, handleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
+import { CharacterStateAbstract, HandleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
 import { CharacterState, Directions } from '@frontend/src/game/types';
 import { Controls } from '@frontend/src/game/character/controls/controls';
 import { CharacterStateHurt } from '@frontend/src/game/character/state/characterStateHurt';
@@ -7,10 +7,10 @@ import { CharacterStateJump } from '@frontend/src/game/character/state/character
 export class CharacterStateMove extends CharacterStateAbstract {
   public readonly state: CharacterState = CharacterState.RUN;
 
-  public handleInput(props: handleInputOptions): CharacterStateAbstract | null {
+  public handleInput(props: HandleInputOptions): CharacterStateAbstract | null {
     const { controls, dt, characters } = props;
     this.update(controls, dt);
-    if (controls.right || controls.left ) {
+    if (controls.right || controls.left) {
       if (controls.up) {
         return new CharacterStateJump(this.characterVisual);
       }
@@ -68,7 +68,7 @@ export class CharacterStateMove extends CharacterStateAbstract {
         moveOption.x = x;
       }
     } else {
-      const x = Math.max( -1 * spriteOption[this.state].collisionRectX , Math.floor(moveOption.x + direction * moveOption.vX * dt));
+      const x = Math.max(-1 * spriteOption[this.state].collisionRectX, Math.floor(moveOption.x + direction * moveOption.vX * dt));
       if (cr.x >= 0) {
         moveOption.x = x;
       }

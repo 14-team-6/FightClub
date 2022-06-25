@@ -4,7 +4,8 @@ import {
   SAMPLING_RATE,
   SOUND_ATTACK,
   SOUND_MEOW,
-  SOUND_DEAD, SOUND_ENEMY_SWORD
+  SOUND_DEAD,
+  SOUND_ENEMY_SWORD,
 } from '@frontend/consts/sounds';
 import { LoopSettings, Nullable } from '@frontend/src/game/components/sounds/types';
 import { Sound } from '@frontend/src/game/components/sounds/sound';

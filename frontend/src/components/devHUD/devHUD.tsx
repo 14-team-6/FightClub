@@ -6,14 +6,11 @@ type HUDProps = {
   className?: string;
 };
 
-const DevHUDImpl: FC<HUDProps> = ({ message, className }) => {
-
-  return (
-    <>
-      <pre className={className}>{message}</pre>
-    </>
-  );
-};
+const DevHUDImpl: FC<HUDProps> = ({ message, className }) => (
+  <>
+    <pre className={className}>{message}</pre>
+  </>
+);
 
 const DevHUDStyled = styled(DevHUDImpl)`
   position: fixed;

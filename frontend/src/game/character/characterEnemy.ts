@@ -1,6 +1,6 @@
 import { Character } from '@frontend/src/game/character/character';
 import { CharacterState, Directions } from '@frontend/src/game/types';
-import { handleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
+import { HandleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
 import { AI } from '@frontend/src/game/character/controls/ai';
 import { store, updateEnemyLifePercent } from '@frontend/src/game/store/store';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
@@ -28,7 +28,7 @@ export class CharacterEnemy extends Character {
     store.dispatch(updateEnemyLifePercent({ type: 'lifeBar', payload: this.life }));
   }
 
-  public update(props: handleInputOptions): void {
+  public update(props: HandleInputOptions): void {
     const { dt, characters } = props;
     const controls = this.ai.update(characters);
     super.update({ controls, dt, characters });
@@ -36,7 +36,7 @@ export class CharacterEnemy extends Character {
 
   protected onExitState(_fromState: CharacterState): void {
     if (_fromState === CharacterState.HURT) {
-      this.life -= Math.random()*10;
+      this.life -= Math.random() * 10;
       store.dispatch(updateEnemyLifePercent({ type: 'lifeBar', payload: this.life }));
     }
   }
