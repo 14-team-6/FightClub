@@ -1,11 +1,7 @@
 import React, { FC } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createGlobalStyle } from 'styled-components';
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-} from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Stub } from '@frontend/src/pages/game/stub';
 import { AuthProvider } from '@frontend/src/hooks/useAuth';
 import ProtectedRoutes from '@frontend/src/components/routes/ProtectedRoutes';
@@ -24,6 +20,7 @@ import TopicPage from './pages/forum/topicPage';
 import MainLayout from './layouts/mainLayout';
 import PostPage from './pages/forum/postPage';
 import AnswerPage from './pages/forum/answerPage';
+import { ProfilePage } from './pages/profile/profile';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -50,10 +47,11 @@ const App: FC = () => (
           <Route path="/" element={<ProtectedRoutes />}>
             <Route path="/" element={<MainPage />} />
             <Route path="/fight" element={<FightPage />} />
-            <Route path="/game/stub" element={<Stub />} />
             <Route path="/results" element={<Results />} />
+            <Route path="/game/stub" element={<Stub />} />
             <Route path="/game/loading" element={<Loading />} />
             <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE} />} />
+            <Route path='/profile' element={<MainLayout><ProfilePage/></MainLayout>}/>
             <Route path="/topics" element={<MainLayout><ForumPage /></MainLayout>} />
             <Route path="/topics/:topicId" element={<MainLayout><TopicPage /></MainLayout>} />
             <Route path="/topics/add" element={<MainLayout><ForumPage /></MainLayout>} />
