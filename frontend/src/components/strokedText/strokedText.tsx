@@ -8,9 +8,8 @@ const H1 = styled.h1`
   text-align: center;
   color: ${propsHelper('textColor')};
   font-size: ${propsHelper('fontSize')};
-  text-shadow: 0 ${(props: TextProps) => { // eslint-disable-line arrow-body-style
-    return `-${Number(props.fontSize.replace(/px/, '')) / 12.5}`;
-  }}px 0 ${propsHelper('strokeColor')},
+  text-shadow:
+    0 ${(props: TextProps) => `-${Number(props.fontSize.replace(/px/, '')) / 12.5}`}px 0 ${propsHelper('strokeColor')},
     -1px 0 ${propsHelper('strokeColor')},
     -1px -1px ${propsHelper('strokeColor')},
     0 -1px ${propsHelper('strokeColor')};

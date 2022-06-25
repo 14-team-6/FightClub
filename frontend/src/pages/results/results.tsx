@@ -85,14 +85,18 @@ const Kitten = styled.div`
   width: 160px;
   height: ${kittenHeight}px;
   margin: 0 120px;
-  background: url(${kittenImg}) 0 ${({ sprite }: KittenProps) => {
+  background:
+    url(${kittenImg}) 0 ${({ sprite }: KittenProps) => {
   if (sprite === 1) {
     return '0';
   }
   return `-${(sprite - 1) * kittenHeight}`;
 }}px;
-  transform: scale(${({ direction }: KittenProps) => (direction === 'right' ? '1' : '-1')
-}, 1);
+  transform:
+    scale(
+      ${({ direction }: KittenProps) => (direction === 'right' ? '1' : '-1')},
+      1
+    );
 `;
 
 const ResultsImpl: FC = () => (
