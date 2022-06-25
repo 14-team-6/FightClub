@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { User } from '@frontend/src/pages/profile/types';
-import { INPUTS_FONT_SIZE, MAIN_RED, MAIN_YELLOW } from '@frontend/consts/styles';
+import { MIDDLE_FONT_SIZE, MAIN_RED, MAIN_YELLOW } from '@frontend/consts/styles';
 
 const user: User = {
   id: 1,
@@ -41,26 +41,24 @@ export const UserInfo = styled.div`
 
 export const InfoText = styled.div`
   color: ${MAIN_YELLOW};
-  font-size: ${INPUTS_FONT_SIZE};
+  font-size: ${MIDDLE_FONT_SIZE};
   font-family: Pixeboy, sans-serif;
 `;
 
-export const UserProfile: React.FC = () => {
-  return (
-    <Wrapper>
-      {
-        user ? (
-          <>
-            <Avatar src={user.avatar} />
-            <UserInfo>
-              <InfoText>{user.displayName.toUpperCase()}</InfoText>
-              <InfoText>{`${user.firstName.toUpperCase()} ${user.secondName.toUpperCase()}`}</InfoText>
-              <InfoText>{user.email.toUpperCase()}</InfoText>
-              <InfoText>{user.phone.toUpperCase()}</InfoText>
-            </UserInfo>
-          </>
-        ) : null
-      }
-    </Wrapper>
-  );
-};
+export const UserProfile: React.FC = () => (
+  <Wrapper>
+    {
+      user ? (
+        <>
+          <Avatar src={user.avatar} />
+          <UserInfo>
+            <InfoText>{user.displayName.toUpperCase()}</InfoText>
+            <InfoText>{`${user.firstName.toUpperCase()} ${user.secondName.toUpperCase()}`}</InfoText>
+            <InfoText>{user.email.toUpperCase()}</InfoText>
+            <InfoText>{user.phone.toUpperCase()}</InfoText>
+          </UserInfo>
+        </>
+      ) : null
+    }
+  </Wrapper>
+);

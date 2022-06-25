@@ -20,21 +20,21 @@ const WrapList = styled.div`
   overflow-y: hidden;
 `;
 
-const LeadersImpl: FC<LeadersProps> = (props) => {
-  return (
-    <div className={ props.className }>
-      <SortBlock/>
-      <WrapOther>
-        <WrapList>
-          {props.items.map((leaderItem) => {
-            return <ListItem key={leaderItem.id} name={leaderItem.name} score={leaderItem.score}/>;
-          })}
-        </WrapList>
-        <ScrollBlock/>
-      </WrapOther>
-    </div>
-  );
-};
+const LeadersImpl: FC<LeadersProps> = (props) => (
+  <div className={props.className}>
+    <SortBlock />
+    <WrapOther>
+      <WrapList>
+        {
+          props.items.map((leaderItem) => (
+            <ListItem key={leaderItem.id} name={leaderItem.name} score={leaderItem.score} />
+          ))
+        }
+      </WrapList>
+      <ScrollBlock />
+    </WrapOther>
+  </div>
+);
 
 const LeadersImplStyled = styled(LeadersImpl)`
   display: flex;

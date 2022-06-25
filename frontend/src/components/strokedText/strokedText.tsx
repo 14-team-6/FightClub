@@ -1,22 +1,18 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { getProperty } from '@frontend/src/utils/helper';
 
-const propsHelper = (prop: keyof Omit<TextProps, 'children'>) => {
-  return (props: TextProps) => {
-    return props[prop];
-  };
-};
+const propsHelper = getProperty<TextProps>;
 
 const H1 = styled.h1`
   font-family: Pixeboy, serif;
   text-align: center;
   color: ${propsHelper('textColor')};
   font-size: ${propsHelper('fontSize')};
-  text-shadow:
-    0 ${(props: TextProps) => {
+  text-shadow: 0 ${(props: TextProps) => { // eslint-disable-line arrow-body-style
     return `-${Number(props.fontSize.replace(/px/, '')) / 12.5}`;
   }}px 0 ${propsHelper('strokeColor')},
-    -1px 0 ${propsHelper('strokeColor')},
+  -1px 0 ${propsHelper('strokeColor')},
     -1px -1px ${propsHelper('strokeColor')},
     0 -1px ${propsHelper('strokeColor')};
 `;
@@ -35,11 +31,13 @@ export const StrokedText: FC<TextProps> = ({
   children,
   textColor,
   strokeColor,
-}) => {
-  return <H1
+}) => (
+  <H1
     fontSize={fontSize}
     textColor={textColor}
     strokeColor={strokeColor}
     className={className}
-  >{children}</H1>;
-};
+  >
+    {children}
+  </H1>
+);

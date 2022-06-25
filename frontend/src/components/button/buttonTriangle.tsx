@@ -30,7 +30,7 @@ const ButtonTriangleStyled = styled.div<Partial<ButtonTriangleProps>>`
   height: 0;
   border-left: 17px solid transparent;
   border-right: 17px solid transparent;
-  border-bottom: 20px solid ${({ isActive }) => { return isActive ? MAIN_RED : INPUT_BORDER_BLUE; }};
+  border-bottom: 20px solid ${({ isActive }) => (isActive ? MAIN_RED : INPUT_BORDER_BLUE)};
   cursor: pointer;
 
   &::before {
@@ -48,7 +48,7 @@ const ButtonTriangleStyled = styled.div<Partial<ButtonTriangleProps>>`
   &.small {
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 16px solid ${({ isActive }) => { return isActive ? MAIN_RED : INPUT_BORDER_BLUE; }};
+    border-bottom: 16px solid ${({ isActive }) => (isActive ? MAIN_RED : INPUT_BORDER_BLUE)};
 
     &.small::before {
       top: 5px;
@@ -80,7 +80,7 @@ const ButtonTriangleImpl: FC<ButtonTriangleProps> = (props) => {
         up: direction === ButtonTriangleDirection.UP,
         down: direction === ButtonTriangleDirection.DOWN,
         small: size === ButtonTriangleSize.SMALL,
-      })}`}/>
+      })}`} />
   );
 };
 

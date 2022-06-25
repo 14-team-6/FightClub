@@ -19,16 +19,14 @@ export const ButtonsWrappers = styled.div`
   margin-top: 50px;
 `;
 
-export const ProfilePage: React.FC = () => {
-  return (
-    <Wrapper>
-      <MainTitle />
-      <UserProfile />
-      <ButtonsWrappers>
-        {/* временно кнопки, как вмерджится страница форума в мейн, переделаю на линки */}
-        <ButtonElement type="button" text="Back"/>
-        <ButtonElement type="button" text="Edit"/>
-      </ButtonsWrappers>
-    </Wrapper>
-  );
-};
+export const ProfilePage: React.FC = () => (
+  <Wrapper>
+    <MainTitle />
+    <UserProfile />
+    <ButtonsWrappers>
+      {/* временно кнопки, как вмерджится страница форума в мейн, переделаю на линки */}
+      <ButtonElement type="button" text="Back" />
+      <ButtonElement type="button" text="Edit" />
+    </ButtonsWrappers>
+  </Wrapper>
+);

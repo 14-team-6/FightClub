@@ -1,0 +1,21 @@
+{
+  "topic": {
+    "id": 1,
+    "name": "game questions",
+    "counts": 100
+  },
+  "posts": [
+    {
+      "id": 1,
+      "name": "how to play “fight kittens”"
+    },
+    {
+      "id": 2,
+      "name": "not working on imac 29”"
+    },
+    {
+      "id": 3,
+      "name": "hight all!!!"
+    }
+  ]
+}

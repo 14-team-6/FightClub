@@ -19,22 +19,16 @@ const FormElement: React.FC<FormProps> = ({
   inputs,
   buttons,
   onSubmit,
-}) => {
-  return (
-    <Form onSubmit={onSubmit}>
-      {inputs.map((input) => {
-        return (
-          <InputElement key={input.placeholder} {...input}/>
-        );
-      })}
+}) => (
+  <Form onSubmit={onSubmit}>
+    {inputs.map((input) => (
+      <InputElement key={input.placeholder} {...input} />
+    ))}
 
-      {buttons.map((button) => {
-        return (
-          <ButtonElement key={button.text} {...button}/>
-        );
-      })}
-    </Form>
-  );
-};
+    {buttons.map((button) => (
+      <ButtonElement key={button.text} {...button} />
+    ))}
+  </Form>
+);
 
 export default React.memo(FormElement);

@@ -15,8 +15,8 @@ type Props = {
   children?: ReactNode
 };
 
-export const BlackPageLayout: FC<Props> = ({ children }) => {
-  return <Wrap>
-    { children }
-  </Wrap>;
-};
+export const BlackPageLayout: FC<Props> = ({ children }) => (
+  <Wrap>
+    {children}
+  </Wrap>
+);

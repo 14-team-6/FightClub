@@ -25,18 +25,16 @@ const WrapScroll = styled.div`
 `;
 
 const SortBlockImpl: FC = () => {
-  const onClick = (sortBy: string) => {
-    return () => {
-      console.log(`sort by: ${sortBy}`);
-    };
+  const onClick = (sortBy: string) => () => {
+    console.log(`sort by: ${sortBy}`); // eslint-disable-line no-console
   };
 
   return (
     <WrapScroll>
       <ButtonTriangleStyled onClick={onClick('name')} isActive={true}
-                      size={ButtonTriangleSize.SMALL} direction={ButtonTriangleDirection.UP}/>
+                            size={ButtonTriangleSize.SMALL} direction={ButtonTriangleDirection.UP} />
       <ButtonTriangleStyled onClick={onClick('score')} size={ButtonTriangleSize.SMALL}
-                      direction={ButtonTriangleDirection.DOWN}/>
+                            direction={ButtonTriangleDirection.DOWN} />
     </WrapScroll>
   );
 };

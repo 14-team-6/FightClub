@@ -6,16 +6,14 @@ interface MainTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   text?: string;
 }
 
-const MainTitle: React.FC<MainTitleProps> = ({ text = 'Fight club' }) => {
-  return (
-    <StrokedText
-      fontSize={MAIN_TITLE_SIZE}
-      textColor={MAIN_RED}
-      strokeColor={MAIN_YELLOW}
-    >
-      {text}
-    </StrokedText>
-  );
-};
+const MainTitle: React.FC<MainTitleProps> = ({ text = 'Fight club' }) => (
+  <StrokedText
+    fontSize={MAIN_TITLE_SIZE}
+    textColor={MAIN_RED}
+    strokeColor={MAIN_YELLOW}
+  >
+    {text}
+  </StrokedText>
+);
 
 export default MainTitle;
