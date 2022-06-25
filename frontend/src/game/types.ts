@@ -1,4 +1,4 @@
-import { KeyboardControl } from '@frontend/src/game/keyboard';
+import { KeyboardControl } from '@frontend/src/game/character/controls/keyboard';
 
 export enum LifeBarTypes {
   IAM,

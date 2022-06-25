@@ -1,3 +1,5 @@
+import { Controls } from '@frontend/src/game/character/controls/controls';
+
 interface CodeMap {
   KeyD : string;
   KeyA : string;
@@ -7,12 +9,7 @@ interface CodeMap {
 
 type AllowKeyCode = keyof CodeMap;
 
-export interface Keys {
-  left : boolean;
-  right : boolean;
-  up : boolean;
-  attack: boolean;
-}
+export type Keys = Controls;
 
 type AllowKey = keyof Keys;
 

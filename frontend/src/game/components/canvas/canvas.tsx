@@ -1,8 +1,9 @@
 import React, { useRef, useEffect, FC } from 'react';
-import { KeyboardControl } from '../../keyboard';
-import Character from '../character/character';
-import { Controls, Directions } from '@frontend/src/game/types';
+import { KeyboardControl } from '../../character/controls/keyboard';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
+import { Character } from '@frontend/src/game/character/character';
+import { CharacterHero } from '@frontend/src/game/character/characterHero';
+import { CharacterEnemy } from '@frontend/src/game/character/characterEnemy';
 
 const Canvas:FC = () => {
   const size = { width: window.innerWidth, height: window.innerHeight };
@@ -10,39 +11,10 @@ const Canvas:FC = () => {
 
   let requestIdRef: number = 0;
 
-  const characters: Array<Character> = [];
+  const characters: Record<string, Character> = {};
 
   let then: number;
   let keyboard: KeyboardControl;
-
-  const initHero = (ctx: CanvasRenderingContext2D, control: Controls) => {
-    const move = {
-      x: Math.floor(size.width * 0.1),
-      y: Math.floor(size.height - 271),
-      vX: 0,
-      vY: 0,
-      vMax: 0.7,
-      a: 0.001,
-    };
-
-    const hero = new Character(ctx, move, control);
-    characters.push(hero);
-  };
-
-  const initCharacters = (ctx: CanvasRenderingContext2D) => {
-    while (characters.length < 1) {
-      const move = {
-        x: Math.floor(size.width - size.width * 0.5),
-        y: Math.floor(size.height - 271),
-        vX: -0.06,
-        vY: 0,
-        direction: Directions.LEFT,
-      };
-
-      const cat = new Character(ctx, move, undefined);
-      characters.push(cat);
-    }
-  };
 
   const init = () => {
     then = performance.now();
@@ -54,8 +26,8 @@ const Canvas:FC = () => {
     const ctx = canvasRef.current.getContext('2d');
 
     if (ctx) {
-      initCharacters(ctx);
-      initHero(ctx, keyboard);
+      characters.hero = new CharacterHero(ctx);
+      characters.enemy = new CharacterEnemy(ctx);
     }
 
     Sounds.init().then(() => {
@@ -80,11 +52,8 @@ const Canvas:FC = () => {
 
   const renderFrame = (dt: number) => {
     clearFrame();
-
-    for (let i = 0; i < characters.length; i += 1) {
-      characters[i].update(dt);
-      characters[i].draw();
-      characters[i].collision(characters);
+    for (const [, pers] of Object.entries(characters)) {
+      pers.update({ controls: keyboard.keys, dt, characters });
     }
   };
 
