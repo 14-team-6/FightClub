@@ -6,6 +6,7 @@ import {
   Rect,
 } from '@frontend/src/game/types';
 import spriteCollection from '@frontend/src/game/spriteCollection';
+import { SHOW_DEBUG_RECT } from '@frontend/consts/game';
 
 export class CharacterVisual {
   public ctx: CanvasRenderingContext2D;
@@ -55,14 +56,16 @@ export class CharacterVisual {
       spriteOption.frameWidth,
       spriteOption.frameHeight,
     );
-    ctx.strokeStyle = 'blue';
-    const crt = this.getCollisionRect(state);
-    ctx.strokeRect(
-      crt.x,
-      crt.y,
-      crt.width,
-      crt.height,
-    );
+    if (SHOW_DEBUG_RECT) {
+      ctx.strokeStyle = 'blue';
+      const crt = this.getCollisionRect(state);
+      ctx.strokeRect(
+        crt.x,
+        crt.y,
+        crt.width,
+        crt.height,
+      );
+    }
     ctx.closePath();
   }
 
