@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { getProperty } from '@frontend/src/utils/helper';
 
-const propsHelper = (prop: keyof Omit<TextProps, 'children'>) => (props: TextProps) => props[prop];
+const propsHelper = getProperty<TextProps>;
 
 const H1 = styled.h1`
   font-family: Pixeboy, serif;
