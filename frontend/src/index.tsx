@@ -1,10 +1,17 @@
 import React, { FC } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createGlobalStyle } from 'styled-components';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Navigate,
+} from 'react-router-dom';
+import { Provider } from 'react-redux';
 import ProtectedRoutes from '@frontend/src/components/routes/ProtectedRoutes';
 import { store } from '@frontend/src/game/store/store';
 import { AuthProvider } from '@frontend/src/hooks/useAuth';
+import PublicRoutes from '@frontend/src/components/routes/PublicRoutes';
 import LoginPage from './pages/login/login';
 import MainPage from './pages/main/main';
 import FightPage from './pages/game/fight';
@@ -18,8 +25,6 @@ import MainLayout from './layouts/mainLayout';
 import PostPage from './pages/forum/postPage';
 import AnswerPage from './pages/forum/answerPage';
 import { ProfilePage } from './pages/profile/profile';
-import { Provider } from 'react-redux';
-import PublicRoutes from '@frontend/src/components/routes/PublicRoutes';
 
 const GS = createGlobalStyle`
   @font-face {
