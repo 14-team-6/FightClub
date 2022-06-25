@@ -5,6 +5,7 @@ import { Controls } from '@frontend/src/game/character/controls/controls';
 import { CharacterHero } from '@frontend/src/game/character/characterHero';
 import { CharacterEnemy } from '@frontend/src/game/character/characterEnemy';
 import { store, updateRoundName } from '@frontend/src/game/store/store';
+import { EndGame, EndGameType } from '@frontend/src/pages/game/endGame/endGame';
 
 enum GameState {
   ROUND_1 = 'ROUND 1',
@@ -49,6 +50,12 @@ export class Game {
   private updateCharacters(props: Omit<HandleInputOptions, 'life'>): void {
     this.hero.update(props);
     this.enemy.update(props);
+  }
+
+  private handleEndGame(): void {
+    const endGameType = this.currentWinner === this.hero ? EndGameType.WIN : EndGameType.LOOSE;
+    const score = endGameType === EndGameType.WIN ? Math.round(this.hero.life * 1000) : 0;
+    this.setUIElements(EndGame({ endGameType, score }));
   }
 
   public update(props: GameUpdateProps): void {
@@ -103,6 +110,7 @@ export class Game {
         break;
       case GameState.FINISHED:
         this.updateCharacters(characterProps);
+        this.handleEndGame();
         break;
       default:
     }

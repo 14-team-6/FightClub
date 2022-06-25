@@ -41,6 +41,7 @@ export class Character {
   }
 
   /* eslint-disable */
+  // have to disable to avoid no-unused-vars error
   protected onExitState(_fromState: CharacterState): void {
     // to overload
   }

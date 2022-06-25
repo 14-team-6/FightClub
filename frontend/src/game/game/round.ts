@@ -1,5 +1,7 @@
 import { Character } from '@frontend/src/game/character/character';
-import { EndGame, EndGameType } from '@frontend/src/pages/game/endGame/endGame';
+import { StartGame } from '@frontend/src/pages/game/startGame/startGame';
+import { EndRound } from '@frontend/src/pages/game/endRound/endRound';
+import { EndGameType } from '@frontend/src/pages/game/endGame/endGame';
 
 export enum RoundState {
   PREPARE = 'PREPARE',
@@ -57,7 +59,7 @@ export class Round {
     switch (this.roundState) {
       case RoundState.PREPARE:
         this.roundState = RoundState.PREPARED;
-        this.setUIElements(EndGame({ roundName: this.roundName, endGameType: EndGameType.FIGHT }));
+        this.setUIElements(StartGame({ roundName: this.roundName }));
         setTimeout(() => {
           this.roundState = RoundState.FIGHT;
           this.setUIElements(null);
@@ -69,9 +71,9 @@ export class Round {
         if (this.hero.life <= 0 || this.enemy.life <= 0) {
           this.roundState = RoundState.ENDING;
           if (this.enemy.life <= 0) {
-            this.setUIElements(EndGame({ endGameType: EndGameType.WIN }));
+            this.setUIElements(EndRound({ endGameType: EndGameType.WIN }));
           } else {
-            this.setUIElements(EndGame({ endGameType: EndGameType.LOOSE }));
+            this.setUIElements(EndRound({ endGameType: EndGameType.LOOSE }));
           }
           setTimeout(() => {
             this.roundState = RoundState.END;

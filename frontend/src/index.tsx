@@ -5,6 +5,7 @@ import {
   BrowserRouter,
   Route,
   Routes,
+  Navigate,
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import ProtectedRoutes from '@frontend/src/components/routes/ProtectedRoutes';
@@ -52,6 +53,7 @@ const App: FC = () => (
             <Route path="/" element={<ProtectedRoutes />}>
               <Route path="/" element={<MainPage />} />
               <Route path="/game/fight" element={<FightPage />} />
+              <Route path="/game/fight/newgame" element={<Navigate to={'/game/fight'} />} />
               <Route path="/results" element={<Results />} />
               <Route path="/game/loading" element={<Loading />} />
               <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE} />} />
