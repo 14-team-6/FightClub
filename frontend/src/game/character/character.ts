@@ -4,14 +4,30 @@ import { CharacterVisual } from '@frontend/src/game/character/characterVisual';
 import { CharacterMove, CharacterState } from '@frontend/src/game/types';
 
 export class Character {
-  public readonly characterVisual: CharacterVisual;
+  public characterVisual: CharacterVisual;
 
   life: number;
 
   private stateStack: CharacterStateAbstract[] = [];
 
+  private readonly ctx: CanvasRenderingContext2D;
+
+  private readonly storedMoveOption: CharacterMove;
+
+  public isPaused = false;
+
   constructor(ctx: CanvasRenderingContext2D, moveOption: CharacterMove) {
-    this.characterVisual = new CharacterVisual(ctx, moveOption);
+    this.ctx = ctx;
+    this.storedMoveOption = moveOption;
+    this.characterVisual = new CharacterVisual(this.ctx, { ...this.storedMoveOption });
+    this.init();
+  }
+
+  public init(): void {
+    this.life = 10;
+    this.isPaused = true;
+    this.characterVisual.moveOption = { ...this.storedMoveOption };
+    this.stateStack = [];
     this.stateStack.push(new characterStateIdle(this.characterVisual));
     this.stateStack[0].enterState(this.onEnterState.bind(this));
   }
@@ -32,8 +48,16 @@ export class Character {
     // to overload
   }
 
-  public update(props: Omit<handleInputOptions, 'life'>) {
-    const { controls, dt, characters } = props;
+  public update(props: Omit<handleInputOptions, 'life'>): void {
+    let { controls, dt, characters } = props;
+    if (this.isPaused) {
+      controls = {
+        up: false,
+        left: false,
+        right: false,
+        attack: false,
+      }
+    }
     const hadSomethingOnStack = this.stateStack.length !== 1;
     const curState = this.stateStack.length === 1 ? this.stateStack[0] : this.stateStack.pop();
     if (curState === undefined) {

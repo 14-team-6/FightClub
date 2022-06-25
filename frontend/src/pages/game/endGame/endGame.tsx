@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import { MAIN_RED, MAIN_YELLOW } from '@frontend/consts/styles';
 import { StrokedText } from '../../../components/strokedText/strokedText';
-import { GameLayout } from '../../../layouts/gameLayout';
 
 const Paranja = styled.div`
   position: absolute;
@@ -22,22 +21,25 @@ const Wrap = styled.div`
 `;
 
 export enum EndGameType {
+  'FIGHT' = 'FIGHT!',
   'WIN' = 'You win!',
   'LOOSE' = 'You loose!',
 }
 
 type EndGameProps = {
   endGameType: EndGameType,
+  roundName?: string,
 };
 
 export const EndGame: FC<EndGameProps> = (props: EndGameProps) => (
-  <GameLayout>
     <Paranja>
       <Wrap>
+        <StrokedText fontSize={'140px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>
+          {props.roundName}
+        </StrokedText>
         <StrokedText fontSize={'140px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>
           {props.endGameType}
         </StrokedText>
       </Wrap>
     </Paranja>
-  </GameLayout>
 );

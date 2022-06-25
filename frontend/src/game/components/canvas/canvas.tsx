@@ -1,17 +1,21 @@
-import React, { useRef, useEffect, FC } from 'react';
+import React, { useRef, useEffect, FC, ReactNode, useState } from 'react';
 import { KeyboardControl } from '../../character/controls/keyboard';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
-import { Character } from '@frontend/src/game/character/character';
-import { CharacterHero } from '@frontend/src/game/character/characterHero';
-import { CharacterEnemy } from '@frontend/src/game/character/characterEnemy';
+import { Game } from '@frontend/src/game/core';
 
 const Canvas:FC = () => {
   const size = { width: window.innerWidth, height: window.innerHeight };
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  const [UIElements, setUIElements] = useState<ReactNode>(<></>);
+
   let requestIdRef: number = 0;
 
-  const characters: Record<string, Character> = {};
+  const setUIElement = (reactNode: ReactNode): void => {
+    setUIElements(reactNode);
+  }
+
+  let game: Game;
 
   let then: number;
   let keyboard: KeyboardControl;
@@ -26,8 +30,7 @@ const Canvas:FC = () => {
     const ctx = canvasRef.current.getContext('2d');
 
     if (ctx) {
-      characters.hero = new CharacterHero(ctx);
-      characters.enemy = new CharacterEnemy(ctx);
+      game = new Game(ctx, setUIElement);
     }
 
     Sounds.init().then(() => {
@@ -52,9 +55,7 @@ const Canvas:FC = () => {
 
   const renderFrame = (dt: number) => {
     clearFrame();
-    for (const [, pers] of Object.entries(characters)) {
-      pers.update({ controls: keyboard.keys, dt, characters });
-    }
+    game.update({ controls: keyboard.keys, dt });
   };
 
   const tick = (now: number) => {
@@ -82,7 +83,11 @@ const Canvas:FC = () => {
   }, []);
 
   return (
-    <canvas {...size} ref={canvasRef}/>
+    <>
+      <>{UIElements}</>
+      <canvas {...size} ref={canvasRef}/>
+    </>
+
   )
   ;
 }

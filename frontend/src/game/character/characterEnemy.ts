@@ -21,23 +21,27 @@ export class CharacterEnemy extends Character {
     };
     super(ctx, move);
     this.ai = new AI();
-    this.life = 100;
   }
 
-  update(props: handleInputOptions) {
+  public init(): void {
+    super.init();
+    store.dispatch(updateEnemyLifePercent({ type: 'lifeBar', payload: this.life }));
+  }
+
+  public update(props: handleInputOptions): void {
     const { dt, characters } = props;
     const controls = this.ai.update(characters);
     super.update({ controls, dt, characters });
   }
 
-  protected onExitState(_fromState: CharacterState) {
+  protected onExitState(_fromState: CharacterState): void {
     if (_fromState === CharacterState.HURT) {
       this.life -= Math.random()*10;
       store.dispatch(updateEnemyLifePercent({ type: 'lifeBar', payload: this.life }));
     }
   }
 
-  protected onEnterState(_fromState: CharacterState) {
+  protected onEnterState(_fromState: CharacterState): void {
     switch (_fromState) {
       case CharacterState.ATTACK:
         Sounds.playEnemyAttack();

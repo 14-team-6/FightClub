@@ -16,7 +16,11 @@ export class CharacterHero extends Character {
       direction: Directions.RIGHT,
     };
     super(ctx, move);
-    this.life = 100;
+  }
+
+  public init(): void {
+    super.init();
+    store.dispatch(updateMyLifePercent({ type: 'lifeBar', payload: this.life }));
   }
 
   protected onExitState(_fromState: CharacterState) {

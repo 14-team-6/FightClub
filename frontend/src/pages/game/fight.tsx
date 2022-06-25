@@ -5,8 +5,7 @@ import { MAIN_BACKGROUND, MAIN_RED, MAIN_WHITE, MAIN_YELLOW } from '@frontend/co
 import { LifeBar } from '@frontend/src/game/components/lifeBar/lifeBar';
 import { LifeBarTypes } from '@frontend/src/game/types';
 import { StrokedText } from '@frontend/src/components/strokedText/strokedText';
-import { Provider } from 'react-redux';
-import { store } from '@frontend/src/game/store/store';
+import { useSelector } from 'react-redux';
 
 const Wrap = styled.div`
   background: url(${MAIN_BACKGROUND}) no-repeat;
@@ -45,13 +44,14 @@ const RoundString = styled.h1`
 `;
 
 const FightPage: React.FC = () => {
+  const roundName = useSelector((state: any) => { return state.roundName; });
+
   return (
-    <Provider store={store}>
     <Wrap>
       <Hud>
         <LifeBar lifePercentPropName={'myLifePercent'} lifeType={LifeBarTypes.IAM} name={'Stan'}/>
         <RoundWrap>
-          <StrokedText fontSize={'40px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>Round 1</StrokedText>
+          <StrokedText fontSize={'40px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>{roundName}</StrokedText>
           <RoundString>vs</RoundString>
         </RoundWrap>
         <LifeBar lifePercentPropName={'enemyLifePercent'} lifeType={LifeBarTypes.ENEMY} name={'Joao'}/>
@@ -60,7 +60,6 @@ const FightPage: React.FC = () => {
         <Canvas/>
       </Wrapper>
     </Wrap>
-  </Provider>
   );
 };
 
