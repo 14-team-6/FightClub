@@ -83,12 +83,4 @@ export class CharacterVisual {
       }
     }
   }
-
-  public turnAround() {
-    if (this.moveOption.direction === Directions.RIGHT) {
-      this.moveOption.direction = Directions.LEFT;
-    } else {
-      this.moveOption.direction = Directions.RIGHT;
-    }
-  }
 }

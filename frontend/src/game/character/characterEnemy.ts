@@ -4,7 +4,7 @@ import { HandleInputOptions } from '@frontend/src/game/character/state/character
 import { AI } from '@frontend/src/game/components/controls/ai';
 import { store, updateEnemyLifePercent } from '@frontend/src/game/store/store';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
-import { ATTACK_LEVEL_ENEMY, LIFE_LEVEL_ENEMY } from '@frontend/consts/game';
+import { ATTACK_LEVEL_HERO, LIFE_LEVEL_ENEMY } from '@frontend/consts/game';
 
 export class CharacterEnemy extends Character {
   private ai: AI;
@@ -38,7 +38,7 @@ export class CharacterEnemy extends Character {
 
   protected onExitState(_fromState: CharacterState): void {
     if (_fromState === CharacterState.HURT) {
-      this.life -= Math.random() * ATTACK_LEVEL_ENEMY;
+      this.life -= Math.random() * ATTACK_LEVEL_HERO;
       store.dispatch(updateEnemyLifePercent({ type: 'lifeBar', payload: this.life }));
     }
   }

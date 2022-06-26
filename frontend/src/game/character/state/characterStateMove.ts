@@ -24,9 +24,9 @@ export class CharacterStateMove extends CharacterStateAbstract {
     return null;
   }
 
-  public enterState(_callback: Function): void {
+  public enterState(callback: Function): void {
     this.characterVisual.moveOption.vX = 0;
-    super.enterState(_callback);
+    super.enterState(callback);
   }
 
   protected update(controls: Controls, dt: number): void {
@@ -35,11 +35,11 @@ export class CharacterStateMove extends CharacterStateAbstract {
     this.characterVisual.draw(this.state);
   }
 
-  private updateVx(dt: number, direction: number) {
+  private updateVx(dt: number) {
     const { moveOption } = this.characterVisual;
 
     if (moveOption.vX < moveOption.vMax! && moveOption.vX >= 0) {
-      moveOption.vX += direction * moveOption.a! * dt;
+      moveOption.vX += moveOption.a! * dt;
     } else if (moveOption.vX >= moveOption.vMax!) {
       moveOption.vX = moveOption.vMax!;
     } else {
@@ -58,7 +58,7 @@ export class CharacterStateMove extends CharacterStateAbstract {
 
     const direction = moveOption.direction === Directions.RIGHT ? 1 : -1;
 
-    this.updateVx(dt, 1);
+    this.updateVx(dt);
 
     const cr = this.characterVisual.getCollisionRect(this.state);
     const width = ctx.canvas.clientWidth;

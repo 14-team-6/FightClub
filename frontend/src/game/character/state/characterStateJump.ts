@@ -23,10 +23,10 @@ export class CharacterStateJump extends CharacterStateAbstract {
     return null;
   }
 
-  enterState(_callback: Function) {
+  enterState(callback: Function) {
     this.jumpPhase = JumpPhase.FIRST;
     this.characterVisual.moveOption.vY = 0.7;
-    super.enterState(_callback);
+    super.enterState(callback);
   }
 
   protected update(controls: Controls, dt: number) {

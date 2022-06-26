@@ -4,8 +4,8 @@ import MainLayout from '@frontend/src/layouts/mainLayout';
 import MainTitle from '@frontend/src/components/mainTitle/mainTitle';
 import Kitten from '@frontend/src/components/kitten/kitten';
 import { KITTEN_HEIGHT, KITTEN_WIDTH } from '@frontend/consts/styles';
-import { Leaders } from './components/leaders';
-import Link from '../../components/link/link';
+import { Leaders } from '@frontend/src/pages/results/components/leaders';
+import Link from '@frontend/src/components/link/link';
 
 const mock = [
   {

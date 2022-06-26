@@ -21,13 +21,13 @@ export abstract class CharacterStateAbstract {
 
   public abstract handleInput(props: HandleInputOptions): CharacterStateAbstract | null;
 
-  public enterState(_callback: Function): void {
+  public enterState(callback: Function): void {
     this.characterVisual.spriteOption[this.state].frameIndex = 0;
-    _callback(this.state);
+    callback(this.state);
   }
 
-  public exitState(_callback: Function): void {
-    _callback(this.state);
+  public exitState(callback: Function): void {
+    callback(this.state);
   }
 
   protected collision(characters: Record<string, Character>): boolean {

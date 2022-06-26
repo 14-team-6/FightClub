@@ -6,7 +6,7 @@ import { CharacterMove, CharacterState } from '@frontend/src/game/types';
 export class Character {
   public characterVisual: CharacterVisual;
 
-  life: number;
+  public life: number;
 
   private stateStack: CharacterStateAbstract[] = [];
 
