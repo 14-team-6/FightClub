@@ -1,14 +1,10 @@
-import { UserDTO } from '@frontend/src/services/types';
+import { UserDTO, RequestError } from '@frontend/src/services/types';
 import { transformToUser } from '@frontend/src/utils/apiTransformers';
 import DefaultHttpTransport from '../../core/default-http-transport';
 import HttpTransport from '../../core/http-transport';
 import { LoginFormData, RegisterFormData } from '../models/form';
 
 const AUTH_URL: string = 'https://ya-praktikum.tech/api/v2/auth';
-
-export interface AuthError {
-  reason: string;
-}
 
 class AuthService {
   private authService: HttpTransport;
@@ -17,36 +13,34 @@ class AuthService {
     this.authService = authService;
   }
 
-  public getUser = () => this.authService.get<UserDTO>('/user');
+  public getUser = () => this.authService.get<UserDTO>('/user')
+    .then((user: UserDTO) => transformToUser(user))
+    .catch((reason) => Promise.reject(reason));
 
-  private signInHandler = async (response: Response): Promise<User | AuthError> => {
+  private signInHandler = async (response: Response): Promise<User | RequestError> => {
     if (!response.ok) {
       return Promise.reject(await response.json());
     }
 
-    return this.getUser()
-      .then((user: UserDTO) => transformToUser(user))
-      .catch((reason) => Promise.reject(reason));
+    return this.getUser();
   };
 
   public signIn = (userInfo: LoginFormData) => this.authService
-    .post<LoginFormData, User | AuthError>('/signin', {
+    .post<LoginFormData, User | RequestError>('/signin', {
     body: userInfo,
     handler: this.signInHandler,
   });
 
-  private signUpHandler = async (response: Response): Promise<User | AuthError> => {
+  private signUpHandler = async (response: Response): Promise<User | RequestError> => {
     if (!response.ok) {
       return Promise.reject(await response.json());
     }
 
-    return this.getUser()
-      .then((user: UserDTO) => transformToUser(user))
-      .catch((reason) => Promise.reject(reason));
+    return this.getUser();
   };
 
   public signUp = (userInfo: RegisterFormData) => this.authService
-    .post<RegisterFormData, User | AuthError>('/signup', {
+    .post<RegisterFormData, User | RequestError>('/signup', {
     body: userInfo,
     handler: this.signUpHandler,
   });

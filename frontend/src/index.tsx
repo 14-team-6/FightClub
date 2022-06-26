@@ -21,6 +21,7 @@ import MainLayout from './layouts/mainLayout';
 import PostPage from './pages/forum/postPage';
 import AnswerPage from './pages/forum/answerPage';
 import { ProfilePage } from './pages/profile/profile';
+import EditProfilePage from './pages/editProfile/editProfile';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -52,6 +53,7 @@ const App: FC = () => (
             <Route path="/game/loading" element={<Loading />} />
             <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE} />} />
             <Route path='/profile' element={<MainLayout><ProfilePage/></MainLayout>}/>
+            <Route path='/profile/edit' element={<MainLayout><EditProfilePage/></MainLayout>}/>
             <Route path="/topics" element={<MainLayout><ForumPage /></MainLayout>} />
             <Route path="/topics/:topicId" element={<MainLayout><TopicPage /></MainLayout>} />
             <Route path="/topics/add" element={<MainLayout><ForumPage /></MainLayout>} />

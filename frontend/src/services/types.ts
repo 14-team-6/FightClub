@@ -8,3 +8,6 @@ export type UserDTO = {
   phone: string,
   email: string,
 };
+export interface RequestError {
+  reason: string;
+}
