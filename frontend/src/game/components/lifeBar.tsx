@@ -13,9 +13,12 @@ const LifeBarWrap = styled.div`
 const LifeBarBar = styled.div<Partial<LifeBarProps>>`
   width: 100%;
   height: 30px;
-  background: linear-gradient(to right,
-  ${MAIN_GREEN} ${(props) => props.lifePercent}%,
-  ${MAIN_RED} 0% 100%);
+  background:
+    linear-gradient(
+      to right,
+      ${MAIN_GREEN} ${(props) => props.lifePercent}%,
+      ${MAIN_RED} 0% 100%
+    );
 `;
 
 const LifeBarName = styled.div`

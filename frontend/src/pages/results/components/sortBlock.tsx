@@ -21,7 +21,7 @@ const WrapScroll = styled.div`
   flex-direction: row;
   width: 300px;
   justify-content: center;
-  margin: 0 0 10px 0;
+  margin: 0 0 10px;
 `;
 
 const SortBlockImpl: FC = () => {
