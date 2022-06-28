@@ -1,16 +1,14 @@
+import { Keys } from '@frontend/src/game/types';
+
 interface CodeMap {
   KeyD : string;
   KeyA : string;
   KeyW : string;
+  Space: string;
+  Escape: string;
 }
 
 type AllowKeyCode = keyof CodeMap;
-
-export interface Keys {
-  left : boolean;
-  right : boolean;
-  up : boolean;
-}
 
 type AllowKey = keyof Keys;
 
@@ -21,6 +19,8 @@ export class KeyboardControl {
     KeyA: 'left',
     KeyD: 'right',
     KeyW: 'up',
+    Space: 'attack',
+    Escape: 'pause',
   };
 
   private _active;
@@ -34,6 +34,8 @@ export class KeyboardControl {
       left: false,
       right: false,
       up: false,
+      attack: false,
+      pause: false,
     };
   }
 
