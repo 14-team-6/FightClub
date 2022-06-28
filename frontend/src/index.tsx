@@ -2,6 +2,9 @@ import React, { FC } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createGlobalStyle } from 'styled-components';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from '@frontend/src/hooks/useAuth';
+import ProtectedRoutes from '@frontend/src/components/routes/ProtectedRoutes';
+import PublicRoutes from '@frontend/src/components/routes/PublicRoutes';
 import { Stub } from '@frontend/src/pages/game/stub';
 import { Provider } from 'react-redux';
 import LoginPage from './pages/login/login';
@@ -18,14 +21,8 @@ import TopicPage from './pages/forum/topicPage';
 import MainLayout from './layouts/mainLayout';
 import PostPage from './pages/forum/postPage';
 import AnswerPage from './pages/forum/answerPage';
-
 import store from './store/store';
-
 import { ProfilePage } from './pages/profile/profile';
-import { AuthProvider } from '@frontend/src/hooks/useAuth';
-import ProtectedRoutes from '@frontend/src/components/routes/ProtectedRoutes';
-import PublicRoutes from '@frontend/src/components/routes/PublicRoutes';
-
 
 const GS = createGlobalStyle`
   @font-face {
