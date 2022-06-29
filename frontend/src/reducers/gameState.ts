@@ -8,17 +8,17 @@ export interface GameState {
   roundName: string,
 }
 
-const defaultState: GameState = {
+export const defaultGameState: GameState = {
   myLifePercent: 0,
   enemyLifePercent: 0,
   roundName: '',
 };
 
-type GameStateAction = PayloadAction<GameStateActions, GameState>;
+export type GameStateAction = PayloadAction<GameStateActions, GameState>;
 
 export const gameStateReducer = (state: GameState, action: Partial<GameStateAction>): GameState => {
   if (state === undefined) {
-    return defaultState;
+    return defaultGameState;
   }
   if (action.payload === undefined) {
     return state;
@@ -45,24 +45,3 @@ export const gameStateReducer = (state: GameState, action: Partial<GameStateActi
       return state;
   }
 };
-
-export const setMyLifePercent = (myLifePercent: number): Partial<GameStateAction> => (
-  {
-    type: GameStateActions.UPDATE_MY_LIFE_PERCENT,
-    payload: { ...defaultState, myLifePercent },
-  }
-);
-
-export const setEnemyLifePercent = (enemyLifePercent: number): Partial<GameStateAction> => (
-  {
-    type: GameStateActions.UPDATE_ENEMY_LIFE_PERCENT,
-    payload: { ...defaultState, enemyLifePercent },
-  }
-);
-
-export const setRoundName = (roundName: string): Partial<GameStateAction> => (
-  {
-    type: GameStateActions.UPDATE_ROUND_NAME,
-    payload: { ...defaultState, roundName },
-  }
-);

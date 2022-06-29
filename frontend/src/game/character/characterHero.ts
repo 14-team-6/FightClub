@@ -1,7 +1,7 @@
 import { Character } from '@frontend/src/game/character/character';
 import { CharacterState, Directions } from '@frontend/src/game/types';
 import store from '@frontend/src/store/store';
-import { setMyLifePercent } from '@frontend/src/reducers/gameState';
+import { setMyLifePercent } from '@frontend/src/actionCreators/gameState/creators';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
 import { ATTACK_LEVEL_ENEMY, LIFE_LEVEL_HERO } from '@frontend/consts/game';
 

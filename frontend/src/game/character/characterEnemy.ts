@@ -3,7 +3,7 @@ import { CharacterState, Directions } from '@frontend/src/game/types';
 import { HandleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
 import { AI } from '@frontend/src/game/components/controls/ai';
 import store from '@frontend/src/store/store';
-import { setEnemyLifePercent } from '@frontend/src/reducers/gameState';
+import { setEnemyLifePercent } from '@frontend/src/actionCreators/gameState/creators';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
 import { ATTACK_LEVEL_HERO, LIFE_LEVEL_ENEMY } from '@frontend/consts/game';
 

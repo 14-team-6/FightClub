@@ -5,7 +5,7 @@ import { Controls } from '@frontend/src/game/components/controls/controls';
 import { CharacterHero } from '@frontend/src/game/character/characterHero';
 import { CharacterEnemy } from '@frontend/src/game/character/characterEnemy';
 import store from '@frontend/src/store/store';
-import { setRoundName } from '@frontend/src/reducers/gameState';
+import { setRoundName } from '@frontend/src/actionCreators/gameState/creators';
 import { EndGame, EndGameType } from '@frontend/src/pages/game/endGame/endGame';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
 import { KeyboardControl } from '@frontend/src/game/components/controls/keyboard';
