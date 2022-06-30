@@ -36,15 +36,19 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|gif|png|svg)$/i,
-        use: [
-          {
-            loader: 'null-loader'
-          }
-        ]
+        type: 'asset/resource',
+        generator: {
+          filename: '[hash][ext]',
+          publicPath: '/'
+        }
       },
       {
         test: /\.(woff|woff2|ttf|eot)$/,
-        loader: 'null-loader'
+        type: 'asset/resource',
+        generator: {
+          filename: '[hash][ext]',
+          publicPath: '/'
+        }
       }
     ],
   }
