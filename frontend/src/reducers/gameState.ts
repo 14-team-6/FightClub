@@ -16,12 +16,9 @@ export const defaultGameState: GameState = {
 
 export type GameStateAction = PayloadAction<GameStateActions, GameState>;
 
-export const gameStateReducer = (state: GameState, action: Partial<GameStateAction>): GameState => {
+export const gameStateReducer = (state: GameState, action: GameStateAction): GameState => {
   if (state === undefined) {
     return defaultGameState;
-  }
-  if (action.payload === undefined) {
-    return state;
   }
   switch (action.type) {
     case GameStateActions.UPDATE_MY_LIFE_PERCENT:

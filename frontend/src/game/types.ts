@@ -1,5 +1,3 @@
-import { Controls } from '@frontend/src/game/components/controls/controls';
-
 export enum LifeBarTypes {
   IAM,
   ENEMY,
@@ -59,8 +57,6 @@ export interface CharacterMove {
   a?: number;
   direction?: Directions;
 }
-
-export type Keys = Controls;
 
 export enum RoundState {
   PREPARE = 'PREPARE',

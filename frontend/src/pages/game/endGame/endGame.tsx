@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import {
   MAIN_BLUE,
-  MAIN_RED,
   MAIN_YELLOW,
 } from '@frontend/consts/styles';
 import { GameSplashLayout } from '@frontend/src/pages/game/layout/gameSplashLayout';
 import { StrokedText } from '@frontend/src/components/strokedText/strokedText';
 import NavList from '@frontend/src/components/navlist/navlist';
 import StyledLink from '@frontend/src/components/link/link';
+import { GameHeader } from '@frontend/src/pages/game/components/gameHeader/gameHeader';
 
 export enum EndGameType {
   'WIN' = 'You win!',
@@ -28,9 +28,7 @@ export const EndGame: FC<EndGameProps> = (props: EndGameProps) => {
 
   return (
     <GameSplashLayout>
-      <StrokedText fontSize={'140px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>
-        {props.endGameType}
-      </StrokedText>
+      <GameHeader>{props.endGameType}</GameHeader>
       {score}
       <NavList>
         <li><StyledLink to="/">EXIT</StyledLink></li>

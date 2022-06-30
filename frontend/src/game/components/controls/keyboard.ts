@@ -1,4 +1,4 @@
-import { Keys } from '@frontend/src/game/types';
+import { Controls } from '@frontend/src/game/components/controls/controls';
 
 interface CodeMap {
   KeyD : string;
@@ -10,7 +10,7 @@ interface CodeMap {
 
 type AllowKeyCode = keyof CodeMap;
 
-type AllowKey = keyof Keys;
+type AllowKey = keyof Controls;
 
 export class KeyboardControl {
   private static __instance: KeyboardControl;
@@ -25,7 +25,7 @@ export class KeyboardControl {
 
   private _active;
 
-  public keys: Keys;
+  public keys: Controls;
 
   private constructor() {
     this._active = false;

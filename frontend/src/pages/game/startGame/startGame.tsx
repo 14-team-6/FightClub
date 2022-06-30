@@ -1,10 +1,6 @@
 import React, { FC } from 'react';
-import {
-  MAIN_RED,
-  MAIN_YELLOW,
-} from '@frontend/consts/styles';
 import { GameSplashLayout } from '@frontend/src/pages/game/layout/gameSplashLayout';
-import { StrokedText } from '../../../components/strokedText/strokedText';
+import { GameHeader } from '@frontend/src/pages/game/components/gameHeader/gameHeader';
 
 type StartGameProps = {
   roundName?: string,
@@ -12,11 +8,7 @@ type StartGameProps = {
 
 export const StartGame: FC<StartGameProps> = (props) => (
   <GameSplashLayout>
-    <StrokedText fontSize={'140px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>
-      {props.roundName}
-    </StrokedText>
-    <StrokedText fontSize={'140px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>
-      FIGHT!
-    </StrokedText>
+    <GameHeader>{props.roundName}</GameHeader>
+    <GameHeader>FIGHT!</GameHeader>
   </GameSplashLayout>
 );
