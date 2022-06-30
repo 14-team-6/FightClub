@@ -1,10 +1,16 @@
 import React, { useRef, useEffect } from 'react';
+import { useIsSSR } from '@frontend/src/hooks/useIsSSR';
 import { KeyboardControl } from '../../game/keyboard';
 import Character, { Directions, Controls } from '../character/character';
 
 function Canvas() {
-  const size = { width: window.innerWidth, height: window.innerHeight };
+  const isSSR = useIsSSR();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const width = isSSR ? 0 : window.innerWidth;
+  const height = isSSR ? 0 : window.innerHeight;
+
+  const size = { width, height };
 
   let requestIdRef: number | null = null;
 
@@ -102,7 +108,7 @@ function Canvas() {
       }
       keyboard.stop();
     };
-  }, []);
+  }, [isSSR]);
 
   return (
     <canvas {...size} ref={canvasRef} />

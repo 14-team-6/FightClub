@@ -1,27 +1,21 @@
 const path = require('path');
 const hwp = require('html-webpack-plugin');
-const tpp = require('tsconfig-paths-webpack-plugin');
+const tsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 
-const styledComponentsTransformer = createStyledComponentsTransformer();
+const styledComponentsTransformer = createStyledComponentsTransformer({
+  ssr: true,
+});
 
 module.exports = {
-  mode: 'development',
   entry: './frontend/src/index.tsx',
   devtool: 'inline-source-map',
-  devServer: {
-    historyApiFallback: true,
-    static: {
-      directory: path.join(__dirname, 'frontend', 'public'),
-      publicPath: '/public',
-    }
-  },
   output: {
     path: path.join(__dirname, '..', '..', 'dist'),
     filename: 'bundle.js',
   },
   resolve: {
-    plugins: [new tpp()],
+    plugins: [new tsconfigPathsPlugin()],
     modules: ['src', 'node_modules'],
     extensions: ['.ts', '.tsx', '.js'],
   },

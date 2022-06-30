@@ -1,9 +1,11 @@
 const path = require('path');
-const tpp = require('tsconfig-paths-webpack-plugin');
+const tsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 
-const styledComponentsTransformer = createStyledComponentsTransformer({ ssr: true });
+const styledComponentsTransformer = createStyledComponentsTransformer({
+  ssr: true,
+});
 
 module.exports = {
   target: 'node',
@@ -19,7 +21,7 @@ module.exports = {
   resolve: {
     modules: ['src', 'node-modules'],
     extensions: ['*', '.js', '.jsx', '.json', '.ts', '.tsx'],
-    plugins: [new tpp()]
+    plugins: [new tsconfigPathsPlugin()]
   },
   externals: [nodeExternals({ allowlist: [/\.(?!(?:tsx?|json)$).{1,5}$/i] })],
   module: {

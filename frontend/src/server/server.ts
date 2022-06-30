@@ -4,8 +4,10 @@ import serverMiddleware from '@frontend/src/server/serverMiddleware';
 
 const ssrServer = express();
 
-ssrServer.use(express.static(path.resolve(__dirname, '../dist')))
-  .use(express.static(path.resolve(__dirname, '../public')));
+console.log(__dirname);
+
+ssrServer.use(express.static(path.resolve(__dirname, '../dist/')));
+ssrServer.use('/public', express.static(path.resolve(__dirname, '../frontend/public/')));
 
 ssrServer.get('/*', serverMiddleware);
 

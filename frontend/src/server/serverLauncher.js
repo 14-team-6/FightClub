@@ -1,4 +1,4 @@
-const { ssrServer } = require('../../../dist/server.js');
+const { ssrServer } = require('../../../dist/server');
 
 const port = process.env.PORT || 9001;
 

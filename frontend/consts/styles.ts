@@ -1,5 +1,7 @@
 // Colors
-import mainBackgroundImage from '../public/img/mainBackground.png';
+//import mainBackgroundImage from '../public/img/mainBackground.png';
+const mainBackgroundImage = '/public/img/mainBackground.png';
+export const MAIN_FONT = '/public/font/Pixeboy.ttf';
 
 export const MAIN_RED: string = '#FF0000';
 export const MAIN_WHITE: string = '#FFFFFF';
