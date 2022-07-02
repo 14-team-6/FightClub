@@ -24,6 +24,10 @@ const getHTML = (styles: string, rendered: string) => `
 export const serverMiddlewareWithCallback = (callback: Function) => (req: Request, res: Response) => {
   const location = req.url;
 
+  // here we have to dynamic load the app bundle while debuggign
+  // otherwise server content will not equal client content after hmr
+  // and hydrate will fire a mismatch error
+  // I couldn't find any way to dynamic import in Typescript
   const AppToRender = callback();
 
   const jsx = (
