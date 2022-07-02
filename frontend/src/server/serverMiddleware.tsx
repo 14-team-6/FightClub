@@ -1,6 +1,5 @@
 import React from 'react';
 import { Request, Response } from 'express';
-import { App } from '@frontend/src/app/app';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import { ServerStyleSheet } from 'styled-components';
@@ -22,11 +21,14 @@ const getHTML = (styles: string, rendered: string) => `
     </html>
 `;
 
-export default (req: Request, res: Response): void => {
+export const serverMiddlewareWithCallback = (callback: Function) => (req: Request, res: Response) => {
   const location = req.url;
+
+  const AppToRender = callback();
+
   const jsx = (
-    <StaticRouter location={ location }>
-     <App />
+    <StaticRouter location={location}>
+      <AppToRender/>
     </StaticRouter>
   );
   const rendered = renderToString(sheet.collectStyles(jsx));

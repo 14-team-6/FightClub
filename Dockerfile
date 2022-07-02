@@ -1,11 +1,17 @@
 FROM alpine
 
-RUN apk add --update nginx sudo
+RUN apk add --update nginx sudo nodejs npm git
 
 WORKDIR /opt/app
 
-COPY ./dist/* ./
-COPY ./frontend/public/sounds ./public/sounds
+RUN npm i express react react-dom react-router-dom styled-components react-hook-form yup @hookform/resolvers classnames
+
+COPY ./dist/* ./web/
+COPY ./frontend/src/server/serverLauncher.js ./web/
+COPY ./frontend/deploy/start.sh ./
+COPY ./frontend/public/sounds ./web/public/sounds
 COPY ./frontend/deploy/nginx.conf /etc/nginx/http.d/default.conf
 
-CMD sed -i -e 's@${PORT}@'"$PORT"'@' /etc/nginx/http.d/default.conf && nginx -g 'daemon off;'
+RUN chmod a+x ./start.sh
+
+CMD ./start.sh

@@ -1,17 +1,18 @@
 const path = require('path');
 const tsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
-const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 
-const styledComponentsTransformer = createStyledComponentsTransformer({
-  ssr: true,
-});
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+const preprocessorOptions = {
+  DEBUG: isDevelopment,
+};
 
 module.exports = {
   target: 'node',
+  mode: process.env.NODE_ENV,
   devtool: 'source-map',
   entry: './frontend/src/server/server.ts',
-  node: {__dirname: false},
   output: {
     path: path.join(__dirname, '..', '..', 'dist'),
     filename: 'server.js',
@@ -21,35 +22,35 @@ module.exports = {
   resolve: {
     modules: ['src', 'node-modules'],
     extensions: ['*', '.js', '.jsx', '.json', '.ts', '.tsx'],
-    plugins: [new tsconfigPathsPlugin()]
+    plugins: [
+      new tsconfigPathsPlugin(),
+    ]
   },
-  externals: [nodeExternals({ allowlist: [/\.(?!(?:tsx?|json)$).{1,5}$/i] })],
+  externals: [nodeExternals()],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
         exclude: /node_modules/,
-        options: {
-          getCustomTransformers: () => ({before: [styledComponentsTransformer]})
-        }
+        use: [
+          {
+            loader: 'ts-loader',
+          },
+          {
+            loader: "ifdef-loader",
+            options: preprocessorOptions,
+          },
+        ],
       },
       {
-        test: /\.(jpe?g|gif|png|svg)$/i,
-        type: 'asset/resource',
-        generator: {
-          filename: '[hash][ext]',
-          publicPath: '/'
-        }
+        test: /\.png|\.ttf|\.svg|\.wav$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'null-loader',
+          },
+        ],
       },
-      {
-        test: /\.(woff|woff2|ttf|eot)$/,
-        type: 'asset/resource',
-        generator: {
-          filename: '[hash][ext]',
-          publicPath: '/'
-        }
-      }
     ],
   }
 };

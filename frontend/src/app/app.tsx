@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ProtectedRoutes from '@frontend/src/components/routes/ProtectedRoutes';
 import PublicRoutes from '@frontend/src/components/routes/PublicRoutes';
@@ -36,7 +36,7 @@ const GS = createGlobalStyle`
   }
 `;
 
-export const App: FC = () => (
+export const App = () => (
   <>
     <GS/>
     <Routes>
