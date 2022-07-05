@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
+import { AuthError } from '@frontend/src/services/authService';
+import { authService } from '@frontend/src/services';
 import FormElement from '../form/form';
 import { InputProps } from '../input/input';
 import { FormInputsNames, LoginFormData } from '../../models/form';
 import { ButtonProps } from '../button/button';
-import AuthService, { AuthError } from '../../services/authService';
 import SubmitFormError from '../submitFormError/submitFormError';
 import schema from './schema';
 
@@ -24,7 +25,7 @@ const LoginPageForm: React.FC = () => {
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
-      AuthService.signIn(data)
+      authService.signIn(data)
         .then((user: User) => {
           auth.login(user);
         })

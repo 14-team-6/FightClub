@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
-import AuthService, { AuthError } from '../../services/authService';
+import { authService } from '@frontend/src/services';
+import { AuthError } from '@frontend/src/services/authService';
 import { FormInputsNames, RegisterFormData } from '../../models/form';
 import { InputProps } from '../input/input';
 import FormElement from '../form/form';
@@ -23,7 +24,7 @@ const RegisterPageForm: React.FC = () => {
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
-      AuthService.signUp(data)
+      authService.signUp(data)
         .then((user: User) => {
           auth.login(user);
         })

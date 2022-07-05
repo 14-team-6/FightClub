@@ -1,10 +1,7 @@
 import { UserDTO } from '@frontend/src/services/types';
 import { transformToUser } from '@frontend/src/utils/apiTransformers';
-import DefaultHttpTransport from '../../core/default-http-transport';
 import HttpTransport from '../../core/http-transport';
 import { LoginFormData, RegisterFormData } from '../models/form';
-
-const AUTH_URL: string = 'https://ya-praktikum.tech/api/v2/auth';
 
 export interface AuthError {
   reason: string;
@@ -17,7 +14,7 @@ class AuthService {
     this.authService = authService;
   }
 
-  public getUser = () => this.authService.get<UserDTO>('/user');
+  public getUser = () => this.authService.get<UserDTO>('/auth/user');
 
   private signInHandler = async (response: Response): Promise<User | AuthError> => {
     if (!response.ok) {
@@ -30,7 +27,7 @@ class AuthService {
   };
 
   public signIn = (userInfo: LoginFormData) => this.authService
-    .post<LoginFormData, User | AuthError>('/signin', {
+    .post<LoginFormData, User | AuthError>('/auth/signin', {
     body: userInfo,
     handler: this.signInHandler,
   });
@@ -46,7 +43,7 @@ class AuthService {
   };
 
   public signUp = (userInfo: RegisterFormData) => this.authService
-    .post<RegisterFormData, User | AuthError>('/signup', {
+    .post<RegisterFormData, User | AuthError>('/auth/signup', {
     body: userInfo,
     handler: this.signUpHandler,
   });
@@ -59,9 +56,9 @@ class AuthService {
   };
 
   public signOut = () => this.authService
-    .post<RegisterFormData, any>('/logout', {
+    .post<RegisterFormData, any>('/auth/logout', {
     handler: this.signOutHandler,
   });
 }
 
-export default new AuthService(new DefaultHttpTransport(AUTH_URL));
+export default AuthService;
