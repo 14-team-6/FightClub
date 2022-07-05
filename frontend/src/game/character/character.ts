@@ -1,7 +1,13 @@
-import { CharacterStateAbstract, HandleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
+import { CharacterStateAbstract } from '@frontend/src/game/character/state/characterStateAbstract';
 import { CharacterStateIdle } from '@frontend/src/game/character/state/characterStateIdle';
 import { CharacterVisual } from '@frontend/src/game/character/characterVisual';
 import { CharacterMove, CharacterState } from '@frontend/src/game/types';
+import { InputControls } from '@frontend/src/game/components/controls/controls';
+
+export type CharacterUpdateProps = {
+  dt: number,
+  characters: Record<string, Character>,
+};
 
 export class Character {
   public characterVisual: CharacterVisual;
@@ -14,7 +20,7 @@ export class Character {
 
   private readonly storedMoveOption: CharacterMove;
 
-  private readonly inputControl:
+  protected inputControl: InputControls;
 
   public isPaused = false;
 
@@ -26,11 +32,19 @@ export class Character {
   }
 
   public init(): void {
+    if (this.inputControl === undefined) {
+      throw Error('Must initialize controls in child classes');
+    }
     this.isPaused = true;
+    this.inputControl.start();
     this.characterVisual.moveOption = { ...this.storedMoveOption };
     this.stateStack = [];
     this.stateStack.push(new CharacterStateIdle(this.characterVisual));
     this.stateStack[0].enterState(this.onEnterState.bind(this));
+  }
+
+  public beforeDestroy() {
+    this.inputControl.stop();
   }
 
   public get curState(): CharacterStateAbstract {
@@ -52,9 +66,9 @@ export class Character {
   }
   /* eslint-enable */
 
-  public update(props: Omit<HandleInputOptions, 'life'>): void {
+  public update(props: CharacterUpdateProps): void {
     const { dt, characters } = props;
-    let { controls } = props;
+    let controls = this.inputControl.keys;
     if (this.isPaused) {
       controls = {
         up: false,

@@ -7,5 +7,9 @@ export interface Controls {
 }
 
 export abstract class InputControls {
+  public abstract keys: Controls;
 
+  public abstract start(): void;
+
+  public abstract stop(): void;
 }

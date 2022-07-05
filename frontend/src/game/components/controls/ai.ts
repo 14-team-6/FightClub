@@ -1,9 +1,23 @@
-import { Controls } from '@frontend/src/game/components/controls/controls';
+import { Controls, InputControls } from '@frontend/src/game/components/controls/controls';
 import { Character } from '@frontend/src/game/character/character';
 import { ENEMY_ATTACK_PROBABILITY } from '@frontend/consts/game';
 
-export class AI {
-  update(characters: Record<string, Character>): Controls {
+export class AI extends InputControls {
+  public keys: Controls;
+
+  public start() {
+    this.keys = {
+      up: false,
+      left: false,
+      right: false,
+      attack: false,
+      pause: false,
+    };
+  }
+
+  public stop() {}
+
+  update(characters: Record<string, Character>) {
     const { hero, enemy } = characters;
 
     const res = {
@@ -33,6 +47,6 @@ export class AI {
       }
     }
 
-    return res;
+    this.keys = res;
   }
 }

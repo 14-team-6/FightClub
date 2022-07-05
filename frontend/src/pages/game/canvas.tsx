@@ -6,7 +6,6 @@ import React, {
   useState,
 } from 'react';
 import { Game } from '@frontend/src/game/game';
-import { KeyboardControl, keyboardLayoutAWD } from '../../game/components/controls/keyboard';
 
 const Canvas:FC = () => {
   const size = { width: window.innerWidth, height: window.innerHeight };
@@ -23,12 +22,9 @@ const Canvas:FC = () => {
   let game: Game;
 
   let then: number;
-  let keyboard: KeyboardControl;
 
   const init = () => {
     then = performance.now();
-    keyboard = KeyboardControl.getInstance(keyboardLayoutAWD);
-    keyboard.start();
 
     if (!canvasRef.current) return;
 
@@ -56,7 +52,7 @@ const Canvas:FC = () => {
 
   const renderFrame = (dt: number) => {
     clearFrame();
-    game.update({ controls: keyboard.keys, dt });
+    game.update({ dt });
   };
 
   const tick = (now: number) => {
@@ -79,7 +75,6 @@ const Canvas:FC = () => {
         cancelAnimationFrame(requestIdRef);
         game.beforeDestroy();
       }
-      keyboard.stop();
     };
   }, []);
 
