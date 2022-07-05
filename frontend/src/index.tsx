@@ -1,28 +1,30 @@
 import React, { FC } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createGlobalStyle } from 'styled-components';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Navigate,
+} from 'react-router-dom';
 import { AuthProvider } from '@frontend/src/hooks/useAuth';
 import ProtectedRoutes from '@frontend/src/components/routes/ProtectedRoutes';
 import PublicRoutes from '@frontend/src/components/routes/PublicRoutes';
-import { Stub } from '@frontend/src/pages/game/stub';
 import { Provider } from 'react-redux';
-import LoginPage from './pages/login/login';
-import MainPage from './pages/main/main';
-import { Loading } from './pages/game/loading/loading';
-import FightPage from './pages/fight/fight';
-import { Errors, ErrorTypes } from './pages/errors/errors';
-import Pixeboy from '../public/font/Pixeboy.ttf';
-import RegistrationPage from './pages/registration/registration';
-import { EndGame, EndGameType } from './pages/game/endGame/endGame';
-import { Results } from './pages/results/results';
-import ForumPage from './pages/forum/forumPage';
-import TopicPage from './pages/forum/topicPage';
-import MainLayout from './layouts/mainLayout';
-import PostPage from './pages/forum/postPage';
-import AnswerPage from './pages/forum/answerPage';
-import store from './store/store';
-import { ProfilePage } from './pages/profile/profile';
+import LoginPage from '@frontend/src/pages/login/login';
+import MainPage from '@frontend/src/pages/main/main';
+import FightPage from '@frontend/src/pages/game/fight/fight';
+import { Errors, ErrorTypes } from '@frontend/src/pages/errors/errors';
+import Pixeboy from '@frontend/public/font/Pixeboy.ttf';
+import RegistrationPage from '@frontend/src/pages/registration/registration';
+import { Results } from '@frontend/src/pages/results/results';
+import ForumPage from '@frontend/src/pages/forum/forumPage';
+import TopicPage from '@frontend/src/pages/forum/topicPage';
+import MainLayout from '@frontend/src/layouts/mainLayout';
+import PostPage from '@frontend/src/pages/forum/postPage';
+import AnswerPage from '@frontend/src/pages/forum/answerPage';
+import store from '@frontend/src/store/store';
+import { ProfilePage } from '@frontend/src/pages/profile/profile';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -48,11 +50,9 @@ const App: FC = () => (
         <Routes>
           <Route path="/" element={<ProtectedRoutes />}>
             <Route path="/" element={<MainPage />} />
-            <Route path="/fight" element={<FightPage />} />
+            <Route path="/game/fight" element={<FightPage />} />
+            <Route path="/game/fight/newgame" element={<Navigate to={'/game/fight'} />} />
             <Route path="/results" element={<Results />} />
-            <Route path="/game/stub" element={<Stub />} />
-            <Route path="/game/loading" element={<Loading />} />
-            <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE} />} />
             <Route path='/profile' element={<MainLayout><ProfilePage/></MainLayout>}/>
             <Route path="/topics" element={<MainLayout><ForumPage /></MainLayout>} />
             <Route path="/topics/:topicId" element={<MainLayout><TopicPage /></MainLayout>} />
