@@ -23,7 +23,7 @@ export class AI {
     }
 
     const heroRect = hero.characterVisual.getCollisionRect(hero.curState.state);
-    const enemyRect = enemy.characterVisual.getCollisionRect(hero.curState.state);
+    const enemyRect = enemy.characterVisual.getCollisionRect(enemy.curState.state);
 
     if (Math.abs(enemyRect.x - heroRect.x) > 150) {
       if (enemyRect.x < heroRect.x) {

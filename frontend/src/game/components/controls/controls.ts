@@ -5,3 +5,7 @@ export interface Controls {
   attack: boolean;
   pause: boolean;
 }
+
+export abstract class InputControls {
+
+}

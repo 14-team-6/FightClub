@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { Game } from '@frontend/src/game/game';
-import { KeyboardControl } from '../../game/components/controls/keyboard';
+import { KeyboardControl, keyboardLayoutAWD } from '../../game/components/controls/keyboard';
 
 const Canvas:FC = () => {
   const size = { width: window.innerWidth, height: window.innerHeight };
@@ -27,7 +27,7 @@ const Canvas:FC = () => {
 
   const init = () => {
     then = performance.now();
-    keyboard = KeyboardControl.getInstance();
+    keyboard = KeyboardControl.getInstance(keyboardLayoutAWD);
     keyboard.start();
 
     if (!canvasRef.current) return;

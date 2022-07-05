@@ -14,6 +14,8 @@ export class Character {
 
   private readonly storedMoveOption: CharacterMove;
 
+  private readonly inputControl:
+
   public isPaused = false;
 
   constructor(ctx: CanvasRenderingContext2D, moveOption: CharacterMove) {

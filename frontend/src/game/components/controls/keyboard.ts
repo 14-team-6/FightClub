@@ -1,33 +1,39 @@
 import { Controls } from '@frontend/src/game/components/controls/controls';
 
-interface CodeMap {
-  KeyD : string;
-  KeyA : string;
-  KeyW : string;
-  Space: string;
-  Escape: string;
+interface KeyboardLayout {
+  up: string,
+  left: string,
+  right: string,
+  attack: string,
+  pause: string,
 }
 
-type AllowKeyCode = keyof CodeMap;
+export interface keyboardLayoutAWD extends KeyboardLayout {
+  up: 'KeyW',
+  left: 'KeyA',
+  right: 'KeyD',
+  attack: 'Space',
+  pause: 'Escape',
+}
 
-type AllowKey = keyof Controls;
+export interface keyboardLayoutArrows extends KeyboardLayout {
+  up: 'ArrowUp',
+  left: 'ArrowLeft',
+  right: 'ArrowRight',
+  attack: 'ShiftRight',
+  pause: 'Escape',
+}
 
 export class KeyboardControl {
   private static __instance: KeyboardControl;
 
-  private _keyCodeMap: CodeMap = {
-    KeyA: 'left',
-    KeyD: 'right',
-    KeyW: 'up',
-    Space: 'attack',
-    Escape: 'pause',
-  };
+  private readonly _keyCodeMap: Record<string, keyof KeyboardLayout>;
 
   private _active;
 
   public keys: Controls;
 
-  private constructor() {
+  private constructor(keyboardLayout: KeyboardLayout) {
     this._active = false;
 
     this.keys = {
@@ -37,11 +43,15 @@ export class KeyboardControl {
       attack: false,
       pause: false,
     };
+
+    this._keyCodeMap = Object.entries(keyboardLayout).reduce((akk, val) => {
+      return { ...akk, [val[1]]: val[0] }
+    }, {});
   }
 
-  public static getInstance(): KeyboardControl {
+  public static getInstance(keyboardLayout: KeyboardLayout): KeyboardControl {
     if (!KeyboardControl.__instance) {
-      KeyboardControl.__instance = new KeyboardControl();
+      KeyboardControl.__instance = new KeyboardControl(keyboardLayout);
     }
 
     return KeyboardControl.__instance;
@@ -51,10 +61,10 @@ export class KeyboardControl {
     const { code } = event;
 
     if (code in this._keyCodeMap) {
-      const key = this._keyCodeMap[code as AllowKeyCode];
+      const key = this._keyCodeMap[code];
 
       if (key in this.keys) {
-        this.keys[key as AllowKey] = event.type === 'keydown';
+        this.keys[key] = event.type === 'keydown';
         event.preventDefault();
       }
     }
