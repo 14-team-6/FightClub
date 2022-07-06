@@ -1,6 +1,6 @@
 import { Controls, InputControls } from '@frontend/src/game/components/controls/controls';
 import { Character } from '@frontend/src/game/character/character';
-import { ENEMY_ATTACK_PROBABILITY } from '@frontend/consts/game';
+import { ENEMY_ATTACK_PROBABILITY, MIN_DISTANCE_TO_HERO } from '@frontend/consts/game';
 
 export class AI extends InputControls {
   public keys: Controls;
@@ -39,7 +39,7 @@ export class AI extends InputControls {
     const heroRect = hero.characterVisual.getCollisionRect(hero.curState.state);
     const enemyRect = enemy.characterVisual.getCollisionRect(enemy.curState.state);
 
-    if (Math.abs(enemyRect.x - heroRect.x) > 150) {
+    if (Math.abs(enemyRect.x - heroRect.x) > MIN_DISTANCE_TO_HERO) {
       if (enemyRect.x < heroRect.x) {
         res.right = true;
       } else {
