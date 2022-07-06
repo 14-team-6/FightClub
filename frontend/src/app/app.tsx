@@ -1,12 +1,10 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import ProtectedRoutes from '@frontend/src/components/routes/ProtectedRoutes';
 import PublicRoutes from '@frontend/src/components/routes/PublicRoutes';
-import { Stub } from '@frontend/src/pages/game/stub';
 import LoginPage from '@frontend/src/pages/login/login';
 import MainPage from '@frontend/src/pages/main/main';
 import { Loading } from '@frontend/src/pages/game/loading/loading';
-import FightPage from '@frontend/src/pages/fight/fight';
 import { Errors, ErrorTypes } from '@frontend/src/pages/errors/errors';
 import RegistrationPage from '@frontend/src/pages/registration/registration';
 import { EndGame, EndGameType } from '@frontend/src/pages/game/endGame/endGame';
@@ -19,6 +17,7 @@ import AnswerPage from '@frontend/src/pages/forum/answerPage';
 import { ProfilePage } from '@frontend/src/pages/profile/profile';
 import { createGlobalStyle } from 'styled-components';
 import { MAIN_FONT } from '@frontend/consts/styles';
+import FightPage from '@frontend/src/pages/game/fight/fight';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -42,9 +41,9 @@ export const App = () => (
     <Routes>
       <Route path="/" element={<ProtectedRoutes/>}>
         <Route path="/" element={<MainPage/>}/>
-        <Route path="/fight" element={<FightPage/>}/>
+        <Route path="/game/fight" element={<FightPage/>}/>
+        <Route path="/game/fight/newgame" element={<Navigate to={'/game/fight'} />} />
         <Route path="/results" element={<Results/>}/>
-        <Route path="/game/stub" element={<Stub/>}/>
         <Route path="/game/loading" element={<Loading/>}/>
         <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
         <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>

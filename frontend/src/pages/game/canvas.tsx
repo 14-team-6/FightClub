@@ -73,9 +73,10 @@ const Canvas:FC = () => {
   };
 
   useEffect(() => {
-    init();
-
-    requestIdRef = requestAnimationFrame(tick);
+    if (!isSSR) {
+      init();
+      requestIdRef = requestAnimationFrame(tick);
+    }
 
     return () => {
       if (requestIdRef) {

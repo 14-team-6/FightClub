@@ -6,7 +6,6 @@ import store from '@frontend/src/store/store';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from '@frontend/src/hooks/useAuth';
 
-
 const AppToRender: FC = () => (
   <Provider store={store}>
     <BrowserRouter>
