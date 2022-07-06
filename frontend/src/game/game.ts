@@ -1,14 +1,12 @@
-import { Character } from '@frontend/src/game/character/character';
+import { Character, CharacterUpdateProps } from '@frontend/src/game/character/character';
 import { Round } from '@frontend/src/game/game/round';
-import { HandleInputOptions } from '@frontend/src/game/character/state/characterStateAbstract';
-import { Controls } from '@frontend/src/game/components/controls/controls';
 import { CharacterHero } from '@frontend/src/game/character/characterHero';
 import { CharacterEnemy } from '@frontend/src/game/character/characterEnemy';
 import store from '@frontend/src/store/store';
 import { setRoundName } from '@frontend/src/actionCreators/gameState/creators';
 import { EndGame, EndGameType } from '@frontend/src/pages/game/endGame/endGame';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
-import { KeyboardControl } from '@frontend/src/game/components/controls/keyboard';
+import { KeyboardControl, keyboardLayoutPause } from '@frontend/src/game/components/controls/keyboard';
 import { PauseGame } from '@frontend/src/pages/game/pauseGame/pauseGame';
 import { RoundState } from '@frontend/src/game/types';
 
@@ -21,7 +19,6 @@ enum GameState {
 }
 
 type GameUpdateProps = {
-  controls: Controls,
   dt: number,
 };
 
@@ -29,6 +26,8 @@ export class Game {
   public hero: Character;
 
   public enemy: Character;
+
+  public inputPause: KeyboardControl;
 
   private currentRound: Round;
 
@@ -44,6 +43,9 @@ export class Game {
     this.hero = new CharacterHero(ctx);
     this.enemy = new CharacterEnemy(ctx);
 
+    this.inputPause = new KeyboardControl(keyboardLayoutPause);
+    this.inputPause.start();
+
     Sounds.init().then(() => {
       Sounds.playMainTheme();
     });
@@ -57,7 +59,7 @@ export class Game {
     store.dispatch(setRoundName('ROUND 1'));
   }
 
-  private updateCharacters(props: Omit<HandleInputOptions, 'life'>): void {
+  private updateCharacters(props: CharacterUpdateProps): void {
     this.hero.update(props);
     this.enemy.update(props);
   }
@@ -79,7 +81,7 @@ export class Game {
   }
 
   private handlePausing(): void {
-    if (KeyboardControl.getInstance().keys.pause && this.currentRound.roundState === RoundState.FIGHT) {
+    if (this.inputPause.keys.pause && this.currentRound.roundState === RoundState.FIGHT) {
       const handler = this.handleResumeGame(this.gameState);
       Sounds.stopMainTheme();
       this.setUIElements(PauseGame({ resumeCallback: handler.bind(this) }));
@@ -148,6 +150,9 @@ export class Game {
   }
 
   public beforeDestroy(): void {
+    this.hero.beforeDestroy();
+    this.enemy.beforeDestroy();
+    this.inputPause.stop();
     Sounds.stopMainTheme();
   }
 }

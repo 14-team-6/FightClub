@@ -8,7 +8,7 @@ import Sounds from '@frontend/src/game/components/sounds/sounds';
 import { ATTACK_LEVEL_HERO, LIFE_LEVEL_ENEMY } from '@frontend/consts/game';
 
 export class CharacterEnemy extends Character {
-  private ai: AI;
+  protected inputControl: AI;
 
   constructor(ctx: CanvasRenderingContext2D) {
     const size = { width: window.innerWidth, height: window.innerHeight };
@@ -22,10 +22,10 @@ export class CharacterEnemy extends Character {
       direction: Directions.LEFT,
     };
     super(ctx, move);
-    this.ai = new AI();
   }
 
   public init(): void {
+    this.inputControl = new AI();
     super.init();
     this.life = LIFE_LEVEL_ENEMY;
     store.dispatch(setEnemyLifePercent(this.life));
@@ -33,8 +33,8 @@ export class CharacterEnemy extends Character {
 
   public update(props: HandleInputOptions): void {
     const { dt, characters } = props;
-    const controls = this.ai.update(characters);
-    super.update({ controls, dt, characters });
+    this.inputControl.update(characters);
+    super.update({ dt, characters });
   }
 
   protected onExitState(_fromState: CharacterState): void {
