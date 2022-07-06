@@ -15,7 +15,7 @@ export interface User {
 type UserAction = PayloadAction<UserActions.SET_USER, User>;
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
-function userReducer(state: User = {}, action: UserAction) {
+function userReducer(state: User = {}, action: UserAction): User {
   switch (action.type) {
     case UserActions.SET_USER:
       return {
