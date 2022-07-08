@@ -28,7 +28,7 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
-      - run: npm i
+      - run: npm i || true
       - run: npm run build
       - run: heroku container:login
       - run: docker rmi -f fc_tmp || true
