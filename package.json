@@ -10,7 +10,7 @@
     "build:server": "NODE_ENV=production webpack --config frontend/build/webpack.server.config.js",
     "build:SSR": "NODE_ENV=production webpack --config frontend/build/webpack.clientSSR.config.js",
     "build:client": "NODE_ENV=production webpack --config frontend/build/webpack.client.config.js",
-    "build": "npm-run-all --print-label --parallel build:*",
+    "build": "npm run build:client && npm run build:SSR && npm run build:server",
     "lint:css": "stylelint frontend/src/**/*.tsx",
     "lint:ts": "eslint frontend/src",
     "lint": "npm run lint:css && npm run lint:ts",
