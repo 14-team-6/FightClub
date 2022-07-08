@@ -4,7 +4,7 @@ RUN apk add --update nginx sudo nodejs npm git
 
 WORKDIR /opt/app
 
-RUN npm i express react react-dom redux react-redux react-router-dom styled-components react-hook-form yup @hookform/resolvers classnames
+RUN npm i express react react-dom redux react-redux redux-thunk react-router-dom styled-components react-hook-form yup @hookform/resolvers classnames
 
 COPY ./dist/* ./web/
 COPY ./frontend/src/server/serverLauncher.js ./web/
