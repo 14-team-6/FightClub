@@ -6,9 +6,16 @@ import React, {
   useState,
 } from 'react';
 import { Game } from '@frontend/src/game/game';
+import { useIsSSR } from '@frontend/src/hooks/useIsSSR';
 
 const Canvas:FC = () => {
-  const size = { width: window.innerWidth, height: window.innerHeight };
+  const isSSR = useIsSSR();
+
+  const width = isSSR ? 0 : window.innerWidth;
+  const height = isSSR ? 0 : window.innerHeight;
+
+  const size = { width, height };
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [UIElements, setUIElements] = useState<ReactNode>(<></>);
@@ -66,9 +73,10 @@ const Canvas:FC = () => {
   };
 
   useEffect(() => {
-    init();
-
-    requestIdRef = requestAnimationFrame(tick);
+    if (!isSSR) {
+      init();
+      requestIdRef = requestAnimationFrame(tick);
+    }
 
     return () => {
       if (requestIdRef) {
@@ -76,7 +84,7 @@ const Canvas:FC = () => {
         game.beforeDestroy();
       }
     };
-  }, []);
+  }, [isSSR]);
 
   return (
     <>

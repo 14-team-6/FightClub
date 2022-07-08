@@ -10,15 +10,12 @@ import {
 import { LoopSettings, Nullable } from '@frontend/src/game/components/sounds/types';
 import { Sound } from '@frontend/src/game/components/sounds/sound';
 
-const { AudioContext } = window;
-
-const audioContext = new AudioContext();
-
 const makeSound = (
   name: string,
   url: string,
   loopSettings: Nullable<LoopSettings> = null,
 ): Promise<any> => {
+  const audioContext = new AudioContext();
   const getBufferFromUrl = (): Promise<any> => fetch(url)
     .then((res) => res.arrayBuffer())
     .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
