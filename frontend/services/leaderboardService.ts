@@ -1,5 +1,7 @@
 import DefaultHttpTransport from '@frontend/core/default-http-transport';
 import HttpTransport from '@frontend/core/http-transport';
+import { selectUserInfo } from '@frontend/src/selectors/user';
+import store from '@frontend/src/store/store';
 
 const LEADERBOARD_API_URL = 'https://ya-praktikum.tech/api/v2/leaderboard';
 const TEAM_NAME = 'vegas14';
@@ -12,7 +14,6 @@ type GetLeadersRequest = {
 
 type Leader = {
   data: {
-    login: string,
     name: string,
     score: number,
     teamName: string,
@@ -64,12 +65,13 @@ class LeaderboardService {
   }
 
   public setLeader(score: number) {
+    // TODO: refactor to selectors
+    const user = selectUserInfo(store.getState());
     const request: LeaderSetRequest = {
       ratingFieldName: 'score',
       teamName: `${TEAM_NAME}`,
       data: {
-        login: 'catfighter', // get from store
-        name: 'Stan', // get from store
+        name: user.display_name !== undefined ? user.display_name : user.login,
         score,
         teamName: `${TEAM_NAME}`,
       }
@@ -83,7 +85,10 @@ class LeaderboardService {
 
 const LeaderboardServiceSingleton = new LeaderboardService(new DefaultHttpTransport(LEADERBOARD_API_URL));
 
+if (typeof window === 'object') {
 // @ts-ignore
-window.LB = LeaderboardServiceSingleton;
+  window.LB = LeaderboardServiceSingleton;
+}
+
 
 export default LeaderboardServiceSingleton

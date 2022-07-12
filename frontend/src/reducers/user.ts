@@ -6,16 +6,20 @@ export interface User {
   first_name?: string,
   second_name?: string,
   display_name?: string,
-  login?: string,
+  login: string,
   email?: string,
   phone?: string,
   avatar?: string
 }
 
+const userDefaultState: User = {
+  login: '',
+};
+
 type UserAction = PayloadAction<UserActions.SET_USER, User>;
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
-function userReducer(state: User = {}, action: UserAction): User {
+function userReducer(state: User = userDefaultState, action: UserAction): User {
   switch (action.type) {
     case UserActions.SET_USER:
       return {

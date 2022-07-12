@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createSetUserAction } from '@frontend/src/actionCreators/user/creators';
+import store from '@frontend/src/store/store';
 
 interface AuthContext {
   user: User | null,
@@ -15,6 +17,7 @@ export function AuthProvider ({ children }: any) {
 
   const login = (userDetails: User) => {
     setUser(userDetails);
+    store.dispatch(createSetUserAction(userDetails));
     navigate('/');
   };
 

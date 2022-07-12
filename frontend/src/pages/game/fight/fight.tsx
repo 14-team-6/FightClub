@@ -11,6 +11,7 @@ import { LifeBar } from '@frontend/src/pages/game/components/lifeBar/lifeBar';
 import { LifeBarTypes } from '@frontend/src/game/types';
 import { StrokedText } from '@frontend/src/components/strokedText/strokedText';
 import Canvas from '../canvas';
+import { RootState } from '@frontend/src/store/store';
 
 const Wrap = styled.div`
   background: url(${MAIN_BACKGROUND}) no-repeat;
@@ -49,17 +50,20 @@ const RoundString = styled.h1`
 `;
 
 const FightPage: React.FC = () => {
-  const roundName = useSelector((state: any) => state.gameState.roundName);
+  const roundName = useSelector((state: RootState) => state.gameState.roundName);
+
+  const player = useSelector((state: RootState) => state.user);
+  const playerName = player.display_name !== undefined ? player.display_name : player.login;
 
   return (
     <Wrap>
       <Hud>
-        <LifeBar lifePercentPropName={'myLifePercent'} lifeType={LifeBarTypes.IAM} name={'Stan'}/>
+        <LifeBar lifePercentPropName={'myLifePercent'} lifeType={LifeBarTypes.IAM} name={playerName}/>
         <RoundWrap>
           <StrokedText fontSize={'40px'} textColor={MAIN_RED} strokeColor={MAIN_YELLOW}>{roundName}</StrokedText>
           <RoundString>vs</RoundString>
         </RoundWrap>
-        <LifeBar lifePercentPropName={'enemyLifePercent'} lifeType={LifeBarTypes.ENEMY} name={'Joao'}/>
+        <LifeBar lifePercentPropName={'enemyLifePercent'} lifeType={LifeBarTypes.ENEMY} name={'Cat Buster'}/>
       </Hud>
       <Wrapper>
         <Canvas/>
