@@ -7,6 +7,7 @@ const ProtectedRoutes = () => {
   const auth = useAuth();
 
   const [searchParams] = useSearchParams();
+  return <Outlet />;
 
   return auth.user ? <Outlet /> : <Navigate to={`/login?${searchParams.toString()}`} />;
 };

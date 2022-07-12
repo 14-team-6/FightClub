@@ -10,8 +10,8 @@ import {
 import { LifeBar } from '@frontend/src/pages/game/components/lifeBar/lifeBar';
 import { LifeBarTypes } from '@frontend/src/game/types';
 import { StrokedText } from '@frontend/src/components/strokedText/strokedText';
-import Canvas from '../canvas';
 import { RootState } from '@frontend/src/store/store';
+import Canvas from '../canvas';
 
 const Wrap = styled.div`
   background: url(${MAIN_BACKGROUND}) no-repeat;

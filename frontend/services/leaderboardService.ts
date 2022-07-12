@@ -12,17 +12,19 @@ type GetLeadersRequest = {
   limit: number,
 };
 
-type Leader = {
-  data: {
-    name: string,
-    score: number,
-    teamName: string,
-  },
+export type LeaderItem = {
+  id?: number,
+  name: string,
+  score: number,
 };
 
-type GetLeadersResponse = Leader[];
+type LeaderResponse = {
+  data: LeaderItem & { teamName: string }
+};
 
-type LeaderSetRequest = Leader & {
+type GetLeadersResponse = LeaderResponse[];
+
+type LeaderSetRequest = LeaderResponse & {
   ratingFieldName: string,
   teamName: string,
 };
@@ -38,9 +40,19 @@ class LeaderboardService {
     this.httpTransport = httpTransport;
   }
 
-  private getLeadersHandler(response: Response): Promise<GetLeadersResponse> {
+  private getLeadersHandler(response: Response): Promise<LeaderItem[]> {
     if (response.ok) {
-      return response.json();
+      return response.json().then((items: GetLeadersResponse) => {
+        let count = 0;
+        return items.map((element: LeaderResponse) => {
+          const res: LeaderItem = {
+            id: ++count,
+            name: element.data.name,
+            score: element.data.score,
+          };
+          return res;
+        } );
+      });
     }
     return Promise.reject(response.json());
   }
@@ -58,7 +70,7 @@ class LeaderboardService {
       limit: 10,
       cursor: 0,
     };
-    return this.httpTransport.post<GetLeadersRequest, GetLeadersResponse>(`/${TEAM_NAME}`, {
+    return this.httpTransport.post<GetLeadersRequest, LeaderItem[]>(`/${TEAM_NAME}`, {
       body: request,
       handler: this.getLeadersHandler,
     });
@@ -89,6 +101,5 @@ if (typeof window === 'object') {
 // @ts-ignore
   window.LB = LeaderboardServiceSingleton;
 }
-
 
 export default LeaderboardServiceSingleton

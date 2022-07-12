@@ -29,7 +29,7 @@ const ListItemStyled = styled(ListItemImpl)`
   margin: 5px 0;
 
   .stroked-text {
-    width: 100px;
+    width: 100%;
     text-overflow: ellipsis;
   }
 

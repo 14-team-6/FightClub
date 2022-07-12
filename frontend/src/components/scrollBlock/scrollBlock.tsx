@@ -14,16 +14,25 @@ const WrapScroll = styled.div`
   margin: 5px 0;
 `;
 
-const ScrollBlockImpl: FC = () => {
-  const onClick = (direction: string) => () => {
-    console.log(`direction: ${direction}`); // eslint-disable-line no-console
+type ScrollBlockProps = {
+  handleScrollButton: Function,
+};
+
+export enum ScrollDirection {
+  UP = 'UP',
+  DOWN = 'DOWN',
+}
+
+const ScrollBlockImpl: FC<ScrollBlockProps> = ({ handleScrollButton }) => {
+  const onClick = (direction: ScrollDirection) => () => {
+    handleScrollButton(direction);
   };
 
   return (
     <WrapScroll>
-      <ButtonTriangle onClick={onClick('up')} isActive={true} size={ButtonTriangleSize.BIG}
+      <ButtonTriangle onClick={onClick(ScrollDirection.UP)} isActive={true} size={ButtonTriangleSize.BIG}
                       direction={ButtonTriangleDirection.UP} />
-      <ButtonTriangle onClick={onClick('down')} size={ButtonTriangleSize.BIG}
+      <ButtonTriangle onClick={onClick(ScrollDirection.DOWN)} size={ButtonTriangleSize.BIG}
                       direction={ButtonTriangleDirection.DOWN} />
     </WrapScroll>
   );

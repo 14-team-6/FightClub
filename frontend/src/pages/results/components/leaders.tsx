@@ -1,11 +1,12 @@
-import React, { FC } from 'react';
+import React, { FC, useRef } from 'react';
 import styled from 'styled-components';
-import { ScrollBlock } from '@frontend/src/components/scrollBlock/scrollBlock';
+import { ScrollBlock, ScrollDirection } from '@frontend/src/components/scrollBlock/scrollBlock';
 import { LeaderItem, ListItem } from './leaderListItem';
 import { SortBlock } from './sortBlock';
 
 type LeadersProps = {
   items: Array<LeaderItem>,
+  handleSortCallback: Function,
   className?: string,
 };
 
@@ -20,21 +21,37 @@ const WrapList = styled.div`
   overflow-y: hidden;
 `;
 
-const LeadersImpl: FC<LeadersProps> = (props) => (
-  <div className={props.className}>
-    <SortBlock />
-    <WrapOther>
-      <WrapList>
-        {
-          props.items.map((leaderItem) => (
-            <ListItem key={leaderItem.id} name={leaderItem.name} score={leaderItem.score} />
-          ))
-        }
-      </WrapList>
-      <ScrollBlock />
-    </WrapOther>
-  </div>
-);
+const LeadersImpl: FC<LeadersProps> = (props) => {
+  const refScrollBlock = useRef<HTMLDivElement>(null);
+
+  const handleScrollButtons = (direction: ScrollDirection) => {
+    if (refScrollBlock.current === null) {
+      return;
+    }
+    const el = refScrollBlock.current;
+    if (direction === ScrollDirection.UP) {
+      el.scroll(0, el.scrollTop -= 10);
+    } else {
+      el.scroll(0, el.scrollTop += 10);
+    }
+  };
+
+  return (
+    <div className={props.className}>
+      <SortBlock handleSortCallback={props.handleSortCallback}/>
+      <WrapOther>
+        <WrapList ref={refScrollBlock}>
+          {
+            props.items.map((leaderItem) => (
+              <ListItem key={leaderItem.id} name={leaderItem.name} score={leaderItem.score}/>
+            ))
+          }
+        </WrapList>
+        <ScrollBlock handleScrollButton={handleScrollButtons}/>
+      </WrapOther>
+    </div>
+  );
+};
 
 const LeadersImplStyled = styled(LeadersImpl)`
   display: flex;
