@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
 import FormElement from '../form/form';
 import { InputProps } from '../input/input';
 import { FormInputsNames, LoginFormData } from '../../models/form';
-import { ButtonProps } from '../button/button';
-import AuthService, { AuthError } from '../../services/authService';
+import ButtonElement, { ButtonProps } from '../button/button';
+import AuthService, { AuthError, REDIRECT_URL } from '../../services/authService';
 import SubmitFormError from '../submitFormError/submitFormError';
 import schema from './schema';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const LoginPageForm: React.FC = () => {
   const {
@@ -21,6 +22,9 @@ const LoginPageForm: React.FC = () => {
 
   const auth = useAuth();
   const [error, setError] = useState<string>('');
+
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
@@ -54,6 +58,22 @@ const LoginPageForm: React.FC = () => {
     type: 'submit',
   }]), []);
 
+  const handleOAuth = useCallback(async () => {
+    window.location.href = await AuthService.makeOAuthRedirectUrl();
+  }, []);
+
+  useEffect(() => {
+    if (searchParams.has('code')) {
+      AuthService.finalizeOAuth(searchParams.get('code'), REDIRECT_URL)
+        .then((user: User) => {
+          auth.login(user);
+        }).catch(({reason}: AuthError) => {
+        navigate('.');
+        setError(reason);
+      });
+    }
+  }, []);
+
   return (
     <>
       <SubmitFormError error={error}/>
@@ -62,6 +82,7 @@ const LoginPageForm: React.FC = () => {
         inputs={loginPageFormItems}
         buttons={loginPageMenuButtons}
       />
+      <ButtonElement onClick={handleOAuth} type={'button'} text={'login by Yandex'}/>
     </>
   );
 };
