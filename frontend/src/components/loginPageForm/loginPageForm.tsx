@@ -68,7 +68,6 @@ const LoginPageForm: React.FC = () => {
         .then((user: User) => {
           auth.login(user);
         }).catch(({ reason }: AuthError) => {
-          navigate('.');
           setError(reason);
         });
     }

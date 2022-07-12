@@ -64,15 +64,16 @@ class AuthService {
     handler: this.signOutHandler,
   });
 
-  public async makeOAuthRedirectUrl(): Promise<any> {
+  public async makeOAuthRedirectUrl(): Promise<string> {
     const serviceId = await this.authService.get(`/oauth/yandex/service-id?redirect_uri=${REDIRECT_URL}`)
       .then((response: { service_id: string }) => response.service_id);
     return `https://oauth.yandex.ru/authorize?response_type=code&client_id=${serviceId}&redirect_uri=${REDIRECT_URL}`;
   }
 
-  public finalizeOAuth(code: string | null, redirect_uri: string): Promise<any> {
+  public finalizeOAuth(code: string | null, redirect_uri: string): Promise<User | AuthError> {
     if (code === null) {
-      return Promise.reject(Error('Empty oauth code'));
+      // eslint-disable-next-line prefer-promise-reject-errors
+      return Promise.reject({ reason: 'Empty oauth code' });
     }
     return this.authService.post('/oauth/yandex', {
       body: {
