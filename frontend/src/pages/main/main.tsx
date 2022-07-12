@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import AuthService from '@frontend/src/services/authService';
 import { useAuth } from '@frontend/src/hooks/useAuth';
@@ -9,7 +9,6 @@ import StyledLink from '@frontend/src/components/link/link';
 import ButtonElement from '@frontend/src/components/button/button';
 import Kitten from '@frontend/src/components/kitten/kitten';
 import { KITTEN_HEIGHT, KITTEN_WIDTH } from '@frontend/consts/styles';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,19 +48,10 @@ const WrapperTitle = styled.div`
 const MainPage: FC = () => {
   const auth = useAuth();
 
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-
   const handleLogout = () => {
     AuthService.signOut()
       .then(auth.logout);
   };
-
-  useEffect(() => {
-    if (searchParams.has('code')) {
-      navigate(`/login?code=${searchParams.get('code')}`);
-    }
-  }, []);
 
   return (
     <MainLayout>

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createSetUserAction } from '@frontend/src/actionCreators/user/creators';
 import store from '@frontend/src/store/store';
+import { createSetUserAction } from '@frontend/src/actionCreators/user/creators';
 
 interface AuthContext {
   user: User | null,
