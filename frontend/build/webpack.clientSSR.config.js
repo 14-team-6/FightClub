@@ -3,6 +3,12 @@ const tsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+const preprocessorOptions = {
+  DEBUG: isDevelopment,
+};
+
 const styledComponentsTransformer = createStyledComponentsTransformer({
   ssr: true,
 });
@@ -39,6 +45,10 @@ module.exports = {
                   styledComponentsTransformer,
                 ]})
             },
+          },
+          {
+            loader: "ifdef-loader",
+            options: preprocessorOptions,
           },
         ],
       },

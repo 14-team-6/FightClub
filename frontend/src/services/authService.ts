@@ -5,7 +5,15 @@ import HttpTransport from '../../core/http-transport';
 import { LoginFormData, RegisterFormData } from '../models/form';
 
 const AUTH_URL: string = 'https://ya-praktikum.tech/api/v2';
+/* eslint-disable */
+/// #if DEBUG
+// @ts-ignore
 export const REDIRECT_URL = 'http://localhost:9000';
+/// #else
+// @ts-ignore
+export const REDIRECT_URL = 'https://fightclub-vegas.herokuapp.com';
+/// #endif
+/* eslint-enable */
 
 export interface AuthError {
   reason: string;

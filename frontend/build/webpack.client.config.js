@@ -6,6 +6,10 @@ const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
+const preprocessorOptions = {
+  DEBUG: isDevelopment,
+};
+
 const styledComponentsTransformer = createStyledComponentsTransformer({
   ssr: true,
 });
@@ -54,6 +58,10 @@ module.exports = {
             options: {
               getCustomTransformers: () => ({before: [styledComponentsTransformer]})
             },
+          },
+          {
+            loader: "ifdef-loader",
+            options: preprocessorOptions,
           },
         ],
       },
