@@ -6,7 +6,6 @@ import { useAuth } from '@frontend/src/hooks/useAuth';
 const PublicRoutes = () => {
   const auth = useAuth();
 
-  return <Outlet />;
   return auth.user ? <Navigate to="/" /> : <Outlet />;
 };
 

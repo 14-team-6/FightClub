@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
@@ -9,7 +10,6 @@ import ButtonElement, { ButtonProps } from '../button/button';
 import AuthService, { AuthError, REDIRECT_URL } from '../../services/authService';
 import SubmitFormError from '../submitFormError/submitFormError';
 import schema from './schema';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const LoginPageForm: React.FC = () => {
   const {
@@ -67,10 +67,10 @@ const LoginPageForm: React.FC = () => {
       AuthService.finalizeOAuth(searchParams.get('code'), REDIRECT_URL)
         .then((user: User) => {
           auth.login(user);
-        }).catch(({reason}: AuthError) => {
-        navigate('.');
-        setError(reason);
-      });
+        }).catch(({ reason }: AuthError) => {
+          navigate('.');
+          setError(reason);
+        });
     }
   }, []);
 
@@ -83,6 +83,7 @@ const LoginPageForm: React.FC = () => {
         buttons={loginPageMenuButtons}
       />
       <ButtonElement onClick={handleOAuth} type={'button'} text={'login by Yandex'}/>
+      <ButtonElement onClick={() => navigate('/registration')} type={'button'} text={'register'}/>
     </>
   );
 };

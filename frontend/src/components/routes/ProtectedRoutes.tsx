@@ -1,13 +1,14 @@
 import React from 'react';
 
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@frontend/src/hooks/useAuth';
 
 const ProtectedRoutes = () => {
   const auth = useAuth();
 
-  return <Outlet />;
-  return auth.user ? <Outlet /> : <Navigate to="/login" />;
+  const [searchParams] = useSearchParams();
+
+  return auth.user ? <Outlet /> : <Navigate to={`/login?${searchParams.toString()}`} />;
 };
 
 export default ProtectedRoutes;

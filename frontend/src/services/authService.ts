@@ -66,21 +66,20 @@ class AuthService {
 
   public async makeOAuthRedirectUrl(): Promise<any> {
     const serviceId = await this.authService.get(`/oauth/yandex/service-id?redirect_uri=${REDIRECT_URL}`)
-      .then((response: {service_id: string}) => {
-        return response.service_id
-      });
-    return `https://oauth.yandex.ru/authorize?response_type=code&client_id=${serviceId}&redirect_uri=${REDIRECT_URL}`
+      .then((response: { service_id: string }) => response.service_id);
+    return `https://oauth.yandex.ru/authorize?response_type=code&client_id=${serviceId}&redirect_uri=${REDIRECT_URL}`;
   }
 
   public finalizeOAuth(code: string | null, redirect_uri: string): Promise<any> {
     if (code === null) {
-      return Promise.reject('Empty oauth code');
+      return Promise.reject(Error('Empty oauth code'));
     }
     return this.authService.post('/oauth/yandex', {
       body: {
         code,
-        redirect_uri
-      }, handler: this.signUpHandler
+        redirect_uri,
+      },
+      handler: this.signUpHandler,
     });
   }
 }
