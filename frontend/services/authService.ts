@@ -3,7 +3,7 @@ import DefaultHttpTransport from '../core/default-http-transport';
 import HttpTransport from '../core/http-transport';
 import { LoginFormData, RegisterFormData } from '../src/models/form';
 
-const AUTH_URL: string = 'https://ya-praktikum.tech/api/v2';
+const AUTH_URL: string = 'https://ya-praktikum.tech/api/v2/auth';
 
 export interface AuthError {
   reason: string;
@@ -41,22 +41,22 @@ class AuthService {
   }
 
   public signIn = (userInfo: LoginFormData) => this.authService
-    .post<LoginFormData, string | AuthError>('/auth/signin', {
+    .post<LoginFormData, string | AuthError>('/signin', {
     body: userInfo,
     handler: this.signInHandler,
   });
 
   public signUp = (userInfo: RegisterFormData) => this.authService
-    .post<RegisterFormData, SuccessSignUp | AuthError>('/auth/signup', {
+    .post<RegisterFormData, SuccessSignUp | AuthError>('/signup', {
     body: userInfo,
     handler: this.signUpHandler,
   });
 
   public signOut = () => this.authService
-    .post<RegisterFormData, any>('/auth/logout');
+    .post<RegisterFormData, any>('/logout');
 
   public getUser = () => this.authService
-    .get<User | AuthError>('/auth/user', {
+    .get<User | AuthError>('/user', {
     handler: async (response: Response) => response.json(),
   });
 }
