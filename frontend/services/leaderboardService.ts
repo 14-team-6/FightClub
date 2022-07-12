@@ -97,9 +97,11 @@ class LeaderboardService {
 
 const LeaderboardServiceSingleton = new LeaderboardService(new DefaultHttpTransport(LEADERBOARD_API_URL));
 
+/// #if DEBUG
 if (typeof window === 'object') {
 // @ts-ignore
   window.LB = LeaderboardServiceSingleton;
 }
+/// #endif
 
 export default LeaderboardServiceSingleton
