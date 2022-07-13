@@ -40,6 +40,10 @@ const GS = createGlobalStyle`
     margin: 0;
     font-family: Pixeboy, serif;
   }
+
+  html, body {
+    height: 100%;
+  }
 `;
 
 const App: FC = () => (
@@ -60,12 +64,12 @@ const App: FC = () => (
             <Route path="/topics/:topicId/posts/:postId" element={<MainLayout><PostPage /></MainLayout>} />
             <Route path="/topics/:topicId/posts/add" element={<MainLayout><ForumPage /></MainLayout>} />
             <Route path="/topics/:topicId/posts/:postId/comments/add" element={<MainLayout><AnswerPage /></MainLayout>} />
-            <Route path="*" element={<Errors errorType={ErrorTypes.e404} />} />
           </Route>
           <Route path="/" element={<PublicRoutes />}>
             <Route path="/login" element={<MainLayout><LoginPage /></MainLayout>} />
             <Route path="/registration" element={<MainLayout><RegistrationPage /></MainLayout>} />
           </Route>
+          <Route path="*" element={<Errors errorType={ErrorTypes.e404}/>}/>
         </Routes>
       </AuthProvider>
     </BrowserRouter>
@@ -74,4 +78,4 @@ const App: FC = () => (
 
 const container = document.getElementById('app');
 const root = createRoot(container!);
-root.render(<App />);
+root.render(<App/>);
