@@ -6,7 +6,8 @@ import FormElement from '../form/form';
 import { InputProps } from '../input/input';
 import { FormInputsNames, LoginFormData } from '../../models/form';
 import { ButtonProps } from '../button/button';
-import AuthService, { AuthError } from '../../services/authService';
+import AuthService from '../../services/authService';
+import { RequestError } from '../../services/types';
 import SubmitFormError from '../submitFormError/submitFormError';
 import schema from './schema';
 
@@ -28,7 +29,7 @@ const LoginPageForm: React.FC = () => {
         .then((user: User) => {
           auth.login(user);
         })
-        .catch(({ reason }: AuthError) => {
+        .catch(({ reason }: RequestError) => {
           setError(reason);
         });
     },

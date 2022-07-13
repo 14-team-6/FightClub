@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { UserProfile } from '@frontend/src/pages/profile/components/user';
-import ButtonElement from '@frontend/src/components/button/button';
+import Link from '../../components/link/link';
 import MainTitle from '../../components/mainTitle/mainTitle';
 
 export const Wrapper = styled.div`
@@ -24,9 +24,8 @@ export const ProfilePage: React.FC = () => (
     <MainTitle />
     <UserProfile />
     <ButtonsWrappers>
-      {/* временно кнопки, как вмерджится страница форума в мейн, переделаю на линки */}
-      <ButtonElement type="button" text="Back" />
-      <ButtonElement type="button" text="Edit" />
+      <Link to={'/'}>BACK</Link>
+      <Link to={'/profile/edit'}>EDIT</Link>
     </ButtonsWrappers>
   </Wrapper>
 );
