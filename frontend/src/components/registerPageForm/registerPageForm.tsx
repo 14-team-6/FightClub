@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
 import { authService } from '@frontend/src/services';
 import { AuthError } from '@frontend/src/services/authService';
+import { useNavigate } from 'react-router-dom';
 import { FormInputsNames, RegisterFormData } from '../../models/form';
 import { InputProps } from '../input/input';
 import FormElement from '../form/form';
@@ -20,6 +21,7 @@ const RegisterPageForm: React.FC = () => {
     resolver: yupResolver(schema),
   });
   const auth = useAuth();
+  const navigator = useNavigate();
   const [error, setError] = useState<string>('');
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
@@ -76,6 +78,12 @@ const RegisterPageForm: React.FC = () => {
   const registerPageMenuButtons: ButtonProps[] = React.useMemo(() => ([{
     text: 'Register',
     type: 'submit',
+  }, {
+    text: 'Login',
+    type: 'button',
+    onClick: () => {
+      navigator('/login');
+    },
   }]), []);
 
   return (

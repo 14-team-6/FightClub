@@ -14,7 +14,11 @@ class AuthService {
     this.authService = authService;
   }
 
-  public getUser = () => this.authService.get<UserDTO>('/auth/user');
+  public isCookieInvalid(userDTO: UserDTO | AuthError): userDTO is AuthError {
+    return !!(userDTO as AuthError)?.reason;
+  }
+
+  public getUser = () => this.authService.get<UserDTO | AuthError>('/auth/user');
 
   private signInHandler = async (response: Response): Promise<User | AuthError> => {
     if (!response.ok) {

@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
 import { AuthError } from '@frontend/src/services/authService';
 import { authService } from '@frontend/src/services';
+import { useNavigate } from 'react-router-dom';
 import FormElement from '../form/form';
 import { InputProps } from '../input/input';
 import { FormInputsNames, LoginFormData } from '../../models/form';
@@ -21,6 +22,7 @@ const LoginPageForm: React.FC = () => {
   });
 
   const auth = useAuth();
+  const navigator = useNavigate();
   const [error, setError] = useState<string>('');
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
@@ -53,6 +55,12 @@ const LoginPageForm: React.FC = () => {
   const loginPageMenuButtons: ButtonProps[] = React.useMemo(() => ([{
     text: 'Login',
     type: 'submit',
+  }, {
+    text: 'Registration',
+    type: 'button',
+    onClick: () => {
+      navigator('/registration');
+    },
   }]), []);
 
   return (
