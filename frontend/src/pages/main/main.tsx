@@ -64,7 +64,7 @@ const MainPage: FC = () => {
           </WrapperTitle>
           <div>
             <NavList>
-              <li><StyledLink to="/fight">Start</StyledLink></li>
+              <li><StyledLink to="/game/fight">Start</StyledLink></li>
               <li><StyledLink to="#">Options</StyledLink></li>
               <li><StyledLink to="/results">Leaders</StyledLink></li>
               <li><StyledLink to="/topics">Forum</StyledLink></li>
