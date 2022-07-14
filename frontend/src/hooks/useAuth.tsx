@@ -34,7 +34,9 @@ export function AuthProvider ({ children }: any) {
   useEffect(() => {
     authService.getUser()
       .then((userDTO: UserDTO | AuthError) => {
-        if (!authService.isCookieInvalid(userDTO)) {
+        if (authService.isCookieInvalid(userDTO)) {
+          dispatch(createSetUserAction({}));
+        } else {
           dispatch(createSetUserAction(transformToUser(userDTO)));
         }
         setLoading(false);
