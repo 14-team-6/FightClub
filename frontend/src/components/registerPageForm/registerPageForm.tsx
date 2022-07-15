@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@frontend/src/hooks/useAuth';
+import AuthService from '../../services/authService';
+import { RequestError } from '../../services/types';
 import { FormInputsNames, RegisterFormData } from '../../models/form';
 import { InputProps } from '../input/input';
 import FormElement from '../form/form';
 import { ButtonProps } from '../button/button';
-import AuthService, { AuthError } from '../../../services/authService';
 import SubmitFormError from '../submitFormError/submitFormError';
 import schema from './schema';
 
@@ -18,16 +19,16 @@ const RegisterPageForm: React.FC = () => {
   } = useForm<RegisterFormData>({
     resolver: yupResolver(schema),
   });
-  const navigator = useNavigate();
+  const auth = useAuth();
   const [error, setError] = useState<string>('');
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
       AuthService.signUp(data)
-        .then(() => {
-          navigator('/main');
+        .then((user: User) => {
+          auth.login(user);
         })
-        .catch(({ reason }: AuthError) => {
+        .catch(({ reason }: RequestError) => {
           setError(reason);
         });
     },

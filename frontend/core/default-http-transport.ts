@@ -75,7 +75,7 @@ class DefaultHttpTransport implements HttpTransport {
       method,
       headers: Object.fromEntries(headers),
       body: requestBody,
-      credentials: 'same-origin',
+      credentials: 'include',
     })
       .then((response: Response) => handler(response));
   }
