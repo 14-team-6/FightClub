@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import Link from '../../components/link/link';
-import { getTopics } from '../../services/forum';
+import { useTopics } from '@frontend/src/pages/forum/hooks/useTopics';
 import { Topic } from './types';
+import Link from '../../components/link/link';
 import TopicElement from './components/topic';
 
 const Header = styled.header`
@@ -26,11 +26,7 @@ const Topics = styled.main`
 `;
 
 const ForumPage: React.FC = () => {
-  const [topics, setTopics] = useState<Topic[]>();
-
-  useEffect(() => {
-    getTopics().then((tpcs: Topic[]) => { setTopics(tpcs); });
-  }, []);
+  const topics = useTopics();
 
   return (
     <>

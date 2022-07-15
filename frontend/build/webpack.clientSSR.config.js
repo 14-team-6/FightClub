@@ -2,7 +2,6 @@ const path = require('path');
 const tsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
-
 const styledComponentsTransformer = createStyledComponentsTransformer({
   ssr: true,
 });
@@ -46,7 +45,7 @@ module.exports = {
         test: /\.(jpe?g|gif|png|svg)$/i,
         type: 'asset/resource',
         generator: {
-          filename: '[hash][ext]',
+          filename: '[name][ext]',
           publicPath: '/'
         }
       },
@@ -54,7 +53,7 @@ module.exports = {
         test: /\.(woff|woff2|ttf|eot)$/,
         type: 'asset/resource',
         generator: {
-          filename: '[hash][ext]',
+          filename: '[name][ext]',
           publicPath: '/'
         }
       }
