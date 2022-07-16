@@ -3,10 +3,12 @@ import { Request, Response } from 'express';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import { ServerStyleSheet } from 'styled-components';
+import store from '@frontend/src/store/store';
+import { Provider } from 'react-redux';
 
 const sheet = new ServerStyleSheet();
 
-const getHTML = (styles: string, rendered: string) => `
+const getHTML = (styles: string, rendered: string, data: string) => `
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -29,6 +31,7 @@ const getHTML = (styles: string, rendered: string) => `
         </head>
         <body>
             <div id="app">${rendered}</div>
+            <script>window.__PRELOADED_STATE__ = ${data}</script>
             <script src="/bundle.js"></script>
         </body>
     </html>
@@ -44,12 +47,15 @@ export const serverMiddlewareWithCallback = (callback: Function) => (req: Reques
   const AppToRender = callback();
 
   const jsx = (
-    <StaticRouter location={location}>
-      <AppToRender/>
-    </StaticRouter>
+    <Provider store={store}>
+      <StaticRouter location={location}>
+        <AppToRender/>
+      </StaticRouter>
+    </Provider>
   );
   const rendered = renderToString(sheet.collectStyles(jsx));
   const styles = sheet.getStyleTags();
+  const data = JSON.stringify(store.getState());
 
-  res.send(getHTML(styles, rendered));
+  res.send(getHTML(styles, rendered, data));
 };
