@@ -1,11 +1,5 @@
 import { UserDTO, RequestError } from '@frontend/src/services/types';
 import { transformToUser } from '@frontend/src/utils/apiTransformers';
-import { OAUTH_URL } from '@frontend/consts/app';
-import DefaultHttpTransport from '../../core/default-http-transport';
-import HttpTransport from '../../core/http-transport';
-import { LoginFormData, RegisterFormData } from '../models/form';
-
-const AUTH_URL: string = 'https://ya-praktikum.tech/api/v2';
 /* eslint-disable */
 /// #if DEBUG
 // @ts-ignore
@@ -15,6 +9,9 @@ export const REDIRECT_URL = 'http://localhost:9000';
 export const REDIRECT_URL = 'https://fightclub-vegas.herokuapp.com';
 /// #endif
 /* eslint-enable */
+import HttpTransport from '../../core/http-transport';
+import { LoginFormData, RegisterFormData } from '../models/form';
+import { OAUTH_URL } from '@frontend/consts/app';
 
 class AuthService {
   private authService: HttpTransport;
@@ -23,7 +20,11 @@ class AuthService {
     this.authService = authService;
   }
 
-  public getUser = () => this.authService.get<UserDTO>('/auth/user')
+  public isCookieInvalid(user: User | RequestError): user is RequestError {
+    return !!(user as RequestError)?.reason;
+  }
+
+  public getUser = (): Promise<User | RequestError> => this.authService.get<UserDTO>('/auth/user')
     .then((user: UserDTO) => transformToUser(user))
     .catch((reason) => Promise.reject(reason));
 
@@ -93,4 +94,4 @@ class AuthService {
   }
 }
 
-export default new AuthService(new DefaultHttpTransport(AUTH_URL));
+export default AuthService;

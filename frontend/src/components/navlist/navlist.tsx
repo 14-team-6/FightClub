@@ -23,8 +23,8 @@ const NavList = styled.ul`
     margin-top: 10px;
     display: flex;
     position: relative;
-  }  
-  
+  }
+
   li a::before {
     content: "";
     text-shadow: 0 2px 0 ${MAIN_RED};
@@ -33,17 +33,17 @@ const NavList = styled.ul`
     position: absolute;
     left: -15px;
   }
-  
+
   li a:hover,
   li a:focus {
     text-shadow: 0 2px 0 ${MAIN_RED};
-  
+
     &::before {
       content: "*";
       font-size: ${MAIN_FONT_SIZE};
       color: ${MAIN_YELLOW};
     }
-  }  
+  }
 `;
 
 export default NavList;

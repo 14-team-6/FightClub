@@ -3,14 +3,15 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
+import { authService } from '@frontend/src/services';
 import FormElement from '../form/form';
 import { InputProps } from '../input/input';
 import { FormInputsNames, LoginFormData } from '../../models/form';
-import ButtonElement, { ButtonProps } from '../button/button';
-import AuthService, { REDIRECT_URL } from '../../services/authService';
+import { ButtonProps } from '../button/button';
 import { RequestError } from '../../services/types';
 import SubmitFormError from '../submitFormError/submitFormError';
 import schema from './schema';
+import { REDIRECT_URL } from '@frontend/src/services/authService';
 
 const LoginPageForm: React.FC = () => {
   const {
@@ -22,14 +23,14 @@ const LoginPageForm: React.FC = () => {
   });
 
   const auth = useAuth();
+  const navigator = useNavigate();
   const [error, setError] = useState<string>('');
 
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
-      AuthService.signIn(data)
+      authService.signIn(data)
         .then((user: User) => {
           auth.login(user);
         })
@@ -54,18 +55,31 @@ const LoginPageForm: React.FC = () => {
     },
   ]), [errors]);
 
-  const loginPageMenuButtons: ButtonProps[] = React.useMemo(() => ([{
-    text: 'Login',
-    type: 'submit',
-  }]), []);
+  const loginPageMenuButtons: ButtonProps[] = React.useMemo(() => ([
+    {
+      text: 'Login',
+      type: 'submit',
+    },
+    {
+      text: 'Login by Yandex',
+      type: 'button',
+      onClick: handleOAuth,
+    },
+    {
+      text: 'Registration',
+      type: 'button',
+      onClick: () => {
+        navigator('/registration');
+      },
+    }]), []);
 
   const handleOAuth = useCallback(async () => {
-    window.location.href = await AuthService.makeOAuthRedirectUrl();
+    window.location.href = await authService.makeOAuthRedirectUrl();
   }, []);
 
   useEffect(() => {
     if (searchParams.has('code')) {
-      AuthService.finalizeOAuth(searchParams.get('code'), REDIRECT_URL)
+      authService.finalizeOAuth(searchParams.get('code'), REDIRECT_URL)
         .then((user: User) => {
           auth.login(user);
         }).catch(({ reason }: RequestError) => {
@@ -82,8 +96,6 @@ const LoginPageForm: React.FC = () => {
         inputs={loginPageFormItems}
         buttons={loginPageMenuButtons}
       />
-      <ButtonElement onClick={handleOAuth} type={'button'} text={'login by Yandex'}/>
-      <ButtonElement onClick={() => navigate('/registration')} type={'button'} text={'register'}/>
     </>
   );
 };

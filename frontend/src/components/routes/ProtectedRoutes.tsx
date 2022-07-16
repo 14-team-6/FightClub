@@ -1,14 +1,12 @@
 import React from 'react';
-
 import { Navigate, Outlet, useSearchParams } from 'react-router-dom';
-import { useAuth } from '@frontend/src/hooks/useAuth';
+import { useSelector } from 'react-redux';
+import { selectIsUserExists } from '@frontend/src/selectors/user';
 
 const ProtectedRoutes = () => {
-  const auth = useAuth();
-
+  const isUserExists: boolean = useSelector(selectIsUserExists);
   const [searchParams] = useSearchParams();
-
-  return auth.user ? <Outlet /> : <Navigate to={`/login?${searchParams.toString()}`} />;
+  return isUserExists ? <Outlet/> : <Navigate to={`/login?${searchParams.toString()}`}/>;
 };
 
 export default ProtectedRoutes;
