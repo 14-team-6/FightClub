@@ -5,6 +5,7 @@ import { StaticRouter } from 'react-router-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 import store from '@frontend/src/store/store';
 import { Provider } from 'react-redux';
+import serialize from 'serialize-javascript';
 
 const sheet = new ServerStyleSheet();
 
@@ -14,7 +15,7 @@ const getHTML = (styles: string, rendered: string, data: string) => `
         <head>
             <title>Fight Club</title>
             <meta charset="UTF-8"/>
-             <script>
+            <script>
               (function startServiceWorker () {
                 if ('serviceWorker' in navigator) {
                   try {
@@ -26,7 +27,7 @@ const getHTML = (styles: string, rendered: string, data: string) => `
                   }
                 }
               }());
-             </script>
+            </script>
             ${styles}
         </head>
         <body>
@@ -55,7 +56,7 @@ export const serverMiddlewareWithCallback = (callback: Function) => (req: Reques
   );
   const rendered = renderToString(sheet.collectStyles(jsx));
   const styles = sheet.getStyleTags();
-  const data = JSON.stringify(store.getState());
+  const data = serialize(store.getState()).replace(/</g, '\\\\\u003c');
 
   res.send(getHTML(styles, rendered, data));
 };
