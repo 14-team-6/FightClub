@@ -15,3 +15,4 @@ COPY ./frontend/deploy/nginx.conf /etc/nginx/http.d/default.conf
 RUN chmod a+x ./start.sh
 
 CMD ./start.sh
+
