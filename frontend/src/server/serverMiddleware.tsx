@@ -6,6 +6,7 @@ import { ServerStyleSheet } from 'styled-components';
 import store from '@frontend/src/store/store';
 import { Provider } from 'react-redux';
 import serialize from 'serialize-javascript';
+import { createSetUserAction } from '@frontend/src/actionCreators/user/creators';
 
 const sheet = new ServerStyleSheet();
 
@@ -19,7 +20,7 @@ const getHTML = (styles: string, rendered: string, data: string) => `
               (function startServiceWorker () {
                 if ('serviceWorker' in navigator) {
                   try {
-                    navigator.serviceWorker.register('sw.js', { scope: '/' }).then((registration) => {
+                    navigator.serviceWorker.register('/sw.js', { scope: '/public/' }).then((registration) => {
                       console.log('ServiceWorker registration successful with scope: ', registration.scope);
                     });
                   } catch(error) {
@@ -46,6 +47,15 @@ export const serverMiddlewareWithCallback = (callback: Function) => (req: Reques
   // and hydrate will fire a mismatch error
   // I couldn't find any way to dynamic import in Typescript
   const AppToRender = callback();
+
+  if ('user2' in req.cookies) {
+    try {
+      const userDetails = JSON.parse(req.cookies.user);
+      store.dispatch(createSetUserAction(userDetails));
+    } catch (e) {
+      console.log(`Error reading cookie: ${e}`);
+    }
+  }
 
   const jsx = (
     <Provider store={store}>

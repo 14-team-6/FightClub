@@ -20,10 +20,11 @@ module.exports = {
     isDevelopment && '@gatsbyjs/webpack-hot-middleware/client?path=/__webpack_hmr',
     './frontend/src/index.tsx'
   ].filter(Boolean),
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   output: {
     path: path.join(__dirname, '..', '..', 'dist'),
     filename: 'bundle.js',
+    assetModuleFilename: 'public/[name][ext]',
   },
   resolve: {
     plugins: [new tsconfigPathsPlugin()],
@@ -69,7 +70,6 @@ module.exports = {
         test: /\.(jpe?g|gif|png|svg)$/i,
         type: 'asset/resource',
         generator: {
-          filename: '[name][ext]',
           publicPath: '/'
         }
       },
@@ -77,7 +77,6 @@ module.exports = {
         test: /\.(woff|woff2|ttf|eot)$/,
         type: 'asset/resource',
         generator: {
-          filename: '[name][ext]',
           publicPath: '/'
         }
       }

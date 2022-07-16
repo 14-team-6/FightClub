@@ -21,11 +21,13 @@ export function AuthProvider({ children }: any) {
   const navigate = useNavigate();
 
   const login = (userDetails: User) => {
+    document.cookie = `user=${JSON.stringify(userDetails)}`;
     dispatch(createSetUserAction(userDetails));
     navigate('/');
   };
 
   const logout = () => {
+    document.cookie = `user= ; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     dispatch(createSetUserAction({}));
     navigate('/login');
   };
@@ -39,8 +41,10 @@ export function AuthProvider({ children }: any) {
     authService.getUser()
       .then((user: User | RequestError) => {
         if (authService.isCookieInvalid(user)) {
+          document.cookie = `user= ; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
           dispatch(createSetUserAction({}));
         } else {
+          document.cookie = `user=${JSON.stringify(user)}`;
           dispatch(createSetUserAction(user));
         }
         setLoading(false);

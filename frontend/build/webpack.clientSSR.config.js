@@ -16,6 +16,7 @@ module.exports = {
     filename: 'clientSSRBundle.js',
     libraryTarget: 'commonjs2',
     publicPath: '/frontend/public/',
+    assetModuleFilename: 'public/[name][ext]',
   },
   resolve: {
     modules: ['src', 'node-modules'],
@@ -45,7 +46,6 @@ module.exports = {
         test: /\.(jpe?g|gif|png|svg)$/i,
         type: 'asset/resource',
         generator: {
-          filename: '[name][ext]',
           publicPath: '/'
         }
       },
@@ -53,7 +53,6 @@ module.exports = {
         test: /\.(woff|woff2|ttf|eot)$/,
         type: 'asset/resource',
         generator: {
-          filename: '[name][ext]',
           publicPath: '/'
         }
       }

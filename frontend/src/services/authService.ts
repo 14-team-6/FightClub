@@ -80,7 +80,7 @@ class AuthService {
   }
 
   public finalizeOAuth(code: string | null, redirect_uri: string): Promise<User | RequestError> {
-    if (code === null) {
+    if (!code) {
       // eslint-disable-next-line prefer-promise-reject-errors
       return Promise.reject({ reason: 'Empty oauth code' });
     }
