@@ -1,11 +1,7 @@
-import { UserDTO } from '@frontend/src/services/types';
+import { UserDTO, RequestError } from '@frontend/src/services/types';
 import { transformToUser } from '@frontend/src/utils/apiTransformers';
 import HttpTransport from '../../core/http-transport';
 import { LoginFormData, RegisterFormData } from '../models/form';
-
-export interface AuthError {
-  reason: string;
-}
 
 class AuthService {
   private authService: HttpTransport;
@@ -14,40 +10,38 @@ class AuthService {
     this.authService = authService;
   }
 
-  public isCookieInvalid(userDTO: UserDTO | AuthError): userDTO is AuthError {
-    return !!(userDTO as AuthError)?.reason;
+  public isCookieInvalid(user: User | RequestError): user is RequestError {
+    return !!(user as RequestError)?.reason;
   }
 
-  public getUser = () => this.authService.get<UserDTO | AuthError>('/auth/user');
+  public getUser = (): Promise<User | RequestError> => this.authService.get<UserDTO>('/user')
+    .then((user: UserDTO) => transformToUser(user))
+    .catch((reason) => Promise.reject(reason));
 
-  private signInHandler = async (response: Response): Promise<User | AuthError> => {
+  private signInHandler = async (response: Response): Promise<User | RequestError> => {
     if (!response.ok) {
       return Promise.reject(await response.json());
     }
 
-    return this.getUser()
-      .then((user: UserDTO) => transformToUser(user))
-      .catch((reason) => Promise.reject(reason));
+    return this.getUser();
   };
 
   public signIn = (userInfo: LoginFormData) => this.authService
-    .post<LoginFormData, User | AuthError>('/auth/signin', {
+    .post<LoginFormData, User | RequestError>('/auth/signin', {
     body: userInfo,
     handler: this.signInHandler,
   });
 
-  private signUpHandler = async (response: Response): Promise<User | AuthError> => {
+  private signUpHandler = async (response: Response): Promise<User | RequestError> => {
     if (!response.ok) {
       return Promise.reject(await response.json());
     }
 
-    return this.getUser()
-      .then((user: UserDTO) => transformToUser(user))
-      .catch((reason) => Promise.reject(reason));
+    return this.getUser();
   };
 
   public signUp = (userInfo: RegisterFormData) => this.authService
-    .post<RegisterFormData, User | AuthError>('/auth/signup', {
+    .post<RegisterFormData, User | RequestError>('/auth/signup', {
     body: userInfo,
     handler: this.signUpHandler,
   });

@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
-import { AuthError } from '@frontend/src/services/authService';
 import { authService } from '@frontend/src/services';
 import { useNavigate } from 'react-router-dom';
 import FormElement from '../form/form';
 import { InputProps } from '../input/input';
 import { FormInputsNames, LoginFormData } from '../../models/form';
 import { ButtonProps } from '../button/button';
+import { RequestError } from '../../services/types';
 import SubmitFormError from '../submitFormError/submitFormError';
 import schema from './schema';
 
@@ -31,7 +31,7 @@ const LoginPageForm: React.FC = () => {
         .then((user: User) => {
           auth.login(user);
         })
-        .catch(({ reason }: AuthError) => {
+        .catch(({ reason }: RequestError) => {
           setError(reason);
         });
     },

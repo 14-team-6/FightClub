@@ -4,6 +4,7 @@ import store from '@frontend/src/store/store';
 import { setMyLifePercent } from '@frontend/src/actionCreators/gameState/creators';
 import Sounds from '@frontend/src/game/components/sounds/sounds';
 import { ATTACK_LEVEL_ENEMY, LIFE_LEVEL_HERO } from '@frontend/consts/game';
+import { KeyboardControl, keyboardLayoutAWD } from '@frontend/src/game/components/controls/keyboard';
 
 export class CharacterHero extends Character {
   constructor(ctx: CanvasRenderingContext2D) {
@@ -21,6 +22,7 @@ export class CharacterHero extends Character {
   }
 
   public init(): void {
+    this.inputControl = new KeyboardControl(keyboardLayoutAWD);
     super.init();
     this.life = LIFE_LEVEL_HERO;
     store.dispatch(setMyLifePercent(this.life));

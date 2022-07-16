@@ -1,9 +1,23 @@
-import { Controls } from '@frontend/src/game/components/controls/controls';
+import { Controls, InputControls } from '@frontend/src/game/components/controls/controls';
 import { Character } from '@frontend/src/game/character/character';
-import { ENEMY_ATTACK_PROBABILITY } from '@frontend/consts/game';
+import { ENEMY_ATTACK_PROBABILITY, MIN_DISTANCE_TO_HERO } from '@frontend/consts/game';
 
-export class AI {
-  update(characters: Record<string, Character>): Controls {
+export class AI extends InputControls {
+  public keys: Controls;
+
+  public start() {
+    this.keys = {
+      up: false,
+      left: false,
+      right: false,
+      attack: false,
+      pause: false,
+    };
+  }
+
+  public stop() {}
+
+  update(characters: Record<string, Character>) {
     const { hero, enemy } = characters;
 
     const res = {
@@ -23,9 +37,9 @@ export class AI {
     }
 
     const heroRect = hero.characterVisual.getCollisionRect(hero.curState.state);
-    const enemyRect = enemy.characterVisual.getCollisionRect(hero.curState.state);
+    const enemyRect = enemy.characterVisual.getCollisionRect(enemy.curState.state);
 
-    if (Math.abs(enemyRect.x - heroRect.x) > 150) {
+    if (Math.abs(enemyRect.x - heroRect.x) > MIN_DISTANCE_TO_HERO) {
       if (enemyRect.x < heroRect.x) {
         res.right = true;
       } else {
@@ -33,6 +47,6 @@ export class AI {
       }
     }
 
-    return res;
+    this.keys = res;
   }
 }

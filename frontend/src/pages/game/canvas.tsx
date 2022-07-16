@@ -6,10 +6,16 @@ import React, {
   useState,
 } from 'react';
 import { Game } from '@frontend/src/game/game';
-import { KeyboardControl } from '../../game/components/controls/keyboard';
+import { useIsSSR } from '@frontend/src/hooks/useIsSSR';
 
 const Canvas:FC = () => {
-  const size = { width: window.innerWidth, height: window.innerHeight };
+  const isSSR = useIsSSR();
+
+  const width = isSSR ? 0 : window.innerWidth;
+  const height = isSSR ? 0 : window.innerHeight;
+
+  const size = { width, height };
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [UIElements, setUIElements] = useState<ReactNode>(<></>);
@@ -23,12 +29,9 @@ const Canvas:FC = () => {
   let game: Game;
 
   let then: number;
-  let keyboard: KeyboardControl;
 
   const init = () => {
     then = performance.now();
-    keyboard = KeyboardControl.getInstance();
-    keyboard.start();
 
     if (!canvasRef.current) return;
 
@@ -56,7 +59,7 @@ const Canvas:FC = () => {
 
   const renderFrame = (dt: number) => {
     clearFrame();
-    game.update({ controls: keyboard.keys, dt });
+    game.update({ dt });
   };
 
   const tick = (now: number) => {
@@ -70,18 +73,18 @@ const Canvas:FC = () => {
   };
 
   useEffect(() => {
-    init();
-
-    requestIdRef = requestAnimationFrame(tick);
+    if (!isSSR) {
+      init();
+      requestIdRef = requestAnimationFrame(tick);
+    }
 
     return () => {
       if (requestIdRef) {
         cancelAnimationFrame(requestIdRef);
         game.beforeDestroy();
       }
-      keyboard.stop();
     };
-  }, []);
+  }, [isSSR]);
 
   return (
     <>

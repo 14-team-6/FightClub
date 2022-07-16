@@ -1,7 +1,7 @@
-import { Controls } from '@frontend/src/game/components/controls/controls';
 import { Character } from '@frontend/src/game/character/character';
 import { CharacterVisual } from '@frontend/src/game/character/characterVisual';
 import { CharacterState } from '@frontend/src/game/types';
+import { Controls } from '@frontend/src/game/components/controls/controls';
 
 export type HandleInputOptions = {
   controls: Controls,
