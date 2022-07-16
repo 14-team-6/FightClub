@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
-import AuthService from '@frontend/src/services/authService';
 import UserService from '@frontend/src/services/userService';
 import { RequestError } from '@frontend/src/services/types';
-import { FormInputsNames, EditProfileFormData } from '../../models/form';
+import { authService } from '@frontend/src/services';
+import { EditProfileFormData, FormInputsNames } from '../../models/form';
 import { InputProps } from '../input/input';
 import FormElement from '../form/form';
 import { ButtonProps } from '../button/button';
@@ -81,14 +81,15 @@ const EditProfilePageForm: React.FC = () => {
   }]), []);
 
   useEffect(() => {
-    AuthService.getUser().then((user: User) => {
-      setValue(FormInputsNames.DISPLAY_NAME, user.displayName ? user.displayName : '');
-      setValue(FormInputsNames.FIRST_NAME, user.firstName ? user.firstName : '');
-      setValue(FormInputsNames.SECOND_NAME, user.secondName ? user.secondName : '');
-      setValue(FormInputsNames.EMAIL, user.email ? user.email : '');
-      setValue(FormInputsNames.LOGIN, user.login ? user.login : '');
-      setValue(FormInputsNames.PHONE, user.phone ? user.phone : '');
-    });
+    authService.getUser()
+      .then((user: User) => {
+        setValue(FormInputsNames.DISPLAY_NAME, user.displayName ? user.displayName : '');
+        setValue(FormInputsNames.FIRST_NAME, user.firstName ? user.firstName : '');
+        setValue(FormInputsNames.SECOND_NAME, user.secondName ? user.secondName : '');
+        setValue(FormInputsNames.EMAIL, user.email ? user.email : '');
+        setValue(FormInputsNames.LOGIN, user.login ? user.login : '');
+        setValue(FormInputsNames.PHONE, user.phone ? user.phone : '');
+      });
   }, [errors]);
 
   return (

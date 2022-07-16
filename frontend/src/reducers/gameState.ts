@@ -16,10 +16,8 @@ export const defaultGameState: GameState = {
 
 export type GameStateAction = PayloadAction<GameStateActions, GameState>;
 
-export const gameStateReducer = (state: GameState, action: GameStateAction): GameState => {
-  if (state === undefined) {
-    return defaultGameState;
-  }
+// eslint-disable-next-line @typescript-eslint/default-param-last
+export const gameStateReducer = (state: GameState = defaultGameState, action: GameStateAction): GameState => {
   switch (action.type) {
     case GameStateActions.UPDATE_MY_LIFE_PERCENT:
       if (action.payload.myLifePercent !== undefined) {
