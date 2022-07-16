@@ -1,5 +1,6 @@
 import { UserDTO, RequestError } from '@frontend/src/services/types';
 import { transformToUser } from '@frontend/src/utils/apiTransformers';
+import { OAUTH_URL } from '@frontend/consts/app';
 import DefaultHttpTransport from '../../core/default-http-transport';
 import HttpTransport from '../../core/http-transport';
 import { LoginFormData, RegisterFormData } from '../models/form';
@@ -69,7 +70,12 @@ class AuthService {
   public async makeOAuthRedirectUrl(): Promise<string> {
     const serviceId = await this.authService.get(`/oauth/yandex/service-id?redirect_uri=${REDIRECT_URL}`)
       .then((response: { service_id: string }) => response.service_id);
-    return `https://oauth.yandex.ru/authorize?response_type=code&client_id=${serviceId}&redirect_uri=${REDIRECT_URL}`;
+    const url = new URL(OAUTH_URL);
+    url.searchParams.append('response_type', 'code');
+    url.searchParams.append('client_id', serviceId);
+    url.searchParams.append('redirect_uri', REDIRECT_URL);
+
+    return url.href;
   }
 
   public finalizeOAuth(code: string | null, redirect_uri: string): Promise<User | RequestError> {
