@@ -1,8 +1,13 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, {
+  createContext, useContext, useEffect, useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authService } from '@frontend/src/services';
+import { RequestError } from '@frontend/src/services/types';
+import { useDispatch } from 'react-redux';
+import { createSetUserAction } from '@frontend/src/actionCreators/user/creators';
 
 interface AuthContext {
-  user: User | null,
   login: (user: User) => void,
   logout: () => void,
   profile: (user: User) => void,
@@ -10,30 +15,45 @@ interface AuthContext {
 
 const authContext = createContext<AuthContext>({} as AuthContext);
 
-export function AuthProvider ({ children }: any) {
-  const [user, setUser] = useState<User | null>(null);
+export function AuthProvider({ children }: any) {
+  const [isLoading, setLoading] = useState<boolean>(true);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const login = (userDetails: User) => {
-    setUser(userDetails);
+    dispatch(createSetUserAction(userDetails));
     navigate('/');
   };
 
   const logout = () => {
-    setUser(null);
+    dispatch(createSetUserAction({}));
     navigate('/login');
   };
 
   const profile = (userDetails: User) => {
-    setUser(userDetails);
+    dispatch(createSetUserAction(userDetails));
     navigate('/profile');
   };
 
+  useEffect(() => {
+    authService.getUser()
+      .then((user: User | RequestError) => {
+        if (authService.isCookieInvalid(user)) {
+          dispatch(createSetUserAction({}));
+        } else {
+          dispatch(createSetUserAction(user));
+        }
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <authContext.Provider value={{
-      user, login, logout, profile,
+      login,
+      logout,
+      profile,
     }}>
-      {children}
+      {!isLoading && children}
     </authContext.Provider>
   );
 }
