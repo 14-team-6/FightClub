@@ -14,7 +14,7 @@ class AuthService {
     return !!(user as RequestError)?.reason;
   }
 
-  public getUser = (): Promise<User | RequestError> => this.authService.get<UserDTO>('/user')
+  public getUser = (): Promise<User | RequestError> => this.authService.get<UserDTO>('/auth/user')
     .then((user: UserDTO) => transformToUser(user))
     .catch((reason) => Promise.reject(reason));
 
