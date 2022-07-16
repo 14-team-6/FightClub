@@ -1,7 +1,10 @@
 import { UserDTO, RequestError } from '@frontend/src/services/types';
 import { transformToUser } from '@frontend/src/utils/apiTransformers';
+import DefaultHttpTransport from '../../core/default-http-transport';
 import HttpTransport from '../../core/http-transport';
 import { LoginFormData, RegisterFormData } from '../models/form';
+
+const AUTH_URL: string = 'https://ya-praktikum.tech/api/v2/auth';
 
 class AuthService {
   private authService: HttpTransport;
@@ -10,11 +13,7 @@ class AuthService {
     this.authService = authService;
   }
 
-  public isCookieInvalid(user: User | RequestError): user is RequestError {
-    return !!(user as RequestError)?.reason;
-  }
-
-  public getUser = (): Promise<User | RequestError> => this.authService.get<UserDTO>('/auth/user')
+  public getUser = () => this.authService.get<UserDTO>('/user')
     .then((user: UserDTO) => transformToUser(user))
     .catch((reason) => Promise.reject(reason));
 
@@ -27,7 +26,7 @@ class AuthService {
   };
 
   public signIn = (userInfo: LoginFormData) => this.authService
-    .post<LoginFormData, User | RequestError>('/auth/signin', {
+    .post<LoginFormData, User | RequestError>('/signin', {
     body: userInfo,
     handler: this.signInHandler,
   });
@@ -41,7 +40,7 @@ class AuthService {
   };
 
   public signUp = (userInfo: RegisterFormData) => this.authService
-    .post<RegisterFormData, User | RequestError>('/auth/signup', {
+    .post<RegisterFormData, User | RequestError>('/signup', {
     body: userInfo,
     handler: this.signUpHandler,
   });
@@ -54,9 +53,9 @@ class AuthService {
   };
 
   public signOut = () => this.authService
-    .post<RegisterFormData, any>('/auth/logout', {
+    .post<RegisterFormData, any>('/logout', {
     handler: this.signOutHandler,
   });
 }
 
-export default AuthService;
+export default new AuthService(new DefaultHttpTransport(AUTH_URL));

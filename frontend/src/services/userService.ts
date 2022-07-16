@@ -1,8 +1,8 @@
 import { RequestError } from '@frontend/src/services/types';
-import { authService } from '@frontend/src/services/index';
 import DefaultHttpTransport from '../../core/default-http-transport';
 import HttpTransport from '../../core/http-transport';
 import { EditProfileFormData } from '../models/form';
+import AuthService from './authService';
 
 const USER_URL: string = 'https://ya-praktikum.tech/api/v2/user';
 
@@ -18,7 +18,7 @@ class UserService {
       return Promise.reject(await response.json());
     }
 
-    return authService.getUser();
+    return AuthService.getUser();
   };
 
   public userProfile = (userInfo: EditProfileFormData) => this.userService

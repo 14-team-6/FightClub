@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
-import { authService } from '@frontend/src/services';
-import { useNavigate } from 'react-router-dom';
 import FormElement from '../form/form';
 import { InputProps } from '../input/input';
 import { FormInputsNames, LoginFormData } from '../../models/form';
 import { ButtonProps } from '../button/button';
+import AuthService from '../../services/authService';
 import { RequestError } from '../../services/types';
 import SubmitFormError from '../submitFormError/submitFormError';
 import schema from './schema';
@@ -22,12 +21,11 @@ const LoginPageForm: React.FC = () => {
   });
 
   const auth = useAuth();
-  const navigator = useNavigate();
   const [error, setError] = useState<string>('');
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
-      authService.signIn(data)
+      AuthService.signIn(data)
         .then((user: User) => {
           auth.login(user);
         })
@@ -55,12 +53,6 @@ const LoginPageForm: React.FC = () => {
   const loginPageMenuButtons: ButtonProps[] = React.useMemo(() => ([{
     text: 'Login',
     type: 'submit',
-  }, {
-    text: 'Registration',
-    type: 'button',
-    onClick: () => {
-      navigator('/registration');
-    },
   }]), []);
 
   return (

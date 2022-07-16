@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { Navigate, Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectIsUserExists } from '@frontend/src/selectors/user';
+import { useAuth } from '@frontend/src/hooks/useAuth';
 
 const PublicRoutes = () => {
-  const isUserExists: boolean = useSelector(selectIsUserExists);
+  const auth = useAuth();
 
-  return isUserExists ? <Navigate to="/" /> : <Outlet />;
+  return <Outlet />;
+  return auth.user ? <Navigate to="/" /> : <Outlet />;
 };
 
 export default PublicRoutes;

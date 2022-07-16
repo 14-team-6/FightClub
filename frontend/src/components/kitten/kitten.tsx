@@ -16,8 +16,7 @@ type KittenProps = {
 const KittenElement = styled.div`
   width: ${propsHelper('width')}px;
   height: ${propsHelper('height')}px;
-  background:
-    url(${kittenImg}) 0 ${({ sprite, height }: KittenProps) => {
+  background: url(${kittenImg}) 0 ${({ sprite, height }: KittenProps) => {
   if (sprite === 1) {
     return '0';
   }
