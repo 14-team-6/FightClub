@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
+import AuthService from '../../services/authService';
 import { RequestError } from '../../services/types';
-import { authService } from '@frontend/src/services';
-import { useNavigate } from 'react-router-dom';
 import { FormInputsNames, RegisterFormData } from '../../models/form';
 import { InputProps } from '../input/input';
 import FormElement from '../form/form';
@@ -21,12 +20,11 @@ const RegisterPageForm: React.FC = () => {
     resolver: yupResolver(schema),
   });
   const auth = useAuth();
-  const navigator = useNavigate();
   const [error, setError] = useState<string>('');
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
-      authService.signUp(data)
+      AuthService.signUp(data)
         .then((user: User) => {
           auth.login(user);
         })
@@ -78,12 +76,6 @@ const RegisterPageForm: React.FC = () => {
   const registerPageMenuButtons: ButtonProps[] = React.useMemo(() => ([{
     text: 'Register',
     type: 'submit',
-  }, {
-    text: 'Login',
-    type: 'button',
-    onClick: () => {
-      navigator('/login');
-    },
   }]), []);
 
   return (
