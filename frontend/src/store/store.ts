@@ -11,11 +11,20 @@ export interface RootState {
 
 const composeEnhancers = composeWithDevToolsLogOnlyInProduction({});
 
+let state = {};
+if (typeof window === 'object') {
+  state = window.__PRELOADED_STATE__ !== undefined ? window.__PRELOADED_STATE__ : {};
+  delete window.__PRELOADED_STATE__;
+} else {
+  state = {};
+}
+
 const store = createStore<RootState, any, any, any>(
   combineReducers({
     user: userReducer,
     gameState: gameStateReducer,
   }),
+  state,
   composeEnhancers(applyMiddleware(thunk)),
 );
 
