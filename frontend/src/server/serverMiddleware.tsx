@@ -12,6 +12,19 @@ const getHTML = (styles: string, rendered: string) => `
         <head>
             <title>Fight Club</title>
             <meta charset="UTF-8"/>
+             <script>
+              (function startServiceWorker () {
+                if ('serviceWorker' in navigator) {
+                  try {
+                    navigator.serviceWorker.register('sw.js', { scope: '/' }).then((registration) => {
+                      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    });
+                  } catch(error) {
+                    console.log('ServiceWorker registration failed: ', error);
+                  }
+                }
+              }());
+             </script>
             ${styles}
         </head>
         <body>

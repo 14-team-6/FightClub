@@ -1,6 +1,7 @@
 const path = require('path');
 const tsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
@@ -19,6 +20,16 @@ module.exports = {
     libraryTarget: 'commonjs2',
     publicPath: '/frontend/public/',
   },
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: './frontend/public/sw.js',
+          to: path.join(__dirname, '..', '..', 'dist')
+        }
+      ],
+    }),
+  ],
   resolve: {
     modules: ['src', 'node-modules'],
     extensions: ['*', '.js', '.jsx', '.json', '.ts', '.tsx'],

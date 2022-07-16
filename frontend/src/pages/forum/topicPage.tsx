@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
+import { useTopic } from '@frontend/src/pages/forum/hooks/useTopic';
 import Link from '../../components/link/link';
-import { getPosts } from '../../services/forum';
-import { Post, TopicData } from './types';
+import { Post } from './types';
 import PostElement from './components/post';
 import TopicElement from './components/topic';
 
@@ -33,14 +33,7 @@ const Posts = styled.main`
 
 const TopicPage: React.FC = () => {
   const { topicId } = useParams();
-
-  const [topicData, setTopicData] = useState<TopicData>();
-
-  useEffect(() => {
-    if (topicId === undefined) return;
-
-    getPosts(topicId).then((topicPst: TopicData) => { setTopicData(topicPst); });
-  }, []);
+  const topic = useTopic(topicId);
 
   return (
     <>
@@ -53,12 +46,12 @@ const TopicPage: React.FC = () => {
         </ActionButtons>
       </Header>
       <Topic>
-        {topicData ? <TopicElement id={topicData.topic.id} name={topicData.topic.name} /> : 'Loading...'}
+        {topic ? <TopicElement id={topic.topic.id} name={topic.topic.name} /> : 'Loading...'}
       </Topic>
       <Posts>
         {
-          topicData
-            ? topicData.posts.map((post: Post) => <PostElement key={post.id} {...post} />)
+          topic
+            ? topic.posts.map((post: Post) => <PostElement key={post.id} {...post} />)
             : null
         }
       </Posts>

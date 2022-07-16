@@ -1,4 +1,4 @@
-import { UserDTO } from '@frontend/src/services/types';
+import { UserDTO, RequestError } from '@frontend/src/services/types';
 import { transformToUser } from '@frontend/src/utils/apiTransformers';
 import DefaultHttpTransport from '../../core/default-http-transport';
 import HttpTransport from '../../core/http-transport';
@@ -15,10 +15,6 @@ export const REDIRECT_URL = 'https://fightclub-vegas.herokuapp.com';
 /// #endif
 /* eslint-enable */
 
-export interface AuthError {
-  reason: string;
-}
-
 class AuthService {
   private authService: HttpTransport;
 
@@ -26,36 +22,34 @@ class AuthService {
     this.authService = authService;
   }
 
-  public getUser = () => this.authService.get<UserDTO>('/auth/user');
+  public getUser = () => this.authService.get<UserDTO>('/auth/user')
+    .then((user: UserDTO) => transformToUser(user))
+    .catch((reason) => Promise.reject(reason));
 
-  private signInHandler = async (response: Response): Promise<User | AuthError> => {
+  private signInHandler = async (response: Response): Promise<User | RequestError> => {
     if (!response.ok) {
       return Promise.reject(await response.json());
     }
 
-    return this.getUser()
-      .then((user: UserDTO) => transformToUser(user))
-      .catch((reason) => Promise.reject(reason));
+    return this.getUser();
   };
 
   public signIn = (userInfo: LoginFormData) => this.authService
-    .post<LoginFormData, User | AuthError>('/auth/signin', {
+    .post<LoginFormData, User | RequestError>('/auth/signin', {
     body: userInfo,
     handler: this.signInHandler,
   });
 
-  private signUpHandler = async (response: Response): Promise<User | AuthError> => {
+  private signUpHandler = async (response: Response): Promise<User | RequestError> => {
     if (!response.ok) {
       return Promise.reject(await response.json());
     }
 
-    return this.getUser()
-      .then((user: UserDTO) => transformToUser(user))
-      .catch((reason) => Promise.reject(reason));
+    return this.getUser();
   };
 
   public signUp = (userInfo: RegisterFormData) => this.authService
-    .post<RegisterFormData, User | AuthError>('/auth/signup', {
+    .post<RegisterFormData, User | RequestError>('/auth/signup', {
     body: userInfo,
     handler: this.signUpHandler,
   });
@@ -78,7 +72,7 @@ class AuthService {
     return `https://oauth.yandex.ru/authorize?response_type=code&client_id=${serviceId}&redirect_uri=${REDIRECT_URL}`;
   }
 
-  public finalizeOAuth(code: string | null, redirect_uri: string): Promise<User | AuthError> {
+  public finalizeOAuth(code: string | null, redirect_uri: string): Promise<User | RequestError> {
     if (code === null) {
       // eslint-disable-next-line prefer-promise-reject-errors
       return Promise.reject({ reason: 'Empty oauth code' });

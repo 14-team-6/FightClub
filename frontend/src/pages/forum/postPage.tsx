@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { usePost } from '@frontend/src/pages/forum/hooks/usePost';
 import { useParams } from 'react-router-dom';
 import Link from '../../components/link/link';
-import { getComments } from '../../services/forum';
-import { PostData } from './types';
 import TopicElement from './components/topic';
 import CommentElement from './components/comment';
 import PostElement from './components/post';
@@ -49,14 +48,7 @@ const Answer = styled(Link)`
 
 const PostPage: React.FC = () => {
   const { topicId, postId } = useParams();
-
-  const [postData, setPostData] = useState<PostData>();
-
-  useEffect(() => {
-    if (topicId === undefined || postId === undefined) return;
-
-    getComments(topicId, postId).then((topicPst: PostData) => { setPostData(topicPst); });
-  }, []);
+  const post = usePost(topicId, postId);
 
   return (
     <>
@@ -69,16 +61,16 @@ const PostPage: React.FC = () => {
       </Header>
       <Wrapper>
         {
-          postData ? (
+          post ? (
             <>
               <TopicWrapper>
-                <TopicElement id={postData.topic.id} name={postData.topic.name} />
+                <TopicElement id={post.topic.id} name={post.topic.name} />
               </TopicWrapper>
               <PostWrapper>
-                <PostElement id={postData.post.id} name={postData.post.name} />
+                <PostElement id={post.post.id} name={post.post.name} />
               </PostWrapper>
               <CommentsWrapper>
-                {postData.comments.map((comment) => <CommentElement key={comment.id} {...comment} />)}
+                {post.comments.map((comment) => <CommentElement key={comment.id} {...comment} />)}
               </CommentsWrapper>
             </>
           ) : 'Loading...'

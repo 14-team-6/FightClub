@@ -69,7 +69,7 @@ module.exports = {
         test: /\.(jpe?g|gif|png|svg)$/i,
         type: 'asset/resource',
         generator: {
-          filename: '[hash][ext]',
+          filename: '[name][ext]',
           publicPath: '/'
         }
       },
@@ -77,7 +77,7 @@ module.exports = {
         test: /\.(woff|woff2|ttf|eot)$/,
         type: 'asset/resource',
         generator: {
-          filename: '[hash][ext]',
+          filename: '[name][ext]',
           publicPath: '/'
         }
       }
