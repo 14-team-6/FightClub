@@ -1,4 +1,7 @@
 declare global {
+  interface Window {
+    __PRELOADED_STATE__?: object,
+  }
 
   export type User = {
     id: number,

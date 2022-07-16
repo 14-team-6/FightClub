@@ -2,7 +2,8 @@ const DYNAMIC_CACHE_NAME = 'dynamic-data2';
 const STATIC_CACHE_NAME = 'static-data2';
 
 const STATIC_ASSETS = [
-  '/bundle.js',
+  //'/bundle.js',
+  '/clientSSRBundle',
   '/index.html',
   '/Pixeboy.woff',
   '/avatar.png',

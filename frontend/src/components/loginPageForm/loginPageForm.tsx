@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
 import { authService } from '@frontend/src/services';
+import { REDIRECT_URL } from '@frontend/src/services/authService';
 import FormElement from '../form/form';
 import { InputProps } from '../input/input';
 import { FormInputsNames, LoginFormData } from '../../models/form';
@@ -11,7 +12,6 @@ import { ButtonProps } from '../button/button';
 import { RequestError } from '../../services/types';
 import SubmitFormError from '../submitFormError/submitFormError';
 import schema from './schema';
-import { REDIRECT_URL } from '@frontend/src/services/authService';
 
 const LoginPageForm: React.FC = () => {
   const {
@@ -55,6 +55,10 @@ const LoginPageForm: React.FC = () => {
     },
   ]), [errors]);
 
+  const handleOAuth = useCallback(async () => {
+    window.location.href = await authService.makeOAuthRedirectUrl();
+  }, []);
+
   const loginPageMenuButtons: ButtonProps[] = React.useMemo(() => ([
     {
       text: 'Login',
@@ -72,10 +76,6 @@ const LoginPageForm: React.FC = () => {
         navigator('/registration');
       },
     }]), []);
-
-  const handleOAuth = useCallback(async () => {
-    window.location.href = await authService.makeOAuthRedirectUrl();
-  }, []);
 
   useEffect(() => {
     if (searchParams.has('code')) {

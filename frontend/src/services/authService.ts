@@ -1,5 +1,8 @@
 import { UserDTO, RequestError } from '@frontend/src/services/types';
 import { transformToUser } from '@frontend/src/utils/apiTransformers';
+import { OAUTH_URL } from '@frontend/consts/app';
+import HttpTransport from '../../core/http-transport';
+import { LoginFormData, RegisterFormData } from '../models/form';
 /* eslint-disable */
 /// #if DEBUG
 // @ts-ignore
@@ -9,9 +12,6 @@ export const REDIRECT_URL = 'http://localhost:9000';
 export const REDIRECT_URL = 'https://fightclub-vegas.herokuapp.com';
 /// #endif
 /* eslint-enable */
-import HttpTransport from '../../core/http-transport';
-import { LoginFormData, RegisterFormData } from '../models/form';
-import { OAUTH_URL } from '@frontend/consts/app';
 
 class AuthService {
   private authService: HttpTransport;
