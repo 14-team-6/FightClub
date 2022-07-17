@@ -11,10 +11,10 @@ import { useIsSSR } from '@frontend/src/hooks/useIsSSR';
 const Canvas:FC = () => {
   const isSSR = useIsSSR();
 
-  let width = 0;
-  let height = 0;
+  const width = isSSR ? 0 : window.innerWidth;
+  const height = isSSR ? 0 : window.innerHeight;
 
-  let size = { width, height };
+  const size = { width, height };
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -31,15 +31,6 @@ const Canvas:FC = () => {
   let then: number;
 
   const init = () => {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    size = { width, height };
-
-    if (canvasRef.current) {
-      canvasRef.current.width = size.width;
-      canvasRef.current.height = size.height;
-    }
-
     then = performance.now();
 
     if (!canvasRef.current) return;
