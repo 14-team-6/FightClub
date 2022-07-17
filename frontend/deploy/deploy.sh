@@ -3,9 +3,11 @@
 # script to local docker deploy
 # doesn't work on heroku / github / etc
 # only for testing purposes!
+echo "Build app..."
+npm run build
 
 echo "Build new image..."
-docker build . -t fc_tmp
+docker buildx build --load --platform linux/arm64 . -t fc_tmp
 
 echo "Rename current container..."
 docker rename fc fc_old
