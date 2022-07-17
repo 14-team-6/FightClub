@@ -19,7 +19,7 @@ if (typeof window === 'object') {
   state = {};
 }
 
-const store = createStore<RootState, any, any, any>(
+export const withCreateStore = () => createStore<RootState, any, any, any>(
   combineReducers({
     user: userReducer,
     gameState: gameStateReducer,
@@ -28,4 +28,4 @@ const store = createStore<RootState, any, any, any>(
   composeEnhancers(applyMiddleware(thunk)),
 );
 
-export default store;
+export default withCreateStore();

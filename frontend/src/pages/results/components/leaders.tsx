@@ -56,7 +56,7 @@ const LeadersImpl: FC<LeadersProps> = (props) => {
 const LeadersImplStyled = styled(LeadersImpl)`
   display: flex;
   flex-direction: column;
-  width: 334px;
+  width: 400px;
 `;
 
 export const Leaders = React.memo(LeadersImplStyled);

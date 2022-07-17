@@ -12,6 +12,10 @@ export interface User {
   avatar?: string
 }
 
+export const emptyUser: User = {
+  login: '',
+};
+
 const userDefaultState: User = {
   login: '',
 };

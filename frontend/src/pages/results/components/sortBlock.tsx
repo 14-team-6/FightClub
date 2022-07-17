@@ -19,7 +19,7 @@ const ButtonTriangleStyled = styled(ButtonTriangle)`
 const WrapScroll = styled.div`
   display: flex;
   flex-direction: row;
-  width: 300px;
+  width: 360px;
   justify-content: center;
   margin: 0 0 10px;
 `;

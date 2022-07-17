@@ -23,7 +23,7 @@ const ListItemStyled = styled(ListItemImpl)`
   display: flex;
   flex-direction: row;
   height: 20px;
-  width: 300px;
+  width: 360px;
   align-items: center;
   justify-content: center;
   margin: 5px 0;

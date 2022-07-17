@@ -4,7 +4,6 @@ import { MAIN_WHITE, MAIN_YELLOW, MIDDLE_FONT_SIZE } from '@frontend/consts/styl
 import { Comment } from '../types';
 
 const StyledUsername = styled.div`
-  font-family: Pixeboy, serif;
   color: ${MAIN_YELLOW};
   font-size: ${MIDDLE_FONT_SIZE};
 `;
@@ -16,7 +15,6 @@ const StyledComment = styled.div`
   min-height: 22px;
   margin-bottom: 20px;
   overflow-y: auto;
-  font-family: Pixeboy, serif;
   color: ${MAIN_WHITE};
   font-size: ${MIDDLE_FONT_SIZE};
 `;

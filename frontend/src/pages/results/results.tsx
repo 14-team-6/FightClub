@@ -8,6 +8,7 @@ import Kitten from '@frontend/src/components/kitten/kitten';
 import { KITTEN_HEIGHT, KITTEN_WIDTH } from '@frontend/consts/styles';
 import leaderboardService, { LeaderItem } from '@frontend/services/leaderboardService';
 import { SortOrder, SortParams } from '@frontend/src/pages/results/components/sortBlock';
+import { useIsSSR } from '@frontend/src/hooks/useIsSSR';
 import { Leaders } from './components/leaders';
 
 const Wrapper = styled.div`
@@ -37,13 +38,15 @@ const Footer = styled.div`
 `;
 
 const ResultsImpl: FC = () => {
+  const isSSR = useIsSSR();
+
   const navigate = useNavigate();
   const [leaders, setLeaders] = useState<LeaderItem[]>([]);
 
   useEffect(() => {
     leaderboardService.getLeaders()
       .then((items: LeaderItem[]) => setLeaders(items));
-  }, []);
+  }, [isSSR]);
 
   const handleSort = (sortBy: SortParams) => {
     setLeaders([...leaders.sort((a, b) => {

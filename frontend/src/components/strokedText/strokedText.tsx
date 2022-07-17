@@ -5,7 +5,6 @@ import { getProperty } from '@frontend/src/utils/helper';
 const propsHelper = getProperty<TextProps>;
 
 const H1 = styled.h1`
-  font-family: Pixeboy, serif;
   text-align: center;
   color: ${propsHelper('textColor')};
   font-size: ${propsHelper('fontSize')};
