@@ -6,7 +6,7 @@ import ButtonElement from '@frontend/src/components/button/button';
 import MainTitle from '@frontend/src/components/mainTitle/mainTitle';
 import Kitten from '@frontend/src/components/kitten/kitten';
 import { KITTEN_HEIGHT, KITTEN_WIDTH } from '@frontend/consts/styles';
-import leaderboardService, { LeaderItem } from '@frontend/services/leaderboardService';
+import leaderboardService, { LeaderItem } from '@frontend/src/services/leaderboardService';
 import { SortOrder, SortParams } from '@frontend/src/pages/results/components/sortBlock';
 import { useIsSSR } from '@frontend/src/hooks/useIsSSR';
 import { Leaders } from './components/leaders';

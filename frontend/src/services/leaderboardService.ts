@@ -31,7 +31,7 @@ type LeaderSetRequest = LeaderResponse & {
 
 export type SetLeaderError = {
   reason: string;
-}
+};
 
 class LeaderboardService {
   private readonly httpTransport: HttpTransport;
@@ -46,12 +46,12 @@ class LeaderboardService {
         let count = 0;
         return items.map((element: LeaderResponse) => {
           const res: LeaderItem = {
-            id: ++count,
+            id: ++count, // eslint-disable-line no-plusplus
             name: element.data.name,
             score: element.data.score,
           };
           return res;
-        } );
+        });
       });
     }
     return Promise.reject(response.json());
@@ -86,9 +86,9 @@ class LeaderboardService {
         name: user.display_name !== undefined ? user.display_name : user.login,
         score,
         teamName: `${TEAM_NAME}`,
-      }
+      },
     };
-    return this.httpTransport.post<LeaderSetRequest, string | SetLeaderError>(``, {
+    return this.httpTransport.post<LeaderSetRequest, string | SetLeaderError>('', {
       body: request,
       handler: this.setLeaderHandler,
     });
@@ -97,11 +97,4 @@ class LeaderboardService {
 
 const LeaderboardServiceSingleton = new LeaderboardService(new DefaultHttpTransport(LEADERBOARD_API_URL));
 
-/// #if DEBUG
-if (typeof window === 'object') {
-// @ts-ignore
-  window.LB = LeaderboardServiceSingleton;
-}
-/// #endif
-
-export default LeaderboardServiceSingleton
+export default LeaderboardServiceSingleton;

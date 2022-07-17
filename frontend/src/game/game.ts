@@ -9,7 +9,7 @@ import Sounds from '@frontend/src/game/components/sounds/sounds';
 import { KeyboardControl, keyboardLayoutPause } from '@frontend/src/game/components/controls/keyboard';
 import { PauseGame } from '@frontend/src/pages/game/pauseGame/pauseGame';
 import { RoundState } from '@frontend/src/game/types';
-import LeaderboardService, { SetLeaderError } from '@frontend/services/leaderboardService';
+import LeaderboardService, { SetLeaderError } from '@frontend/src/services/leaderboardService';
 
 enum GameState {
   ROUND_1 = 'ROUND 1',
