@@ -8,7 +8,7 @@ const styledComponentsTransformer = createStyledComponentsTransformer({
 
 module.exports = {
   target: 'node',
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   entry: './frontend/src/app/app.tsx',
   mode: process.env.NODE_ENV,
   output: {

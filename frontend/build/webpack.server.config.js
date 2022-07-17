@@ -12,7 +12,7 @@ const preprocessorOptions = {
 module.exports = {
   target: 'node',
   mode: process.env.NODE_ENV,
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   entry: './frontend/src/server/server.ts',
   output: {
     path: path.join(__dirname, '..', '..', 'dist'),

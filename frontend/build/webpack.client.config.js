@@ -6,10 +6,6 @@ const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
-const preprocessorOptions = {
-  DEBUG: isDevelopment,
-};
-
 const styledComponentsTransformer = createStyledComponentsTransformer({
   ssr: true,
 });
@@ -20,7 +16,7 @@ module.exports = {
     isDevelopment && '@gatsbyjs/webpack-hot-middleware/client?path=/__webpack_hmr',
     './frontend/src/index.tsx'
   ].filter(Boolean),
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   output: {
     path: path.join(__dirname, '..', '..', 'dist'),
     filename: 'bundle.js',
@@ -59,10 +55,6 @@ module.exports = {
             options: {
               getCustomTransformers: () => ({before: [styledComponentsTransformer]})
             },
-          },
-          {
-            loader: "ifdef-loader",
-            options: preprocessorOptions,
           },
         ],
       },

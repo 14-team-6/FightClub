@@ -3,15 +3,8 @@ import { transformToUser } from '@frontend/src/utils/apiTransformers';
 import { OAUTH_URL } from '@frontend/consts/app';
 import HttpTransport from '../../core/http-transport';
 import { LoginFormData, RegisterFormData } from '../models/form';
-/* eslint-disable */
-/// #if DEBUG
-// @ts-ignore
+
 export const REDIRECT_URL = 'http://localhost:9000';
-/// #else
-// @ts-ignore
-export const REDIRECT_URL = 'https://fightclub-vegas.herokuapp.com';
-/// #endif
-/* eslint-enable */
 
 class AuthService {
   private authService: HttpTransport;
@@ -20,8 +13,8 @@ class AuthService {
     this.authService = authService;
   }
 
-  public isCookieInvalid(user: User | RequestError): user is RequestError {
-    return !!(user as RequestError)?.reason;
+  public isCookieInvalid(user: User): boolean {
+    return user.id === undefined;
   }
 
   public getUser = (): Promise<User | RequestError> => this.authService.get<UserDTO>('/auth/user')

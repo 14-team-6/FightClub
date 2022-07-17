@@ -6,7 +6,6 @@ import { selectIsUserExists } from '@frontend/src/selectors/user';
 
 const PublicRoutes = () => {
   const isUserExists: boolean = useSelector(selectIsUserExists);
-  return <Outlet />;
   return isUserExists ? <Navigate to="/" /> : <Outlet />;
 };
 

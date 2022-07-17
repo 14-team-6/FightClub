@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '@frontend/src/services';
-import { RequestError } from '@frontend/src/services/types';
 import { useDispatch } from 'react-redux';
 import { createSetUserAction } from '@frontend/src/actionCreators/user/creators';
 
@@ -16,7 +15,7 @@ interface AuthContext {
 const authContext = createContext<AuthContext>({} as AuthContext);
 
 export function AuthProvider({ children }: any) {
-  const [isLoading, setLoading] = useState<boolean>(true);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,7 +26,7 @@ export function AuthProvider({ children }: any) {
   };
 
   const logout = () => {
-    document.cookie = `user= ; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = 'user= ; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
     dispatch(createSetUserAction({}));
     navigate('/login');
   };
@@ -39,12 +38,12 @@ export function AuthProvider({ children }: any) {
 
   useEffect(() => {
     authService.getUser()
-      .then((user: User | RequestError) => {
+      .then((user: User) => {
         if (authService.isCookieInvalid(user)) {
-          document.cookie = `user= ; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+          document.cookie = 'user= ; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
           dispatch(createSetUserAction({}));
         } else {
-          document.cookie = `user=${JSON.stringify(user)}`;
+          document.cookie = `user=${JSON.stringify(user)}; path=/`;
           dispatch(createSetUserAction(user));
         }
         setLoading(false);

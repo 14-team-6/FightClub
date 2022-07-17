@@ -7,7 +7,6 @@ import MainLayout from '@frontend/src/layouts/mainLayout';
 
 const ProtectedRoutes = () => {
   const isUserExists: boolean = useSelector(selectIsUserExists);
-  return <Outlet/>;
   return isUserExists ? <Outlet/> : <MainLayout><LoginPage/></MainLayout>;
 };
 

@@ -11,7 +11,7 @@ import { useIsSSR } from '@frontend/src/hooks/useIsSSR';
 const Canvas:FC = () => {
   const isSSR = useIsSSR();
 
-  let width =0;
+  let width = 0;
   let height = 0;
 
   let size = { width, height };
