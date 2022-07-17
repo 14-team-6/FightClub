@@ -1,8 +1,8 @@
 const STATIC_CACHE_NAME = 'static-data3';
 
 const STATIC_ASSETS = [
-  '/',
-  '/bundle.js',
+  //'/',
+  //'/bundle.js',
   '/public/sounds/attackEnemy.mp3',
   '/public/Pixeboy.woff',
   '/public/sounds/fight.mp3',

@@ -1,10 +1,8 @@
 import { UserDTO, RequestError } from '@frontend/src/services/types';
 import { transformToUser } from '@frontend/src/utils/apiTransformers';
-import { OAUTH_URL } from '@frontend/consts/app';
+import { OAUTH_URL, REDIRECT_URL } from '@frontend/consts/app';
 import HttpTransport from '../../core/http-transport';
 import { LoginFormData, RegisterFormData } from '../models/form';
-
-export const REDIRECT_URL = 'http://localhost:9000';
 
 class AuthService {
   private authService: HttpTransport;

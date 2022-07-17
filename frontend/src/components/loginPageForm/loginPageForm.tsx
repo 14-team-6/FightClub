@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
 import { authService } from '@frontend/src/services';
-import { REDIRECT_URL } from '@frontend/src/services/authService';
+import { REDIRECT_URL } from '@frontend/consts/app';
 import FormElement from '../form/form';
 import { InputProps } from '../input/input';
 import { FormInputsNames, LoginFormData } from '../../models/form';
