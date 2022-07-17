@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
 import { authService } from '@frontend/src/services';
-import { useNavigate } from 'react-router-dom';
+import { REDIRECT_URL } from '@frontend/consts/app';
 import FormElement from '../form/form';
 import { InputProps } from '../input/input';
 import { FormInputsNames, LoginFormData } from '../../models/form';
@@ -24,6 +25,8 @@ const LoginPageForm: React.FC = () => {
   const auth = useAuth();
   const navigator = useNavigate();
   const [error, setError] = useState<string>('');
+
+  const [searchParams] = useSearchParams();
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
@@ -52,16 +55,38 @@ const LoginPageForm: React.FC = () => {
     },
   ]), [errors]);
 
-  const loginPageMenuButtons: ButtonProps[] = React.useMemo(() => ([{
-    text: 'Login',
-    type: 'submit',
-  }, {
-    text: 'Registration',
-    type: 'button',
-    onClick: () => {
-      navigator('/registration');
+  const handleOAuth = useCallback(async () => {
+    window.location.href = await authService.makeOAuthRedirectUrl();
+  }, []);
+
+  const loginPageMenuButtons: ButtonProps[] = React.useMemo(() => ([
+    {
+      text: 'Login',
+      type: 'submit',
     },
-  }]), []);
+    {
+      text: 'Login by Yandex',
+      type: 'button',
+      onClick: handleOAuth,
+    },
+    {
+      text: 'Registration',
+      type: 'button',
+      onClick: () => {
+        navigator('/registration');
+      },
+    }]), []);
+
+  useEffect(() => {
+    if (searchParams.has('code')) {
+      authService.finalizeOAuth(searchParams.get('code'), REDIRECT_URL)
+        .then((user: User) => {
+          auth.login(user);
+        }).catch(({ reason }: RequestError) => {
+          setError(reason);
+        });
+    }
+  }, []);
 
   return (
     <>

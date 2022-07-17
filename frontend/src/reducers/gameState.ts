@@ -9,8 +9,8 @@ export interface GameState {
 }
 
 export const defaultGameState: GameState = {
-  myLifePercent: 0,
-  enemyLifePercent: 0,
+  myLifePercent: 100,
+  enemyLifePercent: 100,
   roundName: '',
 };
 

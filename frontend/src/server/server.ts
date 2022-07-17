@@ -1,5 +1,7 @@
 import express, { Express } from 'express';
 import { serverMiddlewareWithCallback } from '@frontend/src/server/serverMiddleware';
+import cookieParser from 'cookie-parser';
+import compression from 'compression';
 /// #if DEBUG
 import * as path from 'path';
 import { webpack } from 'webpack';
@@ -15,7 +17,10 @@ const ssrServerWithCallback = (callback: Function): Express => {
 
   const serverMiddleware = serverMiddlewareWithCallback(callback);
 
+  ssrServer.use(compression());
+
   /// #if DEBUG
+
   const compiler = webpack(config);
 
   ssrServer.use(webpackDevMiddleware(compiler, {
@@ -35,6 +40,7 @@ const ssrServerWithCallback = (callback: Function): Express => {
 
   /// #endif
 
+  ssrServer.use(cookieParser());
   ssrServer.get('/*', serverMiddleware);
 
   return ssrServer;

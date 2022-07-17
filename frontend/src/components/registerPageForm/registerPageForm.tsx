@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useAuth } from '@frontend/src/hooks/useAuth';
-import { RequestError } from '../../services/types';
-import { authService } from '@frontend/src/services';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@frontend/src/hooks/useAuth';
+import { authService } from '@frontend/src/services';
+import { RequestError } from '../../services/types';
 import { FormInputsNames, RegisterFormData } from '../../models/form';
 import { InputProps } from '../input/input';
 import FormElement from '../form/form';
-import { ButtonProps } from '../button/button';
+import ButtonElement, { ButtonProps } from '../button/button';
 import SubmitFormError from '../submitFormError/submitFormError';
 import schema from './schema';
 
@@ -23,6 +23,7 @@ const RegisterPageForm: React.FC = () => {
   const auth = useAuth();
   const navigator = useNavigate();
   const [error, setError] = useState<string>('');
+  const navigate = useNavigate();
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
@@ -94,6 +95,7 @@ const RegisterPageForm: React.FC = () => {
         inputs={registerPageFormInputs}
         buttons={registerPageMenuButtons}
       />);
+      <ButtonElement type={'button'} text={'back'} onClick={() => navigate(-1)}/>
     </>
   );
 };

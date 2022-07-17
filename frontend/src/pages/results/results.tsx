@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MainLayout from '@frontend/src/layouts/mainLayout';
 import ButtonElement from '@frontend/src/components/button/button';
@@ -76,20 +77,24 @@ const Footer = styled.div`
   justify-content: space-between;
 `;
 
-const ResultsImpl: FC = () => (
+const ResultsImpl: FC = () => {
+  const navigate = useNavigate();
+
+  return (
     <MainLayout>
       <Wrapper>
         <WrapperContent>
           <MainTitle text={'Leaders'}/>
           <Leaders items={mock}/>
-          <ButtonElement type="button" text="Back"/>
+          <ButtonElement type="button" text="Back" onClick={() => navigate(-1)}/>
         </WrapperContent>
       </Wrapper>
       <Footer>
-        <Kitten direction="right" sprite={1} width={KITTEN_WIDTH} height={KITTEN_HEIGHT} />
-        <Kitten direction="left" sprite={4} width={KITTEN_WIDTH} height={KITTEN_HEIGHT} />
+        <Kitten direction="right" sprite={1} width={KITTEN_WIDTH} height={KITTEN_HEIGHT}/>
+        <Kitten direction="left" sprite={4} width={KITTEN_WIDTH} height={KITTEN_HEIGHT}/>
       </Footer>
     </MainLayout>
-);
+  );
+};
 
 export const Results = React.memo(ResultsImpl);

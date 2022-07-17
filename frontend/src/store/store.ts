@@ -13,7 +13,7 @@ const composeEnhancers = composeWithDevToolsLogOnlyInProduction({});
 
 let state = {};
 if (typeof window === 'object') {
-  state = window.__PRELOADED_STATE__ !== undefined ? window.__PRELOADED_STATE__ : {};
+  state = window.__PRELOADED_STATE__ !== undefined ? JSON.parse(decodeURI(window.__PRELOADED_STATE__)) : {};
   delete window.__PRELOADED_STATE__;
 } else {
   state = {};

@@ -7,7 +7,7 @@ const path = require('path');
 // disable linter to avoid dynamic require error
 const { ssrServerWithCallback } = require(`${middlewarePath}/server`); // eslint-disable-line
 
-const port = process.env.EXPRESS_PORT || 9001;
+const port = process.env.EXPRESS_PORT || 9000;
 
 let callback = () => {};
 
