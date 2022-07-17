@@ -1,35 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@frontend/src/hooks/useAuth';
+import UserService from '@frontend/src/services/userService';
+import { RequestError } from '@frontend/src/services/types';
 import { authService } from '@frontend/src/services';
-import { RequestError } from '../../services/types';
-import { FormInputsNames, RegisterFormData } from '../../models/form';
+import { EditProfileFormData, FormInputsNames } from '../../models/form';
 import { InputProps } from '../input/input';
 import FormElement from '../form/form';
-import ButtonElement, { ButtonProps } from '../button/button';
+import { ButtonProps } from '../button/button';
 import SubmitFormError from '../submitFormError/submitFormError';
 import schema from './schema';
 
-const RegisterPageForm: React.FC = () => {
+const EditProfilePageForm: React.FC = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm<RegisterFormData>({
+  } = useForm<EditProfileFormData>({
     resolver: yupResolver(schema),
   });
   const auth = useAuth();
-  const navigator = useNavigate();
   const [error, setError] = useState<string>('');
-  const navigate = useNavigate();
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
-      authService.signUp(data)
+      UserService.userProfile(data)
         .then((user: User) => {
-          auth.login(user);
+          auth.profile(user);
         })
         .catch(({ reason }: RequestError) => {
           setError(reason);
@@ -37,7 +36,13 @@ const RegisterPageForm: React.FC = () => {
     },
   ), []);
 
-  const registerPageFormInputs: InputProps[] = React.useMemo(() => ([
+  const editProfilePageFormInputs: InputProps[] = React.useMemo(() => ([
+    {
+      placeholder: 'Display name',
+      type: 'text',
+      error: errors[FormInputsNames.DISPLAY_NAME],
+      ...register(FormInputsNames.DISPLAY_NAME),
+    },
     {
       placeholder: 'First name',
       type: 'text',
@@ -63,12 +68,6 @@ const RegisterPageForm: React.FC = () => {
       ...register(FormInputsNames.EMAIL),
     },
     {
-      placeholder: 'Password',
-      type: FormInputsNames.PASSWORD,
-      error: errors[FormInputsNames.PASSWORD],
-      ...register(FormInputsNames.PASSWORD),
-    },
-    {
       placeholder: 'Phone',
       type: FormInputsNames.PHONE,
       error: errors[FormInputsNames.PHONE],
@@ -76,28 +75,33 @@ const RegisterPageForm: React.FC = () => {
     },
   ]), [errors]);
 
-  const registerPageMenuButtons: ButtonProps[] = React.useMemo(() => ([{
-    text: 'Register',
+  const editProfilePageMenuButtons: ButtonProps[] = React.useMemo(() => ([{
+    text: 'Save',
     type: 'submit',
-  }, {
-    text: 'Login',
-    type: 'button',
-    onClick: () => {
-      navigator('/login');
-    },
   }]), []);
+
+  useEffect(() => {
+    authService.getUser()
+      .then((user: User) => {
+        setValue(FormInputsNames.DISPLAY_NAME, user.displayName ? user.displayName : '');
+        setValue(FormInputsNames.FIRST_NAME, user.firstName ? user.firstName : '');
+        setValue(FormInputsNames.SECOND_NAME, user.secondName ? user.secondName : '');
+        setValue(FormInputsNames.EMAIL, user.email ? user.email : '');
+        setValue(FormInputsNames.LOGIN, user.login ? user.login : '');
+        setValue(FormInputsNames.PHONE, user.phone ? user.phone : '');
+      });
+  }, [errors]);
 
   return (
     <>
       <SubmitFormError error={error}/>
       <FormElement
         onSubmit={onSubmit}
-        inputs={registerPageFormInputs}
-        buttons={registerPageMenuButtons}
-      />);
-      <ButtonElement type={'button'} text={'back'} onClick={() => navigate(-1)}/>
+        inputs={editProfilePageFormInputs}
+        buttons={editProfilePageMenuButtons}
+      />
     </>
   );
 };
 
-export default React.memo(RegisterPageForm);
+export default React.memo(EditProfilePageForm);

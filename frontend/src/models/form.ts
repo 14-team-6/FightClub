@@ -3,6 +3,7 @@ export enum FormInputsNames {
   PASSWORD = 'password',
   FIRST_NAME = 'first_name',
   SECOND_NAME = 'second_name',
+  DISPLAY_NAME = 'display_name',
   EMAIL = 'email',
   PHONE = 'phone',
 }
@@ -18,3 +19,7 @@ export type RegisterFormData = {
   [FormInputsNames.EMAIL]: string;
   [FormInputsNames.PHONE]: string;
 } & LoginFormData;
+
+export type EditProfileFormData = {
+  [FormInputsNames.DISPLAY_NAME]: string;
+} & RegisterFormData;

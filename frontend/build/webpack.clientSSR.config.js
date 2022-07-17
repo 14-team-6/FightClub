@@ -2,14 +2,13 @@ const path = require('path');
 const tsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
-
 const styledComponentsTransformer = createStyledComponentsTransformer({
   ssr: true,
 });
 
 module.exports = {
   target: 'node',
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   entry: './frontend/src/app/app.tsx',
   mode: process.env.NODE_ENV,
   output: {
@@ -17,6 +16,7 @@ module.exports = {
     filename: 'clientSSRBundle.js',
     libraryTarget: 'commonjs2',
     publicPath: '/frontend/public/',
+    assetModuleFilename: 'public/[name][ext]',
   },
   resolve: {
     modules: ['src', 'node-modules'],
@@ -46,7 +46,6 @@ module.exports = {
         test: /\.(jpe?g|gif|png|svg)$/i,
         type: 'asset/resource',
         generator: {
-          filename: '[hash][ext]',
           publicPath: '/'
         }
       },
@@ -54,7 +53,6 @@ module.exports = {
         test: /\.(woff|woff2|ttf|eot)$/,
         type: 'asset/resource',
         generator: {
-          filename: '[hash][ext]',
           publicPath: '/'
         }
       }

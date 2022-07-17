@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import AuthService from '@frontend/src/services/authService';
 import { useAuth } from '@frontend/src/hooks/useAuth';
 import MainLayout from '@frontend/src/layouts/mainLayout';
 import MainTitle from '@frontend/src/components/mainTitle/mainTitle';
@@ -9,6 +8,7 @@ import StyledLink from '@frontend/src/components/link/link';
 import ButtonElement from '@frontend/src/components/button/button';
 import Kitten from '@frontend/src/components/kitten/kitten';
 import { KITTEN_HEIGHT, KITTEN_WIDTH } from '@frontend/consts/styles';
+import { authService } from '@frontend/src/services';
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ const MainPage: FC = () => {
   const auth = useAuth();
 
   const handleLogout = () => {
-    AuthService.signOut()
+    authService.signOut()
       .then(auth.logout);
   };
 

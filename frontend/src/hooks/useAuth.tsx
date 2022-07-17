@@ -1,34 +1,62 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, {
+  createContext, useContext, useEffect, useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
-import store from '@frontend/src/store/store';
+import { authService } from '@frontend/src/services';
+import { useDispatch } from 'react-redux';
 import { createSetUserAction } from '@frontend/src/actionCreators/user/creators';
 
 interface AuthContext {
-  user: User | null,
   login: (user: User) => void,
   logout: () => void,
+  profile: (user: User) => void,
 }
 
 const authContext = createContext<AuthContext>({} as AuthContext);
 
-export function AuthProvider ({ children }: any) {
-  const [user, setUser] = useState<User | null>(null);
+export function AuthProvider({ children }: any) {
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const login = (userDetails: User) => {
-    setUser(userDetails);
-    store.dispatch(createSetUserAction(userDetails));
+    document.cookie = `user=${JSON.stringify(userDetails)}`;
+    dispatch(createSetUserAction(userDetails));
     navigate('/');
   };
 
   const logout = () => {
-    setUser(null);
+    document.cookie = 'user= ; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    dispatch(createSetUserAction({}));
     navigate('/login');
   };
 
+  const profile = (userDetails: User) => {
+    dispatch(createSetUserAction(userDetails));
+    navigate('/profile');
+  };
+
+  useEffect(() => {
+    authService.getUser()
+      .then((user: User) => {
+        if (authService.isCookieInvalid(user)) {
+          document.cookie = 'user= ; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+          dispatch(createSetUserAction({}));
+        } else {
+          document.cookie = `user=${JSON.stringify(user)}; path=/`;
+          dispatch(createSetUserAction(user));
+        }
+        setLoading(false);
+      });
+  }, []);
+
   return (
-    <authContext.Provider value={{ user, login, logout }}>
-      {children}
+    <authContext.Provider value={{
+      login,
+      logout,
+      profile,
+    }}>
+      {!isLoading && children}
     </authContext.Provider>
   );
 }

@@ -1,5 +1,5 @@
 import mainBackgroundImage from '@frontend/public/img/mainBackground.png';
-import mainFont from '@frontend/public/font/Pixeboy.ttf';
+import mainFont from '@frontend/public/font/Pixeboy.woff';
 
 // Images
 export const MAIN_BACKGROUND = mainBackgroundImage;

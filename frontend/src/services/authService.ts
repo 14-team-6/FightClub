@@ -1,15 +1,8 @@
-import { UserDTO } from '@frontend/src/services/types';
+import { UserDTO, RequestError } from '@frontend/src/services/types';
 import { transformToUser } from '@frontend/src/utils/apiTransformers';
-import DefaultHttpTransport from '../../core/default-http-transport';
+import { OAUTH_URL, REDIRECT_URL } from '@frontend/consts/app';
 import HttpTransport from '../../core/http-transport';
 import { LoginFormData, RegisterFormData } from '../models/form';
-
-const AUTH_URL: string = 'https://ya-praktikum.tech/api/v2';
-export const REDIRECT_URL = 'http://localhost:9000';
-
-export interface AuthError {
-  reason: string;
-}
 
 class AuthService {
   private authService: HttpTransport;
@@ -18,36 +11,38 @@ class AuthService {
     this.authService = authService;
   }
 
-  public getUser = () => this.authService.get<UserDTO>('/auth/user');
+  public isCookieInvalid(user: User): boolean {
+    return user.id === undefined;
+  }
 
-  private signInHandler = async (response: Response): Promise<User | AuthError> => {
+  public getUser = (): Promise<User | RequestError> => this.authService.get<UserDTO>('/auth/user')
+    .then((user: UserDTO) => transformToUser(user))
+    .catch((reason) => Promise.reject(reason));
+
+  private signInHandler = async (response: Response): Promise<User | RequestError> => {
     if (!response.ok) {
       return Promise.reject(await response.json());
     }
 
-    return this.getUser()
-      .then((user: UserDTO) => transformToUser(user))
-      .catch((reason) => Promise.reject(reason));
+    return this.getUser();
   };
 
   public signIn = (userInfo: LoginFormData) => this.authService
-    .post<LoginFormData, User | AuthError>('/auth/signin', {
+    .post<LoginFormData, User | RequestError>('/auth/signin', {
     body: userInfo,
     handler: this.signInHandler,
   });
 
-  private signUpHandler = async (response: Response): Promise<User | AuthError> => {
+  private signUpHandler = async (response: Response): Promise<User | RequestError> => {
     if (!response.ok) {
       return Promise.reject(await response.json());
     }
 
-    return this.getUser()
-      .then((user: UserDTO) => transformToUser(user))
-      .catch((reason) => Promise.reject(reason));
+    return this.getUser();
   };
 
   public signUp = (userInfo: RegisterFormData) => this.authService
-    .post<RegisterFormData, User | AuthError>('/auth/signup', {
+    .post<RegisterFormData, User | RequestError>('/auth/signup', {
     body: userInfo,
     handler: this.signUpHandler,
   });
@@ -67,11 +62,16 @@ class AuthService {
   public async makeOAuthRedirectUrl(): Promise<string> {
     const serviceId = await this.authService.get(`/oauth/yandex/service-id?redirect_uri=${REDIRECT_URL}`)
       .then((response: { service_id: string }) => response.service_id);
-    return `https://oauth.yandex.ru/authorize?response_type=code&client_id=${serviceId}&redirect_uri=${REDIRECT_URL}`;
+    const url = new URL(OAUTH_URL);
+    url.searchParams.append('response_type', 'code');
+    url.searchParams.append('client_id', serviceId);
+    url.searchParams.append('redirect_uri', REDIRECT_URL);
+
+    return url.href;
   }
 
-  public finalizeOAuth(code: string | null, redirect_uri: string): Promise<User | AuthError> {
-    if (code === null) {
+  public finalizeOAuth(code: string | null, redirect_uri: string): Promise<User | RequestError> {
+    if (!code) {
       // eslint-disable-next-line prefer-promise-reject-errors
       return Promise.reject({ reason: 'Empty oauth code' });
     }
@@ -85,4 +85,4 @@ class AuthService {
   }
 }
 
-export default new AuthService(new DefaultHttpTransport(AUTH_URL));
+export default AuthService;

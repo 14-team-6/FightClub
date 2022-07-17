@@ -18,6 +18,7 @@ import { ProfilePage } from '@frontend/src/pages/profile/profile';
 import { createGlobalStyle } from 'styled-components';
 import { MAIN_FONT } from '@frontend/consts/styles';
 import FightPage from '@frontend/src/pages/game/fight/fight';
+import { AuthProvider } from '@frontend/src/hooks/useAuth';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -38,8 +39,9 @@ const GS = createGlobalStyle`
 export const App = () => (
   <>
     <GS/>
-    <Routes>
-      <Route path="/" element={<ProtectedRoutes/>}>
+    <AuthProvider>
+      <Routes>
+        <Route path="/" element={<ProtectedRoutes/>}>
         <Route path="/" element={<MainPage/>}/>
         <Route path="/game/fight" element={<FightPage/>}/>
         <Route path="/game/fight/newgame" element={<Navigate to={'/game/fight'} />} />
@@ -55,10 +57,11 @@ export const App = () => (
         <Route path="/topics/:topicId/posts/:postId/comments/add" element={<MainLayout><AnswerPage/></MainLayout>}/>
         <Route path="*" element={<Errors errorType={ErrorTypes.e404}/>}/>
       </Route>
-      <Route path="/" element={<PublicRoutes/>}>
+        <Route path="/" element={<PublicRoutes/>}>
         <Route path="/login" element={<MainLayout><LoginPage/></MainLayout>}/>
         <Route path="/registration" element={<MainLayout><RegistrationPage/></MainLayout>}/>
       </Route>
     </Routes>
+    </AuthProvider>
   </>
 );
