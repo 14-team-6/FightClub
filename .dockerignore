@@ -1,4 +1,3 @@
-frontend/src
-!frontend/src/server/serverLauncher.js
 node_modules
 **/*.DS_Store
+.dev.env
