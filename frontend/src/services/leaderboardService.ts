@@ -45,8 +45,9 @@ class LeaderboardService {
       return response.json().then((items: GetLeadersResponse) => {
         let count = 0;
         return items.map((element: LeaderResponse) => {
+          count += 1;
           const res: LeaderItem = {
-            id: ++count, // eslint-disable-line no-plusplus
+            id: count,
             name: element.data.name,
             score: element.data.score,
           };

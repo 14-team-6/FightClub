@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { authService } from '@frontend/src/services';
 import { useDispatch } from 'react-redux';
 import { createSetUserAction } from '@frontend/src/actionCreators/user/creators';
-import { emptyUser } from '@frontend/src/reducers/user';
+import { userDefaultState } from '@frontend/src/reducers/user';
 
 interface AuthContext {
   login: (user: User) => void,
@@ -28,7 +28,7 @@ export function AuthProvider({ children }: any) {
 
   const logout = () => {
     document.cookie = 'user= ; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-    dispatch(createSetUserAction(emptyUser));
+    dispatch(createSetUserAction(userDefaultState));
     navigate('/login');
   };
 
@@ -42,7 +42,7 @@ export function AuthProvider({ children }: any) {
       .then((user: User) => {
         if (authService.isCookieInvalid(user)) {
           document.cookie = 'user= ; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-          dispatch(createSetUserAction(emptyUser));
+          dispatch(createSetUserAction(userDefaultState));
         } else {
           document.cookie = `user=${JSON.stringify(user)}; path=/`;
           dispatch(createSetUserAction(user));
