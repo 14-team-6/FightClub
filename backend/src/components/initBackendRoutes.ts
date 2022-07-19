@@ -5,7 +5,7 @@ import { ThemesApi } from '@backend/src/controllers/themes';
 
 export const initBackendRoutes = (router: Router): void => {
   const apiRouter = Router();
-  // this middleware also sets userParsed (UserDTO type) prop to respond.locals
+  // this middleware also sets userParsed (UserDTO type) prop into respond.locals
   // and makes it available for all api handlers
   apiRouter.use(checkAuthMiddleware);
 
