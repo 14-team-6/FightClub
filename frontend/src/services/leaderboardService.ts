@@ -13,7 +13,7 @@ type GetLeadersRequest = {
 };
 
 export type LeaderItem = {
-  id?: number,
+  id: number,
   name: string,
   score: number,
 };
@@ -42,18 +42,14 @@ class LeaderboardService {
 
   private getLeadersHandler(response: Response): Promise<LeaderItem[]> {
     if (response.ok) {
-      return response.json().then((items: GetLeadersResponse) => {
-        let count = 0;
-        return items.map((element: LeaderResponse) => {
-          count += 1;
-          const res: LeaderItem = {
-            id: count,
-            name: element.data.name,
-            score: element.data.score,
-          };
-          return res;
-        });
-      });
+      return response.json().then((items: GetLeadersResponse) => items.map((element: LeaderResponse) => {
+        const res: LeaderItem = {
+          id: element.data.id,
+          name: element.data.name,
+          score: element.data.score,
+        };
+        return res;
+      }));
     }
     return Promise.reject(response.json());
   }
@@ -65,7 +61,7 @@ class LeaderboardService {
     return Promise.reject(await response.json());
   }
 
-  public getLeaders() {
+  public getLeaders(): Promise<LeaderItem[]> {
     const request: GetLeadersRequest = {
       ratingFieldName: 'score',
       limit: 10,
@@ -77,21 +73,26 @@ class LeaderboardService {
     });
   }
 
-  public setLeader(score: number) {
+  public setLeader(score: number): Promise<string | SetLeaderError> {
     // TODO: refactor to selectors
     const user = selectUserInfo(store.getState());
-    const request: LeaderSetRequest = {
-      ratingFieldName: 'score',
-      teamName: `${TEAM_NAME}`,
-      data: {
-        name: user.display_name !== undefined ? user.display_name : user.login,
-        score,
+    return this.getLeaders().then((data: LeaderItem[]) => {
+      const scoreRecords = data.filter((item) => item.id === user.id);
+      const oldScore = scoreRecords.length === 0 ? 0 : scoreRecords[0].score;
+      const request: LeaderSetRequest = {
+        ratingFieldName: 'score',
         teamName: `${TEAM_NAME}`,
-      },
-    };
-    return this.httpTransport.post<LeaderSetRequest, string | SetLeaderError>('', {
-      body: request,
-      handler: this.setLeaderHandler,
+        data: {
+          id: user.id as number,
+          name: user.display_name !== undefined ? user.display_name : user.login,
+          score: score + oldScore,
+          teamName: `${TEAM_NAME}`,
+        },
+      };
+      return this.httpTransport.post<LeaderSetRequest, string | SetLeaderError>('', {
+        body: request,
+        handler: this.setLeaderHandler,
+      });
     });
   }
 }
