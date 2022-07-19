@@ -11,6 +11,10 @@ import webpackHotMiddleware from 'webpack-hot-middleware'; // eslint-disable-lin
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import config from '../../build/webpack.client.config';
 /// #endif
+import { Sequelize } from 'sequelize-typescript';
+import { ThemeUser } from '@backend/models/themes/ThemeUser';
+import { Theme } from '@backend/models/themes/Theme';
+import { User } from '@backend/models/users/User';
 
 const ssrServerWithCallback = (callback: Function): Express => {
   const ssrServer = express();
@@ -42,6 +46,18 @@ const ssrServerWithCallback = (callback: Function): Express => {
 
   ssrServer.use(cookieParser());
   ssrServer.get('/*', serverMiddleware);
+
+  const DB_URL = process.env.DATABASE_URL;
+  if (DB_URL === undefined) {
+    throw Error('Database connection string not found in environment variables');
+  }
+  const sequelize = new Sequelize(DB_URL, {
+    models: [User, Theme, ThemeUser],
+  });
+  (async () => {
+    await sequelize.sync({ alter: true });
+    console.log(sequelize.models);
+  })();
 
   return ssrServer;
 };

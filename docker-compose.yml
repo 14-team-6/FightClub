@@ -1,15 +1,17 @@
-version: "1"
+version: "2.4"
 services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile_dev
+      dockerfile: Dockerfile
     ports:
       - "9000:9000"
+      - "9229:9229"
     env_file:
       - ./.dev.env
     volumes:
-      - ./:/opt/app/
+      - /media/mac/frontend:/opt/app/frontend/
+      - /media/mac/backend:/opt/app/backend/
     networks:
       - devnet
     depends_on:

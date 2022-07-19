@@ -2,4 +2,10 @@ FROM alpine
 
 RUN apk add --update nginx sudo nodejs npm git
 
-CMD cd /opt/app && ls -la && npm i && npm run dev
+WORKDIR /opt/app
+
+COPY ./ .
+
+RUN npm i || true
+
+CMD cd /opt/app && npm run dev
