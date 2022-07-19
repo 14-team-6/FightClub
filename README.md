@@ -72,11 +72,11 @@ Works only for users with admin role.
 To build local docker you have to create ```.dev.env``` file  in the project's root.
 File format described below:
 ```
-POSTGRES_USER: postgre user
-POSTGRES_PASSWORD: postgre password
-POSTGRES_DB: postgre database name
-DATABASE_URL: database connection string
-NODE_ENV: production
+POSTGRES_USER=postgre user
+POSTGRES_PASSWORD=postgre password
+POSTGRES_DB=postgre database name
+DATABASE_URL=database connection string
+NODE_ENV=production
 PORT: 3000
 ```
 For production there aren't necessary because the Heroku pass DATABASE_URL to the app container.
