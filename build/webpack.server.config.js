@@ -20,6 +20,9 @@ module.exports = {
     libraryTarget: 'commonjs2',
     publicPath: '/frontend/public/',
   },
+  watchOptions: {
+    poll: 2000,
+  },
   plugins: [
     new CopyPlugin({
       patterns: [

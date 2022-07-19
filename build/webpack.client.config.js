@@ -22,6 +22,9 @@ module.exports = {
     filename: 'bundle.js',
     assetModuleFilename: 'public/[name][ext]',
   },
+  watchOptions: {
+    poll: 2000,
+  },
   resolve: {
     plugins: [new tsconfigPathsPlugin()],
     modules: ['src', 'node_modules'],

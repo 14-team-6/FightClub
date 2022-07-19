@@ -18,6 +18,9 @@ module.exports = {
     publicPath: '/frontend/public/',
     assetModuleFilename: 'public/[name][ext]',
   },
+  watchOptions: {
+    poll: 2000,
+  },
   resolve: {
     modules: ['src', 'node-modules'],
     extensions: ['*', '.js', '.jsx', '.json', '.ts', '.tsx'],

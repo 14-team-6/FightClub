@@ -2,6 +2,7 @@ import { Theme } from '@backend/src/models/themes/themes';
 import { sequelizeGlobal } from '@backend/src/components/sequelizeGlobal';
 import { ThemeUsers } from '@backend/src/models/themes/themeUsers';
 import { User } from '@backend/src/models/users/users';
+import { BaseService } from '@backend/src/services/baseService';
 
 type ThemeProps = {
   name: string,

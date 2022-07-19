@@ -11,12 +11,16 @@
 
 Ассеты: https://disk.yandex.ru/d/IGQN_0FJL51hhw
 
-## Как запустить?
-git clone ...
+## How to run dev?
+1. install docker
+2. git clone ...
+3. create .dev.env file in the project's root (see format below)
+4. build containers: `docker-compose build`
+5. run the app: `FRONTEND_VOLUME=/<your full path to src/frontend>/frontend BACKEND_VOLUME=/<your full path to src/backend>/backend`
 
-npm install
-
-npm run dev # запустится веб-сервер для разработки
+- postgresql will work on 5432 port
+- pgadmin will work on 8080 port
+- app will work on 9000 port
 
 ## API handlers
 endpoint: `/api/v1`
@@ -77,7 +81,7 @@ POSTGRES_PASSWORD=postgre password
 POSTGRES_DB=postgre database name
 DATABASE_URL=database connection string
 NODE_ENV=production
-PORT: 3000
+PORT=3000
 ```
 For production there aren't necessary because the Heroku pass DATABASE_URL to the app container.
 

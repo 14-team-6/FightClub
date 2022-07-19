@@ -10,8 +10,8 @@ services:
     env_file:
       - ./.dev.env
     volumes:
-      - /media/mac/frontend:/opt/app/frontend/
-      - /media/mac/backend:/opt/app/backend/
+      - $FRONTEND_VOLUME:/opt/app/frontend/
+      - $BACKEND_VOLUME:/opt/app/backend/
     networks:
       - devnet
     depends_on:
