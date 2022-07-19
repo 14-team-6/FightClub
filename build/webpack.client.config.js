@@ -18,7 +18,7 @@ module.exports = {
   ].filter(Boolean),
   devtool: 'inline-source-map',
   output: {
-    path: path.join(__dirname, '..', '..', 'dist'),
+    path: path.join(__dirname, '..', 'dist'),
     filename: 'bundle.js',
     assetModuleFilename: 'public/[name][ext]',
   },

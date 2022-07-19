@@ -3,7 +3,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile_dev
     ports:
       - "9000:9000"
       - "9229:9229"

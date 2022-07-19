@@ -18,6 +18,56 @@ npm install
 
 npm run dev # запустится веб-сервер для разработки
 
+## API handlers
+endpoint: `/api/v1`
+
+### Themes
+#### Get all themes
+- path: `themes/available`
+- method: `GET`
+- **input**: void
+- **output**: `[{ id: number, name: string, isPremium: boolean }]`
+
+#### Get user's themes
+- path: `themes`
+- - method: `GET`
+- **input**: void
+- **output**: `[{ id: number, name: string, data: Object }]`
+
+#### Link user to theme
+- path: `themes/linkToUser`
+- - method: `POST`
+- **input**: `{ themeId: number }`
+- **output**: `{ result: string }`
+
+#### Create theme
+- path: `themes`
+- - method: `POST`
+- **input**: `{ name: string, data: Object }`
+- **output**: `{ result: string }`
+
+#### Update theme
+- path: `themes`
+- - method: `PUT`
+- **input**: `{ themeId: number, themeData: { name?: string, data?: Object, isPremium?: boolean } }`
+- **output**: `{ result: string }`
+
+### Users
+A user automatically creates from `user` cookie. If there are no cookie or parse errors, exception will be fired.
+
+#### Create user
+- path: `/users`
+- method: `POST`
+- **input**: void
+- **output**: `{ result: string }`
+
+#### Get all users
+Works only for users with admin role.
+- path: `/users`
+- method: `GET`
+- **input**: void
+- **output**: `[{ id: number, login: string, isAdmin: boolean, isPremium: boolean, createdAt: datetime, updatedAt: datetime }]`
+
 ## ENV file format
 To build local docker you have to create ```.dev.env``` file  in the project's root.
 File format described below:
