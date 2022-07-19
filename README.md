@@ -16,7 +16,7 @@
 2. git clone ...
 3. create .dev.env file in the project's root (see format below)
 4. build containers: `docker-compose build`
-5. run the app: `FRONTEND_VOLUME=/<your full path to src/frontend>/frontend BACKEND_VOLUME=/<your full path to src/backend>/backend`
+5. run the app: `FRONTEND_VOLUME=/<your full path to src/frontend>/frontend BACKEND_VOLUME=/<your full path to src/backend>/backend docker-compose up`
 
 - postgresql will work on 5432 port
 - pgadmin will work on 8080 port
