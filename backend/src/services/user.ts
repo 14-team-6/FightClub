@@ -23,7 +23,7 @@ export class UserService implements BaseService {
     }
   };
 
-  public get = () => User.findAll();
+  public get = (): Promise<User[]> => User.findAll();
 
   public update = async (userLogin: string, updateProps: UpdateProps): Promise<User | undefined> => {
     const curUser = await this.find(userLogin);
