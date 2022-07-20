@@ -8,7 +8,6 @@ import {
 } from '../../../consts/styles';
 
 const Textarea = styled.textarea`
-  font-family: Pixeboy, sans-serif;
   margin: 8px 0;
   background-color: ${MAIN_WHITE};
   font-weight: 400;

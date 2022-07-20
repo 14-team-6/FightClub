@@ -23,13 +23,13 @@ const ListItemStyled = styled(ListItemImpl)`
   display: flex;
   flex-direction: row;
   height: 20px;
-  width: 300px;
+  width: 360px;
   align-items: center;
   justify-content: center;
   margin: 5px 0;
 
   .stroked-text {
-    width: 100px;
+    width: 100%;
     text-overflow: ellipsis;
   }
 

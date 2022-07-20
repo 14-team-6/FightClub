@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MainLayout from '@frontend/src/layouts/mainLayout';
@@ -6,50 +6,10 @@ import ButtonElement from '@frontend/src/components/button/button';
 import MainTitle from '@frontend/src/components/mainTitle/mainTitle';
 import Kitten from '@frontend/src/components/kitten/kitten';
 import { KITTEN_HEIGHT, KITTEN_WIDTH } from '@frontend/consts/styles';
+import leaderboardService, { LeaderItem } from '@frontend/src/services/leaderboardService';
+import { SortOrder, SortParams } from '@frontend/src/pages/results/components/sortBlock';
+import { useIsSSR } from '@frontend/src/hooks/useIsSSR';
 import { Leaders } from './components/leaders';
-
-const mock = [
-  {
-    id: 1,
-    name: 'stan',
-    score: 3000000,
-  },
-  {
-    id: 2,
-    name: 'rui',
-    score: 28000,
-  },
-  {
-    id: 3,
-    name: 'joao',
-    score: 12900,
-  },
-  {
-    id: 4,
-    name: 'maria',
-    score: 7800,
-  },
-  {
-    id: 5,
-    name: 'leonor',
-    score: 5800,
-  },
-  {
-    id: 6,
-    name: 'duarte',
-    score: 4000,
-  },
-  {
-    id: 7,
-    name: 'pedro',
-    score: 2400,
-  },
-  {
-    id: 8,
-    name: 'stan',
-    score: 30000,
-  },
-];
 
 const Wrapper = styled.div`
   display: flex;
@@ -78,14 +38,31 @@ const Footer = styled.div`
 `;
 
 const ResultsImpl: FC = () => {
+  const isSSR = useIsSSR();
+
   const navigate = useNavigate();
+  const [leaders, setLeaders] = useState<LeaderItem[]>([]);
+
+  useEffect(() => {
+    leaderboardService.getLeaders()
+      .then((items: LeaderItem[]) => setLeaders(items));
+  }, [isSSR]);
+
+  const handleSort = (sortBy: SortParams) => {
+    setLeaders([...leaders.sort((a, b) => {
+      if (sortBy.sortOrder === SortOrder.ASC) {
+        return a[sortBy.sortField] > b[sortBy.sortField] ? 1 : -1;
+      }
+      return a[sortBy.sortField] < b[sortBy.sortField] ? 1 : -1;
+    })]);
+  };
 
   return (
     <MainLayout>
       <Wrapper>
         <WrapperContent>
           <MainTitle text={'Leaders'}/>
-          <Leaders items={mock}/>
+          <Leaders handleSortCallback={handleSort} items={leaders}/>
           <ButtonElement type="button" text="Back" onClick={() => navigate(-1)}/>
         </WrapperContent>
       </Wrapper>

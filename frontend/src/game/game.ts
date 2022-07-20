@@ -9,6 +9,7 @@ import Sounds from '@frontend/src/game/components/sounds/sounds';
 import { KeyboardControl, keyboardLayoutPause } from '@frontend/src/game/components/controls/keyboard';
 import { PauseGame } from '@frontend/src/pages/game/pauseGame/pauseGame';
 import { RoundState } from '@frontend/src/game/types';
+import LeaderboardService, { SetLeaderError } from '@frontend/src/services/leaderboardService';
 
 enum GameState {
   ROUND_1 = 'ROUND 1',
@@ -37,6 +38,8 @@ export class Game {
 
   private gameState: GameState;
 
+  private hasSentToLeaderboard: boolean;
+
   constructor(ctx: CanvasRenderingContext2D, setUIElements: Function) {
     this.gameState = GameState.ROUND_1;
     this.setUIElements = setUIElements;
@@ -45,6 +48,8 @@ export class Game {
 
     this.inputPause = new KeyboardControl(keyboardLayoutPause);
     this.inputPause.start();
+
+    this.hasSentToLeaderboard = false;
 
     Sounds.init().then(() => {
       Sounds.playMainTheme();
@@ -67,6 +72,12 @@ export class Game {
   private handleEndGame(): void {
     const endGameType = this.currentWinner === this.hero ? EndGameType.WIN : EndGameType.LOOSE;
     const score = endGameType === EndGameType.WIN ? Math.round(this.hero.life * 1000) : 0;
+    if (endGameType === EndGameType.WIN && !this.hasSentToLeaderboard) {
+      LeaderboardService.setLeader(score).catch((error: SetLeaderError) => {
+        console.log(`Set leader error: ${error.reason}`);
+      });
+      this.hasSentToLeaderboard = true;
+    }
     this.setUIElements(EndGame({ endGameType, score }));
   }
 
