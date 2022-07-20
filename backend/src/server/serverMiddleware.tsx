@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import { ServerStyleSheet } from 'styled-components';
-import store from '@frontend/src/store/store';
+import { withCreateStore } from '@frontend/src/store/store';
 import { Provider } from 'react-redux';
 import { createSetUserAction } from '@frontend/src/actionCreators/user/creators';
 
@@ -46,6 +46,8 @@ export const serverMiddlewareWithCallback = (callback: Function) => (req: Reques
   // and hydrate will fire a mismatch error
   // I couldn't find any way to dynamic import in Typescript
   const AppToRender = callback();
+
+  const store = withCreateStore();
 
   if ('user' in req.cookies) {
     try {

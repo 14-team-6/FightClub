@@ -42,7 +42,6 @@ export const UserInfo = styled.div`
 export const InfoText = styled.div`
   color: ${MAIN_YELLOW};
   font-size: ${MIDDLE_FONT_SIZE};
-  font-family: Pixeboy, sans-serif;
 `;
 
 export const UserProfile: React.FC = () => (

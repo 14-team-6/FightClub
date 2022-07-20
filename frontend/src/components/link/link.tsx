@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { MAIN_FONT_SIZE, MAIN_RED, MAIN_YELLOW } from '../../../consts/styles';
 
 const StyledLink = styled(Link)`
-  font-family: Pixeboy, serif;
   text-align: center;
   color: ${MAIN_RED};
   text-shadow:
