@@ -10,6 +10,7 @@ import { KeyboardControl, keyboardLayoutPause } from '@frontend/src/game/compone
 import { PauseGame } from '@frontend/src/pages/game/pauseGame/pauseGame';
 import { RoundState } from '@frontend/src/game/types';
 import LeaderboardService, { SetLeaderError } from '@frontend/src/services/leaderboardService';
+import * as Sentry from '@sentry/react';
 
 enum GameState {
   ROUND_1 = 'ROUND 1',
@@ -74,7 +75,7 @@ export class Game {
     const score = endGameType === EndGameType.WIN ? Math.round(this.hero.life * 1000) : 0;
     if (endGameType === EndGameType.WIN && !this.hasSentToLeaderboard) {
       LeaderboardService.setLeader(score).catch((error: SetLeaderError) => {
-        console.log(`Set leader error: ${error.reason}`);
+        Sentry.captureMessage(`Set leader error: ${error.reason}`);
       });
       this.hasSentToLeaderboard = true;
     }

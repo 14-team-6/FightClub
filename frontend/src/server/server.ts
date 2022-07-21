@@ -2,6 +2,8 @@ import express, { Express } from 'express';
 import { serverMiddlewareWithCallback } from '@frontend/src/server/serverMiddleware';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
+import * as Sentry from '@sentry/node';
+import * as Tracing from '@sentry/tracing';
 /// #if DEBUG
 import * as path from 'path';
 import { webpack } from 'webpack';
@@ -14,6 +16,27 @@ import config from '../../build/webpack.client.config';
 
 const ssrServerWithCallback = (callback: Function): Express => {
   const ssrServer = express();
+
+  Sentry.init({
+    dsn: 'https://eda72f0264dc47dc9b12abd100ed8b83@o1329302.ingest.sentry.io/6591298',
+    integrations: [
+      // enable HTTP calls tracing
+      new Sentry.Integrations.Http({ tracing: true }),
+      // enable Express.js middleware tracing
+      new Tracing.Integrations.Express({ app: ssrServer }),
+    ],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+
+  // RequestHandler creates a separate execution context using domains, so that every
+  // transaction/span/breadcrumb is attached to its own Hub instance
+  ssrServer.use(Sentry.Handlers.requestHandler());
+  // TracingHandler creates a trace for every incoming request
+  ssrServer.use(Sentry.Handlers.tracingHandler());
 
   const serverMiddleware = serverMiddlewareWithCallback(callback);
 
@@ -41,7 +64,22 @@ const ssrServerWithCallback = (callback: Function): Express => {
   /// #endif
 
   ssrServer.use(cookieParser());
+
   ssrServer.get('/*', serverMiddleware);
+
+  // The error handler must be before any other error middleware and after all controllers
+  ssrServer.use(Sentry.Handlers.errorHandler());
+
+  // Optional fallthrough error handler
+  /* eslint-disable */
+  // @ts-ignore
+  ssrServer.use(function onError(err, req, res, next) {
+    // The error id is attached to `res.sentry` to be returned
+    // and optionally displayed to the user for support.
+    res.statusCode = 500;
+    res.end(res.sentry + "\n");
+  });
+  /* eslint-enable */
 
   return ssrServer;
 };
