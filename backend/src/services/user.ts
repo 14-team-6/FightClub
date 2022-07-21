@@ -12,15 +12,16 @@ export class UserService implements BaseService {
     },
   });
 
-  public create = async (userLogin: string) => {
+  public create = async (userLogin: string): Promise<User | null> => {
     const curUser = await this.find(userLogin);
     if (curUser === null) {
-      await User.create({
+      return User.create({
         login: `${userLogin}`,
         isAdmin: false,
         isPremium: false,
       });
     }
+    return Promise.reject();
   };
 
   public get = (): Promise<User[]> => User.findAll();
