@@ -1,7 +1,10 @@
-import express, { Express } from 'express';
-import { serverMiddlewareWithCallback } from '@frontend/src/server/serverMiddleware';
+import express, { Express, Router } from 'express';
+import { serverMiddlewareWithCallback } from '@backend/src/server/serverMiddleware';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 import compression from 'compression';
+import { sequelizeGlobal } from '@backend/src/components/sequelizeGlobal';
+import { initBackendRoutes } from '@backend/src/components/initBackendRoutes';
 /// #if DEBUG
 import * as path from 'path';
 import { webpack } from 'webpack';
@@ -9,7 +12,7 @@ import { webpack } from 'webpack';
 // but it's almost there
 import webpackHotMiddleware from 'webpack-hot-middleware'; // eslint-disable-line
 import webpackDevMiddleware from 'webpack-dev-middleware';
-import config from '../../build/webpack.client.config';
+import config from '../../../build/webpack.client.config';
 /// #endif
 
 const ssrServerWithCallback = (callback: Function): Express => {
@@ -18,6 +21,8 @@ const ssrServerWithCallback = (callback: Function): Express => {
   const serverMiddleware = serverMiddlewareWithCallback(callback);
 
   ssrServer.use(compression());
+  ssrServer.use(cookieParser());
+  ssrServer.use(bodyParser());
 
   /// #if DEBUG
 
@@ -40,8 +45,16 @@ const ssrServerWithCallback = (callback: Function): Express => {
 
   /// #endif
 
-  ssrServer.use(cookieParser());
-  ssrServer.get('/*', serverMiddleware);
+  const router = Router();
+  initBackendRoutes(router);
+
+  router.get('/*', serverMiddleware);
+
+  ssrServer.use(router);
+
+  (async () => {
+    await sequelizeGlobal.init();
+  })();
 
   return ssrServer;
 };
