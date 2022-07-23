@@ -27,5 +27,5 @@ if (isDevelopment) {
 const ssrServer = ssrServerWithCallback(callback);
 
 ssrServer.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+  console.log(`Listening on port ${port}`); // eslint-disable-line
 });
