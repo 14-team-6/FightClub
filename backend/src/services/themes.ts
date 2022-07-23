@@ -25,7 +25,7 @@ export class ThemesService implements BaseService {
     });
   }
 
-  public update(themeId: number, themeData: ThemeProps): Promise<Theme | null> {
+  public update(themeId: number, themeData: ThemeProps): Promise<any> {
     return Theme.findOne({
       where: {
         id: themeId,

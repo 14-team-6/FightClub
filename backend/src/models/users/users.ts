@@ -9,7 +9,7 @@ import {
   Index,
   Unique,
   Default,
-  AllowNull,
+  AllowNull
 } from 'sequelize-typescript';
 
 @Table
@@ -25,6 +25,10 @@ export class User extends Model {
   @Length({ max: 30 })
   @Column(DataType.STRING)
     login: string;
+
+  @Length({ max: 30 })
+  @Column(DataType.STRING)
+    name: string;
 
   @Default(false)
   @Column(DataType.BOOLEAN)

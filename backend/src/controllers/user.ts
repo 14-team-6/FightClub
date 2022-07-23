@@ -16,7 +16,7 @@ export class UserApi {
     const userService = new UserService();
     try {
       const user = res.locals.userParsed as UserDTO;
-      await userService.create(user.login);
+      await userService.create({ login: user.login, name: user.first_name });
       res.send(JSON.stringify({ result: 'OK' }));
     } catch (e) {
       res.send(JSON.stringify({ result: `${e}` }));

@@ -6,6 +6,7 @@ import { ServerStyleSheet } from 'styled-components';
 import { withCreateStore } from '@frontend/src/store/store';
 import { Provider } from 'react-redux';
 import { createSetUserAction } from '@frontend/src/actionCreators/user/creators';
+import { UserService } from '@backend/src/services/user';
 
 const sheet = new ServerStyleSheet();
 
@@ -52,6 +53,8 @@ export const serverMiddlewareWithCallback = (callback: Function) => (req: Reques
   if ('user' in req.cookies) {
     try {
       const userDetails = JSON.parse(req.cookies.user);
+      const userService = new UserService();
+      userService.create({ login: userDetails.login, name: userDetails.first_name });
       store.dispatch(createSetUserAction(userDetails));
     } catch (e) {
       console.log(`Error reading cookie: ${e}`);
