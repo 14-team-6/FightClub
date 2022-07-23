@@ -1,6 +1,6 @@
 export type ForumApiRequestResult = {
   result: string,
-}
+};
 
 export type AddDataProps = {
   data: string,

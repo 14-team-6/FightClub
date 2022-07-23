@@ -8,7 +8,7 @@ import {
   PrimaryKey,
   Model,
   BelongsTo,
-  Length
+  Length,
 } from 'sequelize-typescript';
 import { User } from '@backend/src/models/users/users';
 import { Post } from '@backend/src/models/forum/posts';
@@ -18,12 +18,12 @@ export class Comment extends Model {
   @AutoIncrement
   @PrimaryKey
   @Column(DataType.INTEGER)
-  id: number;
+    id: number;
 
   @Length({ min: 1, max: 1000 })
   @AllowNull(false)
   @Column(DataType.STRING)
-  data: string;
+    data: string;
 
   @AllowNull(false)
   @ForeignKey(() => User)

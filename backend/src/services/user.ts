@@ -8,7 +8,7 @@ type UpdateProps = {
 type UserProps = {
   login: string,
   name?: string,
-}
+};
 
 export class UserService implements BaseService {
   public find = async (userLogin: string): Promise<User | null> => User.findOne({

@@ -27,36 +27,44 @@ export class ForumApi {
     forumRoutes
       .get(
         '/topics',
-        withService(topicOptions).get
+        withService(topicOptions).get,
       ) // get all topics
       .post(
         '/topics',
-        withService(topicOptions).add
+        withService(topicOptions).add,
       ) // add new topic
       .put(
         '/topics/:topicId(\\d+)',
-        withService(topicOptions).edit
+        withService(topicOptions).edit,
       ) // edit topic name
       .get(
         '/topics/:topicId(\\d+)/posts',
-        withService(postOptions).get
+        withService(postOptions).get,
       ) // get all posts
       .post(
         '/topics/:topicId(\\d+)/posts',
-        withService(postOptions).add
+        withService(postOptions).add,
       ) // add new post
       .put(
         '/topics/:topicId(\\d+)/posts/:postId(\\d+)',
-        withService(postOptions).edit
+        withService(postOptions).edit,
       ) // edit post name
-      .get('/topics/:topicId(\\d+)/posts/:postId(\\d+)/comments',
-        withService(commentOptions).get) // get all comments
-      .post('/topics/:topicId(\\d+)/posts/:postId(\\d+)/comments',
-        withService(commentOptions).add) // add new comment
-      .put('/topics/:topicId(\\d+)/posts/:postId(\\d+)/comments/:commentId(\\d+)',
-        withService(commentOptions).edit) // edit comment
-      .delete('/topics/:topicId(\\d+)/posts/:postId(\\d+)/comments/:commentId(\\d+)',
-        withService(commentOptions).delete) // delete comment
+      .get(
+        '/topics/:topicId(\\d+)/posts/:postId(\\d+)/comments',
+        withService(commentOptions).get,
+      ) // get all comments
+      .post(
+        '/topics/:topicId(\\d+)/posts/:postId(\\d+)/comments',
+        withService(commentOptions).add,
+      ) // add new comment
+      .put(
+        '/topics/:topicId(\\d+)/posts/:postId(\\d+)/comments/:commentId(\\d+)',
+        withService(commentOptions).edit,
+      ) // edit comment
+      .delete(
+        '/topics/:topicId(\\d+)/posts/:postId(\\d+)/comments/:commentId(\\d+)',
+        withService(commentOptions).delete,
+      ); // delete comment
 
     route.use('/forum', forumRoutes);
   }

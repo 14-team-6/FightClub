@@ -9,7 +9,7 @@ import {
   Index,
   Unique,
   Default,
-  AllowNull
+  AllowNull,
 } from 'sequelize-typescript';
 
 @Table

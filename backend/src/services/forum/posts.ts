@@ -1,7 +1,7 @@
 import {
   AddDataProps,
   BaseForumService,
-  ForumApiRequestResult
+  ForumApiRequestResult,
 } from '@backend/src/services/forum/baseForumEntity';
 import { Comment } from '@backend/src/models/forum/comments';
 import { FindOptions, Sequelize } from 'sequelize';
@@ -19,37 +19,34 @@ type PostsResponse = {
 export class PostsService implements BaseForumService {
   add(data: AddDataProps): Promise<ForumApiRequestResult> {
     return Post.create(data as any)
-      .then(() => ({result: 'OK',}))
-      .catch((e) => ({result: `Error: ${e}`}));
+      .then(() => ({ result: 'OK' }))
+      .catch((e) => ({ result: `Error: ${e}` }));
   }
 
   children(id: number): Promise<Comment[]> {
     return Post.findOne({
       include: [Comment],
       where: {
-        id
-      }
+        id,
+      },
     }).then((item: Post) => item.comments);
   }
 
   delete(id: number): Promise<ForumApiRequestResult> {
     return Post.destroy({
       where: {
-        id
-      }
+        id,
+      },
     })
-      .then(() => {
-        return Promise.resolve({ result: 'OK'});})
-      .catch((e) => {
-        return Promise.resolve({ result: `Error: ${e}`});
-      });
+      .then(() => Promise.resolve({ result: 'OK' }))
+      .catch((e) => Promise.resolve({ result: `Error: ${e}` }));
   }
 
   get(id: number): Promise<Post | null> {
     return Post.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
   }
 
@@ -58,16 +55,16 @@ export class PostsService implements BaseForumService {
       attributes: {
         include: [
           [
-            Sequelize.fn("COUNT", Sequelize.col("comments.id")),
+            Sequelize.fn('COUNT', Sequelize.col('comments.id')),
             'counts',
-          ]
+          ],
         ],
       },
       include: [
         {
           model: Comment,
           attributes: [],
-        }
+        },
       ],
       group: [
         'Post.id',
@@ -84,7 +81,7 @@ export class PostsService implements BaseForumService {
     return Topic.findOne({
       where: {
         id: parentId,
-      }
+      },
     }).then((topic: Topic) => Post.findAll(options).then((posts: Post[]) => ({
       topic: {
         id: topic.id,
@@ -97,15 +94,15 @@ export class PostsService implements BaseForumService {
   update(id: number, data: AddDataProps): Promise<ForumApiRequestResult> {
     const searchOptions = {
       where: {
-        id
-      }
+        id,
+      },
     } as FindOptions;
-    return Post.findOne({...searchOptions})
+    return Post.findOne({ ...searchOptions })
       .then((item: Post | null) => {
         if (item === null) {
-          return Promise.reject({result: 'NOT FOUND'});
+          return Promise.reject({ result: 'NOT FOUND' });
         }
-        return item.update(data)
-      }).then(() => ({result: 'OK'}));
+        return item.update(data);
+      }).then(() => ({ result: 'OK' }));
   }
 }

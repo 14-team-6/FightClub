@@ -1,7 +1,7 @@
 import {
   AddDataProps,
   BaseForumService,
-  ForumApiRequestResult
+  ForumApiRequestResult,
 } from '@backend/src/services/forum/baseForumEntity';
 import { Comment } from '@backend/src/models/forum/comments';
 import { FindOptions } from 'sequelize';
@@ -25,8 +25,8 @@ type CommentsResponse = {
 export class CommentsService implements BaseForumService {
   add(data: AddDataProps): Promise<ForumApiRequestResult> {
     return Comment.create(data as any)
-      .then(() => ({result: 'OK',}))
-      .catch((e) => ({result: `Error: ${e}`}));
+      .then(() => ({ result: 'OK' }))
+      .catch((e) => ({ result: `Error: ${e}` }));
   }
 
   children(): Promise<ForumApiRequestResult> {
@@ -36,21 +36,18 @@ export class CommentsService implements BaseForumService {
   delete(id: number): Promise<ForumApiRequestResult> {
     return Comment.destroy({
       where: {
-        id
-      }
+        id,
+      },
     })
-      .then(() => {
-      return Promise.resolve({ result: 'OK'});})
-      .catch((e) => {
-        return Promise.resolve({ result: `Error: ${e}`});
-      });
+      .then(() => Promise.resolve({ result: 'OK' }))
+      .catch((e) => Promise.resolve({ result: `Error: ${e}` }));
   }
 
   get(id: number): Promise<Comment | null> {
     return Comment.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
   }
 
@@ -69,7 +66,7 @@ export class CommentsService implements BaseForumService {
       ],
       where: {
         id: parentId,
-      }
+      },
     }).then((post: Post) => Comment.findAll(options).then((comments: Comment[]) => ({
       topic: {
         id: post.topic.id,
@@ -87,15 +84,15 @@ export class CommentsService implements BaseForumService {
   update(id: number, data: AddDataProps): Promise<ForumApiRequestResult> {
     const searchOptions = {
       where: {
-        id
-      }
+        id,
+      },
     } as FindOptions;
-    return Comment.findOne({...searchOptions})
+    return Comment.findOne({ ...searchOptions })
       .then((item: Comment | null) => {
         if (item === null) {
-          return Promise.reject({result: 'NOT FOUND'});
+          return Promise.reject({ result: 'NOT FOUND' });
         }
-        return item.update(data)
-      }).then(() => ({result: 'OK'}));
+        return item.update(data);
+      }).then(() => ({ result: 'OK' }));
   }
 }

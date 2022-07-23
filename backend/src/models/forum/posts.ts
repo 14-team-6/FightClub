@@ -6,11 +6,11 @@ import {
   AllowNull,
   AutoIncrement,
   PrimaryKey, HasMany, BelongsTo, Length,
+  Model,
 } from 'sequelize-typescript';
 import { User } from '@backend/src/models/users/users';
 import { Topic } from '@backend/src/models/forum/topics';
 import { Comment } from '@backend/src/models/forum/comments';
-import { Model } from 'sequelize-typescript';
 
 @Table
 export class Post extends Model {
