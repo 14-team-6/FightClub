@@ -11,8 +11,8 @@ type ThemeProps = {
   data: Object,
 };
 
-export class ThemesService implements BaseService {
-  public create(themeData: ThemeProps): Promise<Theme> {
+export class ThemesService implements BaseService<Theme> {
+  public create(themeData: ThemeProps): Promise<Theme | null> {
     return Theme.create(themeData);
   }
 
