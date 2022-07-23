@@ -12,20 +12,19 @@ type HelperOptions = {
   ownField?: string,
 };
 
-const addUserToRes = async (res: Response): Promise<void> => {
-  const user = await User.findOne({
-    where: {
-      login: `${res.locals.userParsed.login}`,
-    },
-  });
+const addUserToRes = (res: Response): Promise<void> => User.findOne({
+  where: {
+    login: `${res.locals.userParsed.login}`,
+  },
+}).then((user: User) => {
   if (user === null) {
     res.status(500);
-    res.send('Can not find user');
+    res.send(JSON.stringify({ result: 'Can not find user' }));
     return Promise.reject();
   }
   res.locals._curUser = user;
   return Promise.resolve();
-};
+});
 
 export const withService = (options: HelperOptions) => {
   const { serviceClass, parentField, ownField } = options;
@@ -33,78 +32,95 @@ export const withService = (options: HelperOptions) => {
   const serviceObject = new serviceClass();
 
   return class BaseForumController {
-    public static async get(req: Request, res: Response): Promise<void> {
+    public static get(req: Request, res: Response): Promise<void> {
       if (parentField !== undefined) {
-        res.send(await serviceObject.getAll(parseInt(req.params[parentField], 10)));
-      } else {
-        res.send(await serviceObject.getAll());
+        return serviceObject.getAll(parseInt(req.params[parentField], 10))
+          .then((data) => {
+            res.status(200);
+            res.send(data);
+          })
+          .catch(() => {
+            res.status(500);
+            res.send(JSON.stringify({ result: 'Get data error' }));
+          });
       }
+      return serviceObject.getAll()
+        .then((data) => {
+          res.status(200);
+          res.send(data);
+        })
+        .catch(() => {
+          res.status(500);
+          res.send(JSON.stringify({ result: 'Get data error' }));
+        });
     }
 
-    public static async add(req: Request, res: Response): Promise<void> {
-      return addUserToRes(res).then(async () => {
+    public static add(req: Request, res: Response): Promise<void> {
+      return addUserToRes(res).then(() => {
         const { body } = req;
         body.userId = res.locals._curUser.id;
         if (parentField !== undefined) {
           body[parentField] = req.params[parentField];
         }
-        await serviceObject.add(body)
-          .then((result: ForumApiRequestResult) => {
-            res.send(result);
-            res.status(200);
-          }).catch((result: ForumApiRequestResult) => {
-            res.send(result);
-            res.status(500);
-          });
+        return serviceObject.add(body);
+      }).then((result: ForumApiRequestResult) => {
+        res.status(200);
+        res.send(result);
+      }).catch((result: ForumApiRequestResult) => {
+        res.status(500);
+        res.send(result);
       });
     }
 
-    public static async edit(req: Request, res: Response): Promise<void> {
-      return addUserToRes(res).then(async () => {
+    public static edit(req: Request, res: Response): Promise<void> {
+      return addUserToRes(res).then(() => {
         const { body } = req;
         body.userId = res.locals._curUser.id;
         if (ownField === undefined) {
-          res.send('update error');
           res.status(500);
-          return;
+          res.send(JSON.stringify({ result: 'update error' }));
+          return Promise.reject();
         }
         const myId: number = parseInt(req.params[ownField], 10);
-        await serviceObject.update(myId, body)
-          .then((result: ForumApiRequestResult) => {
-            res.send(result);
-            res.status(200);
-          }).catch((result: ForumApiRequestResult) => {
-            res.send(result);
-            res.status(500);
-          });
+        return serviceObject.update(myId, body);
+      }).then((result: ForumApiRequestResult) => {
+        res.status(200);
+        res.send(result);
+      }).catch((result: ForumApiRequestResult) => {
+        res.status(500);
+        res.send(result);
       });
     }
 
-    public static async delete(req: Request, res: Response): Promise<void> {
+    public static delete(req: Request, res: Response): Promise<void> {
       if (ownField === undefined) {
-        res.send('update error');
         res.status(500);
-        return;
+        res.send(JSON.stringify({ result: 'update error' }));
+        return Promise.reject();
       }
       const myId: number = parseInt(req.params[ownField], 10);
-      await serviceObject.delete(myId)
+      return serviceObject.delete(myId)
         .then((result: ForumApiRequestResult) => {
-          res.send(result);
           res.status(200);
-        }).catch((result: ForumApiRequestResult) => {
           res.send(result);
+        }).catch((result: ForumApiRequestResult) => {
           res.status(500);
+          res.send(result);
         });
     }
 
-    public static async getChildren(req: Request, res: Response): Promise<void> {
+    public static getChildren(req: Request, res: Response): Promise<void> {
       if (ownField === undefined) {
-        res.send('get children error');
         res.status(500);
-        return;
+        res.send(JSON.stringify({ result: 'get children error' }));
+        return Promise.reject();
       }
       const myId: number = parseInt(req.params[ownField], 10);
-      res.send(await serviceObject.children(myId));
+      return serviceObject.children(myId).then((children) => {
+        res.status(200);
+        res.send(children);
+        return Promise.resolve();
+      });
     }
   };
 };
