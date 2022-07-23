@@ -56,8 +56,8 @@ export const App = () => (
         <Route path="/topics/:topicId/posts/:postId" element={<MainLayout><PostPage/></MainLayout>}/>
         <Route path="/topics/:topicId/posts/add" element={<MainLayout><ForumPage/></MainLayout>}/>
         <Route path="/topics/:topicId/posts/:postId/comments/add" element={<MainLayout><AnswerPage/></MainLayout>}/>
-        <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/><Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
-        <Route path="/profile/edit" element={<MainLayout><EditProfilePage/></MainLayout>}/><Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
+        <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
+        <Route path="/profile/edit" element={<MainLayout><EditProfilePage/></MainLayout>}/>
         <Route path="*" element={<Errors errorType={ErrorTypes.e404}/>}/>
       </Route>
         <Route path="/" element={<PublicRoutes/>}>
