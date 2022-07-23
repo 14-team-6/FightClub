@@ -25,6 +25,7 @@ module.exports = {
             }
         ],
         "no-underscore-dangle": 0,
+        "prefer-promise-reject-errors": 0,
         "import/prefer-default-export": 0,
         "no-restricted-syntax": [ "error", "ForInStatement", "LabeledStatement", "WithStatement" ],
         "arrow-body-style": ["error", "as-needed"],

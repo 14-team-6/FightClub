@@ -11,10 +11,13 @@
       "noImplicitAny": true,
       "noUnusedLocals": true,
       "noUnusedParameters": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
       "jsx": "react",
       "baseUrl": "./",
       "paths": {
-        "@frontend/*": ["frontend/*"]
+        "@frontend/*": ["frontend/*"],
+        "@backend/*": ["backend/*"]
       }
   },
   "exclude": [
