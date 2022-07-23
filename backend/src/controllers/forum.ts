@@ -6,18 +6,18 @@ import { CommentsService } from '@backend/src/services/forum/comments';
 
 const topicOptions = {
   serviceClass: TopicsService,
-  own_field: 'topicId',
+  ownField: 'topicId',
 };
 
 const postOptions = {
   serviceClass: PostsService,
-  own_field: 'postID',
-  parent_field: 'topicId',
+  ownField: 'postID',
+  parentField: 'topicId',
 };
 
 const commentOptions = {
   serviceClass: CommentsService,
-  parent_field: 'postId',
+  parentField: 'postId',
 };
 
 export class ForumApi {
