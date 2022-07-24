@@ -4,7 +4,7 @@ import { transformToUser } from '@frontend/src/utils/apiTransformers';
 import { UserDTO } from '@frontend/src/services/types';
 
 export const userDefaultState: UserDTO = {
-  id: 0,
+  id: null,
   login: '',
   first_name: '',
   second_name: '',

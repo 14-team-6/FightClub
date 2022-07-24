@@ -10,7 +10,7 @@ export const transformToUser = (dto: UserDTO | User): User => {
   }
 
   return {
-    id: dto.id,
+    id: dto.id as number,
     avatar: dto.avatar,
     displayName: dto.display_name,
     email: dto.email,
