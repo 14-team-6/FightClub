@@ -6,6 +6,7 @@ export enum FormInputsNames {
   DISPLAY_NAME = 'display_name',
   EMAIL = 'email',
   PHONE = 'phone',
+  FILE = 'file',
 }
 
 export type LoginFormData = {
@@ -22,4 +23,5 @@ export type RegisterFormData = {
 
 export type EditProfileFormData = {
   [FormInputsNames.DISPLAY_NAME]: string;
+  [FormInputsNames.FILE]: string;
 } & RegisterFormData;

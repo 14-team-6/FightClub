@@ -4,7 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
 import UserService from '@frontend/src/services/userService';
 import { RequestError } from '@frontend/src/services/types';
-import { authService } from '@frontend/src/services';
+import { useSelector } from 'react-redux';
+import { selectUserInfo } from '@frontend/src/selectors/user';
+import { useNavigate } from 'react-router-dom';
 import { EditProfileFormData, FormInputsNames } from '../../models/form';
 import { InputProps } from '../input/input';
 import FormElement from '../form/form';
@@ -23,12 +25,14 @@ const EditProfilePageForm: React.FC = () => {
   });
   const auth = useAuth();
   const [error, setError] = useState<string>('');
+  const user = useSelector(selectUserInfo);
+  const navigate = useNavigate();
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
       UserService.userProfile(data)
-        .then((user: User) => {
-          auth.profile(user);
+        .then((response: User) => {
+          auth.profile(response);
         })
         .catch(({ reason }: RequestError) => {
           setError(reason);
@@ -75,22 +79,26 @@ const EditProfilePageForm: React.FC = () => {
     },
   ]), [errors]);
 
-  const editProfilePageMenuButtons: ButtonProps[] = React.useMemo(() => ([{
-    text: 'Save',
-    type: 'submit',
-  }]), []);
+  const editProfilePageMenuButtons: ButtonProps[] = React.useMemo(() => ([
+    {
+      text: 'Save',
+      type: 'submit',
+    }, {
+      text: 'Back',
+      type: 'button',
+      onClick: () => {
+        navigate('/profile');
+      },
+    }]), []);
 
   useEffect(() => {
-    authService.getUser()
-      .then((user: User) => {
-        setValue(FormInputsNames.DISPLAY_NAME, user.displayName ? user.displayName : '');
-        setValue(FormInputsNames.FIRST_NAME, user.firstName ? user.firstName : '');
-        setValue(FormInputsNames.SECOND_NAME, user.secondName ? user.secondName : '');
-        setValue(FormInputsNames.EMAIL, user.email ? user.email : '');
-        setValue(FormInputsNames.LOGIN, user.login ? user.login : '');
-        setValue(FormInputsNames.PHONE, user.phone ? user.phone : '');
-      });
-  }, [errors]);
+    setValue(FormInputsNames.DISPLAY_NAME, user.displayName ?? '');
+    setValue(FormInputsNames.FIRST_NAME, user.firstName ?? '');
+    setValue(FormInputsNames.SECOND_NAME, user.secondName ?? '');
+    setValue(FormInputsNames.EMAIL, user.email ?? '');
+    setValue(FormInputsNames.LOGIN, user.login ?? '');
+    setValue(FormInputsNames.PHONE, user.phone ?? '');
+  }, []);
 
   return (
     <>

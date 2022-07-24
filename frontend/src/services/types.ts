@@ -1,5 +1,5 @@
 export type UserDTO = {
-  id: number,
+  id: number | null,
   login: string,
   first_name: string,
   second_name: string,
