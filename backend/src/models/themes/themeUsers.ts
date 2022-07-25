@@ -4,7 +4,8 @@ import {
   DataType,
   Table,
   ForeignKey,
-  AllowNull, Default,
+  AllowNull,
+  Default,
 } from 'sequelize-typescript';
 import { Theme } from '@backend/src/models/themes/themes';
 import { User } from '@backend/src/models/users/users';

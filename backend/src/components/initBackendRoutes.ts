@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { checkAuthMiddleware } from '@backend/src/middleware/checkAuth';
 import { UserApi } from '@backend/src/controllers/user';
 import { ThemesApi } from '@backend/src/controllers/themes';
+import { ForumApi } from '@backend/src/controllers/forum';
 
 export const initBackendRoutes = (router: Router): void => {
   const apiRouter = Router();
@@ -11,6 +12,7 @@ export const initBackendRoutes = (router: Router): void => {
 
   UserApi.initRoute(apiRouter);
   ThemesApi.initRoute(apiRouter);
+  ForumApi.initRoute(apiRouter);
 
   router.use('/api/v1', apiRouter);
 };

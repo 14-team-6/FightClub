@@ -5,6 +5,11 @@ type UpdateProps = {
   isPremium?: boolean,
 };
 
+type UserProps = {
+  login: string,
+  name?: string,
+};
+
 export class UserService implements BaseService<User> {
   public find = async (userLogin: string): Promise<User | null> => User.findOne({
     where: {
@@ -12,16 +17,17 @@ export class UserService implements BaseService<User> {
     },
   });
 
-  public create = async (userLogin: string): Promise<User | null> => {
-    const curUser = await this.find(userLogin);
+  public create = async (data: UserProps) => {
+    const curUser = await this.find(data.login);
     if (curUser === null) {
       return User.create({
-        login: `${userLogin}`,
+        login: `${data.login}`,
+        name: `${data.name}`,
         isAdmin: false,
         isPremium: false,
       });
     }
-    return Promise.reject();
+    return curUser;
   };
 
   public get = (): Promise<User[]> => User.findAll();

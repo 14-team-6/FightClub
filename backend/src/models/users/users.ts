@@ -26,6 +26,10 @@ export class User extends Model {
   @Column(DataType.STRING)
     login: string;
 
+  @Length({ max: 30 })
+  @Column(DataType.STRING)
+    name: string;
+
   @Default(false)
   @Column(DataType.BOOLEAN)
     isPremium: boolean;
