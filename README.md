@@ -44,6 +44,12 @@ endpoint: `/api/v1`
 - **input**: `{ themeId: number }`
 - **output**: `{ result: string }`
 
+#### Set theme active
+- path: `themes/markAsActive`
+- - method: `POST`
+- **input**: `{ themeId: number }`
+- **output**: `{ result: string }`
+
 #### Create theme
 - path: `themes`
 - - method: `POST`

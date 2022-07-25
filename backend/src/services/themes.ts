@@ -5,6 +5,7 @@ import { User } from '@backend/src/models/users/users';
 import { BaseService } from '@backend/src/services/baseService';
 import { getUserTheme } from '@backend/src/sql/getUserTheme';
 import { linkThemeToUser } from '@backend/src/sql/linkThemeToUser';
+import { removeAnyLinks } from '@backend/src/sql/removeAnyLinks';
 
 type ThemeProps = {
   name: string,
@@ -51,5 +52,24 @@ export class ThemesService implements BaseService<Theme> {
         userId: user.id,
         themeId,
       }));
+  }
+
+  public markAsActive(userLogin: string, themeId: number): Promise<any> {
+    return sequelizeGlobal.sequelize.query(removeAnyLinks, {
+      replacements: { login: userLogin },
+    }).then(() => User.findOne({
+      where: {
+        login: userLogin,
+      },
+    }))
+      .then(
+        (user: User) => ThemeUsers.findOne({
+          where: {
+            themeId,
+            userId: user.id,
+          },
+        }),
+      )
+      .then((themeUser: ThemeUsers) => themeUser.update({ isActive: true }));
   }
 }

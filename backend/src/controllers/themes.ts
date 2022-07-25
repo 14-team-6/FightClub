@@ -8,6 +8,7 @@ export class ThemesApi {
     themesRoute
       .get('/', ThemesApi.get)
       .get('/available', ThemesApi.getAvailable)
+      .post('/markAsActive', ThemesApi.markAsActive)
       .post('/', checkPrivileges, ThemesApi.create)
       .post('/linkToUser', ThemesApi.linkToLoggedUser)
       .put('/', ThemesApi.update);
@@ -45,6 +46,20 @@ export class ThemesApi {
     try {
       const { body } = req;
       await themesService.update(body.themeId, body.themeData);
+      res.status(200);
+      res.send(JSON.stringify({ result: 'OK' }));
+    } catch (e) {
+      res.status(500);
+      res.send(JSON.stringify({ result: `update theme error: ${e}` }));
+    }
+  }
+
+  public static async markAsActive(req: Request, res: Response) {
+    const themesService = new ThemesService();
+    const userLogged = res.locals.userParsed.login;
+    try {
+      const { body } = req;
+      await themesService.markAsActive(userLogged, body.themeId);
       res.status(200);
       res.send(JSON.stringify({ result: 'OK' }));
     } catch (e) {

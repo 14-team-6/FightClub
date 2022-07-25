@@ -1,6 +1,6 @@
 export const getUserTheme = `
       SELECT DISTINCT
-        th.id, th.name, th.data
+        th.id, th.name, th.data, tmu."isActive"
       FROM
       "Themes" as th
       INNER JOIN "ThemeUsers" as tmu ON tmu.theme_id = th.id
