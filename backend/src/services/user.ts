@@ -10,7 +10,7 @@ type UserProps = {
   name?: string,
 };
 
-export class UserService implements BaseService {
+export class UserService implements BaseService<User> {
   public find = async (userLogin: string): Promise<User | null> => User.findOne({
     where: {
       login: `${userLogin}`,
@@ -20,18 +20,19 @@ export class UserService implements BaseService {
   public create = async (data: UserProps) => {
     const curUser = await this.find(data.login);
     if (curUser === null) {
-      await User.create({
+      return User.create({
         login: `${data.login}`,
         name: `${data.name}`,
         isAdmin: false,
         isPremium: false,
       });
     }
+    return curUser;
   };
 
   public get = (): Promise<User[]> => User.findAll();
 
-  public update = async (userLogin: string, updateProps: UpdateProps): Promise<User | undefined> => {
+  public update = async (userLogin: string, updateProps: UpdateProps): Promise<User | null> => {
     const curUser = await this.find(userLogin);
     if (curUser !== null) {
       return curUser.update(updateProps);

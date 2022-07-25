@@ -3,6 +3,9 @@ import { sequelizeGlobal } from '@backend/src/components/sequelizeGlobal';
 import { ThemeUsers } from '@backend/src/models/themes/themeUsers';
 import { User } from '@backend/src/models/users/users';
 import { BaseService } from '@backend/src/services/baseService';
+import { getUserTheme } from '@backend/src/sql/getUserTheme';
+import { linkThemeToUser } from '@backend/src/sql/linkThemeToUser';
+import { removeAnyLinks } from '@backend/src/sql/removeAnyLinks';
 
 type ThemeProps = {
   name: string,
@@ -11,8 +14,8 @@ type ThemeProps = {
   data: Object,
 };
 
-export class ThemesService implements BaseService {
-  public create(themeData: ThemeProps): Promise<Theme> {
+export class ThemesService implements BaseService<Theme> {
+  public create(themeData: ThemeProps): Promise<Theme | null> {
     return Theme.create(themeData);
   }
 
@@ -25,7 +28,7 @@ export class ThemesService implements BaseService {
     });
   }
 
-  public update(themeId: number, themeData: ThemeProps): Promise<any> {
+  public update(themeId: number, themeData: ThemeProps): Promise<Theme | null> {
     return Theme.findOne({
       where: {
         id: themeId,
@@ -34,30 +37,39 @@ export class ThemesService implements BaseService {
   }
 
   public getUserThemes(userLogin: string): Promise<Theme[]> {
-    return sequelizeGlobal.sequelize.query(`
-      SELECT DISTINCT
-        th.id, th.name, th.data
-      FROM
-      "Themes" as th
-      INNER JOIN "ThemeUsers" as tmu ON tmu.theme_id = th.id
-      INNER JOIN "Users" as us ON us.id = tmu.user_id
-      WHERE us.login = '${userLogin}'
-      AND th."isActive" = true;
-    `, {
+    return sequelizeGlobal.sequelize.query(getUserTheme, {
       model: Theme,
       mapToModel: true,
+      replacements: { login: userLogin },
     });
   }
 
   public linkToUser(userLogin: string, themeId: number): Promise<any> {
-    return sequelizeGlobal.sequelize.query(`
-      DELETE FROM "ThemeUsers" as tmu
-      USING "Users" as us
-      WHERE tmu.user_id = us.id and us.login = '${userLogin}'
-    `).then(() => User.findOne({ where: { login: userLogin } }))
+    return sequelizeGlobal.sequelize.query(linkThemeToUser, {
+      replacements: { login: userLogin },
+    }).then(() => User.findOne({ where: { login: userLogin } }))
       .then((user: User) => ThemeUsers.create({
         userId: user.id,
         themeId,
       }));
+  }
+
+  public markAsActive(userLogin: string, themeId: number): Promise<any> {
+    return sequelizeGlobal.sequelize.query(removeAnyLinks, {
+      replacements: { login: userLogin },
+    }).then(() => User.findOne({
+      where: {
+        login: userLogin,
+      },
+    }))
+      .then(
+        (user: User) => ThemeUsers.findOne({
+          where: {
+            themeId,
+            userId: user.id,
+          },
+        }),
+      )
+      .then((themeUser: ThemeUsers) => themeUser.update({ isActive: true }));
   }
 }

@@ -5,6 +5,7 @@ import {
   Table,
   ForeignKey,
   AllowNull,
+  Default,
 } from 'sequelize-typescript';
 import { Theme } from '@backend/src/models/themes/themes';
 import { User } from '@backend/src/models/users/users';
@@ -26,4 +27,10 @@ export class ThemeUsers extends Model {
     field: 'user_id',
   })
     userId: number;
+
+  @AllowNull(false)
+  @Default(false)
+  @ForeignKey(() => User)
+  @Column(DataType.BOOLEAN)
+    isActive: boolean;
 }

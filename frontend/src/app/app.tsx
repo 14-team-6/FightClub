@@ -14,11 +14,12 @@ import TopicPage from '@frontend/src/pages/forum/topicPage';
 import MainLayout from '@frontend/src/layouts/mainLayout';
 import PostPage from '@frontend/src/pages/forum/postPage';
 import AnswerPage from '@frontend/src/pages/forum/answerPage';
-import { ProfilePage } from '@frontend/src/pages/profile/profile';
+import { ProfilePage } from '@frontend/src/pages/profile/profilePage';
 import { createGlobalStyle } from 'styled-components';
 import { MAIN_FONT } from '@frontend/consts/styles';
 import FightPage from '@frontend/src/pages/game/fight/fight';
 import { AuthProvider } from '@frontend/src/hooks/useAuth';
+import EditProfilePage from '@frontend/src/pages/editProfile/editProfile';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -55,6 +56,8 @@ export const App = () => (
         <Route path="/topics/:topicId/posts/:postId" element={<MainLayout><PostPage/></MainLayout>}/>
         <Route path="/topics/:topicId/posts/add" element={<MainLayout><ForumPage/></MainLayout>}/>
         <Route path="/topics/:topicId/posts/:postId/comments/add" element={<MainLayout><AnswerPage/></MainLayout>}/>
+        <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
+        <Route path="/profile/edit" element={<MainLayout><EditProfilePage/></MainLayout>}/>
         <Route path="*" element={<Errors errorType={ErrorTypes.e404}/>}/>
       </Route>
         <Route path="/" element={<PublicRoutes/>}>

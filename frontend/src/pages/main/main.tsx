@@ -68,6 +68,7 @@ const MainPage: FC = () => {
               <li><StyledLink to="#">Options</StyledLink></li>
               <li><StyledLink to="/results">Leaders</StyledLink></li>
               <li><StyledLink to="/topics">Forum</StyledLink></li>
+              <li><StyledLink to="/profile">Profile</StyledLink></li>
             </NavList>
             <ButtonElement type="button" text="Logout" onClick={handleLogout} />
           </div>

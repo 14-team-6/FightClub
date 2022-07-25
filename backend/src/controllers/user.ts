@@ -17,15 +17,18 @@ export class UserApi {
     try {
       const user = res.locals.userParsed as UserDTO;
       await userService.create({ login: user.login, name: user.first_name });
+      res.status(200);
       res.send(JSON.stringify({ result: 'OK' }));
     } catch (e) {
-      res.send(JSON.stringify({ result: `${e}` }));
+      res.status(500);
+      res.send(JSON.stringify({ result: `create user error: ${e}` }));
     }
   }
 
   public static async get(_req: Request, res: Response) {
     const userService = new UserService();
     const users = await userService.get();
+    res.status(200);
     res.send(JSON.stringify(users));
   }
 }

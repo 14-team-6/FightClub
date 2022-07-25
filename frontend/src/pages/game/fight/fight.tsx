@@ -53,7 +53,7 @@ const FightPage: React.FC = () => {
   const roundName = useSelector((state: RootState) => state.gameState.roundName);
 
   const player = useSelector((state: RootState) => state.user);
-  const playerName = player.display_name !== undefined ? player.display_name : player.login;
+  const playerName = player.displayName ?? player.login;
 
   return (
     <Wrap>

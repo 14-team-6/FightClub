@@ -12,7 +12,7 @@ class AuthService {
   }
 
   public isCookieInvalid(user: User): boolean {
-    return user.id === undefined;
+    return !user.id;
   }
 
   public getUser = (): Promise<User | RequestError> => this.authService.get<UserDTO>('/auth/user')

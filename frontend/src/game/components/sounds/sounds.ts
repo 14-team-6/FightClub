@@ -9,6 +9,7 @@ import {
 } from '@frontend/consts/sounds';
 import { LoopSettings, Nullable } from '@frontend/src/game/components/sounds/types';
 import { Sound } from '@frontend/src/game/components/sounds/sound';
+import * as Sentry from '@sentry/react';
 
 const makeSound = (
   name: string,
@@ -54,7 +55,7 @@ class SoundFacade {
     ]).then((res: Sound[]) => {
       this.sounds = res.reduce((akk, val) => ({ ...akk, [val.name]: val }), {});
     }).catch((e: any) => {
-      console.log(`Can not start sounds: ${e}`);
+      Sentry.captureMessage(`Can not start sounds: ${e}`);
     });
   }
 

@@ -8,6 +8,7 @@ export class ThemesApi {
     themesRoute
       .get('/', ThemesApi.get)
       .get('/available', ThemesApi.getAvailable)
+      .post('/markAsActive', ThemesApi.markAsActive)
       .post('/', checkPrivileges, ThemesApi.create)
       .post('/linkToUser', ThemesApi.linkToLoggedUser)
       .put('/', ThemesApi.update);
@@ -17,11 +18,13 @@ export class ThemesApi {
   public static async get(_req: Request, res: Response) {
     const userLogin = res.locals.userParsed.login;
     const themesService = new ThemesService();
+    res.status(200);
     res.send(await themesService.getUserThemes(userLogin));
   }
 
   public static async getAvailable(_req: Request, res: Response) {
     const themesService = new ThemesService();
+    res.status(200);
     res.send(await themesService.get());
   }
 
@@ -30,9 +33,11 @@ export class ThemesApi {
     try {
       const { body } = req;
       await themesService.create(body);
+      res.status(200);
       res.send(JSON.stringify({ result: 'OK' }));
     } catch (e) {
-      res.send(JSON.stringify({ result: `get themes error: ${e}` }));
+      res.status(500);
+      res.send(JSON.stringify({ result: `create themes error: ${e}` }));
     }
   }
 
@@ -41,9 +46,25 @@ export class ThemesApi {
     try {
       const { body } = req;
       await themesService.update(body.themeId, body.themeData);
+      res.status(200);
       res.send(JSON.stringify({ result: 'OK' }));
     } catch (e) {
-      res.send(JSON.stringify({ result: `get themes error: ${e}` }));
+      res.status(500);
+      res.send(JSON.stringify({ result: `update theme error: ${e}` }));
+    }
+  }
+
+  public static async markAsActive(req: Request, res: Response) {
+    const themesService = new ThemesService();
+    const userLogged = res.locals.userParsed.login;
+    try {
+      const { body } = req;
+      await themesService.markAsActive(userLogged, body.themeId);
+      res.status(200);
+      res.send(JSON.stringify({ result: 'OK' }));
+    } catch (e) {
+      res.status(500);
+      res.send(JSON.stringify({ result: `update theme error: ${e}` }));
     }
   }
 
@@ -53,9 +74,11 @@ export class ThemesApi {
     try {
       const { body } = req;
       await themesService.linkToUser(userLogged, body.themeId);
+      res.status(200);
       res.send(JSON.stringify({ result: 'OK' }));
     } catch (e) {
-      res.send(JSON.stringify({ result: `get themes error: ${e}` }));
+      res.status(500);
+      res.send(JSON.stringify({ result: `link themes error: ${e}` }));
     }
   }
 }

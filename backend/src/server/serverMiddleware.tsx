@@ -7,6 +7,7 @@ import { withCreateStore } from '@frontend/src/store/store';
 import { Provider } from 'react-redux';
 import { createSetUserAction } from '@frontend/src/actionCreators/user/creators';
 import { UserService } from '@backend/src/services/user';
+import * as Sentry from '@sentry/node';
 
 const sheet = new ServerStyleSheet();
 
@@ -57,7 +58,7 @@ export const serverMiddlewareWithCallback = (callback: Function) => (req: Reques
       userService.create({ login: userDetails.login, name: userDetails.first_name });
       store.dispatch(createSetUserAction(userDetails));
     } catch (e) {
-      console.log(`Error reading cookie: ${e}`);
+      Sentry.captureMessage(`Error reading cookie: ${e}`);
     }
   }
 

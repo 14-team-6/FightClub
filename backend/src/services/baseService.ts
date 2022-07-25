@@ -1,11 +1,11 @@
-export abstract class BaseService {
-  abstract get?: (...args: any[]) => Promise<any>;
+export abstract class BaseService<T> {
+  abstract get?: (...args: any[]) => Promise<T[]>;
 
-  abstract create?: (...args: any[]) => Promise<any>;
+  abstract create?: (...args: any[]) => Promise<T | null>;
 
-  abstract update?: (...args: any[]) => Promise<any>;
+  abstract update?: (...args: any[]) => Promise<T | null>;
 
-  abstract delete?: (...args: any[]) => Promise<any>;
+  abstract delete?: (...args: any[]) => Promise<void>;
 
-  abstract find?: (...args: any[]) => Promise<any>;
+  abstract find?: (...args: any[]) => Promise<T | null>;
 }
