@@ -11,11 +11,17 @@ class SequelizeGlobal {
 
   constructor() {
     const DB_URL = process.env.DATABASE_URL;
+    const isDebug = process.env.NODE_ENV === 'development';
     if (DB_URL === undefined) {
       throw Error('Database connection string not found in environment variables');
     }
     this.sequelize = new Sequelize(DB_URL, {
       models: [User, Theme, ThemeUsers, Topic, Post, Comment],
+      dialectOptions: !isDebug ? {
+        ssl: {
+          rejectUnauthorized: false
+        }
+      } : {},
     });
   }
 
