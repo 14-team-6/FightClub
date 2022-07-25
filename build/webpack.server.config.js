@@ -2,6 +2,7 @@ const path = require('path');
 const tsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const CopyPlugin = require('copy-webpack-plugin');
+const terserPlugin = require('terser-webpack-plugin');
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
@@ -19,6 +20,15 @@ module.exports = {
     filename: 'server.js',
     libraryTarget: 'commonjs2',
     publicPath: '/frontend/public/',
+  },
+  optimization: {
+    minimizer: [
+      new terserPlugin({
+        terserOptions: {
+          keep_classnames: true,
+        },
+      }),
+    ],
   },
   watchOptions: {
     poll: 2000,
