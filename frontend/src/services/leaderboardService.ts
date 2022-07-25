@@ -84,7 +84,7 @@ class LeaderboardService {
         teamName: `${TEAM_NAME}`,
         data: {
           id: user.id as number,
-          name: user.display_name !== undefined ? user.display_name : user.login,
+          name: user.displayName ?? user.login,
           score: score + oldScore,
           teamName: `${TEAM_NAME}`,
         },
