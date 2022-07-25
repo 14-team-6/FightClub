@@ -6,8 +6,10 @@ import {
   Length,
   PrimaryKey,
   Table,
+  Index,
+  Unique,
   Default,
-  AllowNull, Index, Unique,
+  AllowNull,
 } from 'sequelize-typescript';
 
 @Table
@@ -17,10 +19,10 @@ export class User extends Model {
   @Column(DataType.INTEGER)
     id: number;
 
-  @Length({ max: 30 })
-  @AllowNull(false)
   @Index
-  @Unique(true)
+  @Unique
+  @AllowNull(false)
+  @Length({ max: 30 })
   @Column(DataType.STRING)
     login: string;
 
