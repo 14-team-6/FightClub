@@ -13,12 +13,15 @@ module.exports = {
   target: 'node',
   mode: process.env.NODE_ENV,
   devtool: 'inline-source-map',
-  entry: './frontend/src/server/server.ts',
+  entry: './backend/src/server/server.ts',
   output: {
-    path: path.join(__dirname, '..', '..', 'dist'),
+    path: path.join(__dirname, '..', 'dist'),
     filename: 'server.js',
     libraryTarget: 'commonjs2',
     publicPath: '/frontend/public/',
+  },
+  watchOptions: {
+    poll: 2000,
   },
   plugins: [
     new CopyPlugin({

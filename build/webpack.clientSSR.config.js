@@ -12,11 +12,14 @@ module.exports = {
   entry: './frontend/src/app/app.tsx',
   mode: process.env.NODE_ENV,
   output: {
-    path: path.join(__dirname, '..', '..', 'dist'),
+    path: path.join(__dirname, '..', 'dist'),
     filename: 'clientSSRBundle.js',
     libraryTarget: 'commonjs2',
     publicPath: '/frontend/public/',
     assetModuleFilename: 'public/[name][ext]',
+  },
+  watchOptions: {
+    poll: 2000,
   },
   resolve: {
     modules: ['src', 'node-modules'],

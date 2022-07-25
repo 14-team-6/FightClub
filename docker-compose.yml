@@ -1,0 +1,46 @@
+version: "2.4"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile_dev
+    ports:
+      - "9000:9000"
+      - "9229:9229"
+    env_file:
+      - ./.dev.env
+    volumes:
+      - $FRONTEND_VOLUME:/opt/app/frontend/
+      - $BACKEND_VOLUME:/opt/app/backend/
+    networks:
+      - devnet
+    depends_on:
+      - postgres
+    restart: always
+  postgres:
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./.dev.env
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - devnet
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: secret
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+    networks:
+      - devnet
+
+networks:
+  devnet:
+    driver: bridge

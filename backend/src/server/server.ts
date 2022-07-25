@@ -1,9 +1,13 @@
-import express, { Express } from 'express';
-import { serverMiddlewareWithCallback } from '@frontend/src/server/serverMiddleware';
+import express, { Express, Router } from 'express';
+import { serverMiddlewareWithCallback } from '@backend/src/server/serverMiddleware';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 import compression from 'compression';
+import { sequelizeGlobal } from '@backend/src/components/sequelizeGlobal';
+import { initBackendRoutes } from '@backend/src/components/initBackendRoutes';
 import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
+
 /// #if DEBUG
 import * as path from 'path';
 import { webpack } from 'webpack';
@@ -11,7 +15,7 @@ import { webpack } from 'webpack';
 // but it's almost there
 import webpackHotMiddleware from 'webpack-hot-middleware'; // eslint-disable-line
 import webpackDevMiddleware from 'webpack-dev-middleware';
-import config from '../../build/webpack.client.config';
+import config from '../../../build/webpack.client.config';
 /// #endif
 
 const ssrServerWithCallback = (callback: Function): Express => {
@@ -41,6 +45,8 @@ const ssrServerWithCallback = (callback: Function): Express => {
   const serverMiddleware = serverMiddlewareWithCallback(callback);
 
   ssrServer.use(compression());
+  ssrServer.use(cookieParser());
+  ssrServer.use(bodyParser());
 
   /// #if DEBUG
 
@@ -63,9 +69,21 @@ const ssrServerWithCallback = (callback: Function): Express => {
 
   /// #endif
 
+  const router = Router();
+  initBackendRoutes(router);
+
+  router.get('/*', serverMiddleware);
+
+  ssrServer.use(router);
+
+  (async () => {
+    await sequelizeGlobal.init();
+  })();
+
   ssrServer.use(cookieParser());
 
   ssrServer.get('/*', serverMiddleware);
+
 
   // The error handler must be before any other error middleware and after all controllers
   ssrServer.use(Sentry.Handlers.errorHandler());

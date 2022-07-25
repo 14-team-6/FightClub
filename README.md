@@ -11,12 +11,85 @@
 
 Ассеты: https://disk.yandex.ru/d/IGQN_0FJL51hhw
 
-## Как запустить?
-git clone ...
+## How to run dev?
+1. install docker
+2. git clone ...
+3. create .dev.env file in the project's root (see format below)
+4. build containers: `docker-compose build`
+5. run the app: `FRONTEND_VOLUME=/<your full path to project>/frontend BACKEND_VOLUME=/<your full path to project>/backend docker-compose up`
 
-npm install
+- postgresql will work on 5432 port
+- pgadmin will work on 8080 port
+- app will work on 9000 port
 
-npm run dev # запустится веб-сервер для разработки
+## API handlers
+endpoint: `/api/v1`
+
+### Themes
+#### Get all themes
+- path: `themes/available`
+- method: `GET`
+- **input**: void
+- **output**: `[{ id: number, name: string, isPremium: boolean }]`
+
+#### Get user's themes
+- path: `themes`
+- - method: `GET`
+- **input**: void
+- **output**: `[{ id: number, name: string, data: Object }]`
+
+#### Link user to theme
+- path: `themes/linkToUser`
+- - method: `POST`
+- **input**: `{ themeId: number }`
+- **output**: `{ result: string }`
+
+#### Set theme active
+- path: `themes/markAsActive`
+- - method: `POST`
+- **input**: `{ themeId: number }`
+- **output**: `{ result: string }`
+
+#### Create theme
+- path: `themes`
+- - method: `POST`
+- **input**: `{ name: string, data: Object }`
+- **output**: `{ result: string }`
+
+#### Update theme
+- path: `themes`
+- - method: `PUT`
+- **input**: `{ themeId: number, themeData: { name?: string, data?: Object, isPremium?: boolean } }`
+- **output**: `{ result: string }`
+
+### Users
+A user automatically creates from `user` cookie. If there are no cookie or parse errors, exception will be fired.
+
+#### Create user
+- path: `/users`
+- method: `POST`
+- **input**: void
+- **output**: `{ result: string }`
+
+#### Get all users
+Works only for users with admin role.
+- path: `/users`
+- method: `GET`
+- **input**: void
+- **output**: `[{ id: number, login: string, isAdmin: boolean, isPremium: boolean, createdAt: datetime, updatedAt: datetime }]`
+
+## ENV file format
+To build local docker you have to create ```.dev.env``` file  in the project's root.
+File format described below:
+```
+POSTGRES_USER=postgre user
+POSTGRES_PASSWORD=postgre password
+POSTGRES_DB=postgre database name
+DATABASE_URL=database connection string
+NODE_ENV=production
+PORT=3000
+```
+For production there aren't necessary because the Heroku pass DATABASE_URL to the app container.
 
 ## Механика игры
 
