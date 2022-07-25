@@ -17,10 +17,11 @@ class SequelizeGlobal {
     }
     this.sequelize = new Sequelize(DB_URL, {
       models: [User, Theme, ThemeUsers, Topic, Post, Comment],
+      dialect: 'postgres',
       dialectOptions: !isDebug ? {
         ssl: {
-          rejectUnauthorized: false
-        }
+          rejectUnauthorized: false,
+        },
       } : {},
     });
   }
