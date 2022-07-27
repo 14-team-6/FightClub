@@ -3,10 +3,12 @@ import userReducer from '@frontend/src/reducers/user';
 import thunk from 'redux-thunk';
 import { composeWithDevToolsLogOnlyInProduction } from '@redux-devtools/extension';
 import { GameState, gameStateReducer } from '@frontend/src/reducers/gameState';
+import { Theme, themeReducer } from '@frontend/src/reducers/theme';
 
 export interface RootState {
   user: User,
   gameState: GameState,
+  theme: Theme,
 }
 
 const composeEnhancers = composeWithDevToolsLogOnlyInProduction({});
@@ -23,6 +25,7 @@ export const withCreateStore = () => createStore<RootState, any, any, any>(
   combineReducers({
     user: userReducer,
     gameState: gameStateReducer,
+    theme: themeReducer,
   }),
   state,
   composeEnhancers(applyMiddleware(thunk)),

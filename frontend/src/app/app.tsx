@@ -15,11 +15,12 @@ import MainLayout from '@frontend/src/layouts/mainLayout';
 import PostPage from '@frontend/src/pages/forum/postPage';
 import AnswerPage from '@frontend/src/pages/forum/answerPage';
 import { ProfilePage } from '@frontend/src/pages/profile/profilePage';
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { MAIN_FONT } from '@frontend/consts/styles';
 import FightPage from '@frontend/src/pages/game/fight/fight';
 import { AuthProvider } from '@frontend/src/hooks/useAuth';
 import EditProfilePage from '@frontend/src/pages/editProfile/editProfile';
+import { useSelector } from 'react-redux';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -37,34 +38,40 @@ const GS = createGlobalStyle`
   }
 `;
 
-export const App = () => (
-  <>
-    <GS/>
-    <AuthProvider>
-      <Routes>
-        <Route path="/" element={<ProtectedRoutes/>}>
-        <Route path="/" element={<MainPage/>}/>
-        <Route path="/game/fight" element={<FightPage/>}/>
-        <Route path="/game/fight/newgame" element={<Navigate to={'/game/fight'} />} />
-        <Route path="/results" element={<Results/>}/>
-        <Route path="/game/loading" element={<Loading/>}/>
-        <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
-        <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
-        <Route path="/topics" element={<MainLayout><ForumPage/></MainLayout>}/>
-        <Route path="/topics/:topicId" element={<MainLayout><TopicPage/></MainLayout>}/>
-        <Route path="/topics/add" element={<MainLayout><ForumPage/></MainLayout>}/>
-        <Route path="/topics/:topicId/posts/:postId" element={<MainLayout><PostPage/></MainLayout>}/>
-        <Route path="/topics/:topicId/posts/add" element={<MainLayout><ForumPage/></MainLayout>}/>
-        <Route path="/topics/:topicId/posts/:postId/comments/add" element={<MainLayout><AnswerPage/></MainLayout>}/>
-        <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
-        <Route path="/profile/edit" element={<MainLayout><EditProfilePage/></MainLayout>}/>
-        <Route path="*" element={<Errors errorType={ErrorTypes.e404}/>}/>
-      </Route>
-        <Route path="/" element={<PublicRoutes/>}>
-        <Route path="/login" element={<MainLayout><LoginPage/></MainLayout>}/>
-        <Route path="/registration" element={<MainLayout><RegistrationPage/></MainLayout>}/>
-      </Route>
-    </Routes>
-    </AuthProvider>
-  </>
-);
+export const App = () => {
+  const theme = useSelector((state: any) => state.theme);
+  return (
+    <>
+      <GS/>
+      <AuthProvider>
+        <ThemeProvider theme={{ ...theme }}>
+          <Routes>
+            <Route path="/" element={<ProtectedRoutes/>}>
+              <Route path="/" element={<MainPage/>}/>
+              <Route path="/game/fight" element={<FightPage/>}/>
+              <Route path="/game/fight/newgame" element={<Navigate to={'/game/fight'}/>}/>
+              <Route path="/results" element={<Results/>}/>
+              <Route path="/game/loading" element={<Loading/>}/>
+              <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
+              <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
+              <Route path="/topics" element={<MainLayout><ForumPage/></MainLayout>}/>
+              <Route path="/topics/:topicId" element={<MainLayout><TopicPage/></MainLayout>}/>
+              <Route path="/topics/add" element={<MainLayout><ForumPage/></MainLayout>}/>
+              <Route path="/topics/:topicId/posts/:postId" element={<MainLayout><PostPage/></MainLayout>}/>
+              <Route path="/topics/:topicId/posts/add" element={<MainLayout><ForumPage/></MainLayout>}/>
+              <Route path="/topics/:topicId/posts/:postId/comments/add"
+                     element={<MainLayout><AnswerPage/></MainLayout>}/>
+              <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
+              <Route path="/profile/edit" element={<MainLayout><EditProfilePage/></MainLayout>}/>
+              <Route path="*" element={<Errors errorType={ErrorTypes.e404}/>}/>
+            </Route>
+            <Route path="/" element={<PublicRoutes/>}>
+              <Route path="/login" element={<MainLayout><LoginPage/></MainLayout>}/>
+              <Route path="/registration" element={<MainLayout><RegistrationPage/></MainLayout>}/>
+            </Route>
+          </Routes>
+        </ThemeProvider>
+      </AuthProvider>
+    </>
+  );
+};

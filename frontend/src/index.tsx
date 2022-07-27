@@ -25,5 +25,8 @@ const AppToRender: FC = () => (
   </Provider>
 );
 
+// @ts-ignore
+window._ST_ = store;
+
 const container = document.getElementById('app');
 hydrateRoot(container!, <AppToRender/>);
