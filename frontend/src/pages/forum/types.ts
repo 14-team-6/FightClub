@@ -5,13 +5,14 @@ export type User = {
 
 export type Topic = {
   id: number,
-  name: string,
+  data: string,
   counts?: number
 };
 
 export type Post = {
   id: number,
-  name: string
+  data: string,
+  title: string
 };
 
 export type Comment = {

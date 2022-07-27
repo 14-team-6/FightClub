@@ -9,7 +9,7 @@ import { User } from '@backend/src/models/users/users';
 import { Topic } from '@backend/src/models/forum/topics';
 import { Post } from '@backend/src/models/forum/posts';
 
-type CommentsResponse = {
+export type CommentsResponse = {
   topic: {
     id: number,
     data: string,

@@ -1,17 +1,42 @@
-import topics from './fixtures/topics.json';
-import posts from './fixtures/posts.json';
-import comments from './fixtures/comments.json';
+import HttpTransport from '@frontend/core/http-transport';
+import { AddDataProps, ForumApiRequestResult } from '@backend/src/services/forum/baseForumEntity';
+import store from '@frontend/src/store/store';
+import { Topic as ResponseTopic } from '@backend/src/models/forum/topics';
+import { TopicData } from '@frontend/src/pages/forum/types';
+import { Post as ResponsePost } from '@backend/src/models/forum/posts';
+import { CommentsResponse } from '@backend/src/services/forum/comments';
 
-export const getTopics = () => new Promise((resolve) => {
-  setTimeout(() => resolve(topics), 300);
-});
+export class ForumService {
+  private httpTransport: HttpTransport;
 
-export const getPosts = (topicId: string) => new Promise((resolve) => {
-  console.log(topicId); // eslint-disable-line no-console
-  setTimeout(() => resolve(posts), 300);
-});
+  constructor(authService: HttpTransport) {
+    this.httpTransport = authService;
+  }
 
-export const getComments = (topicId: string, postId: string) => new Promise((resolve) => {
-  console.log(topicId, postId); // eslint-disable-line no-console
-  setTimeout(() => resolve(comments), 300);
-});
+  createTopic = (name: string) => this.httpTransport.post<AddDataProps, ForumApiRequestResult>('/topics', {
+    body: {
+      data: name,
+      userId: store.getState().user.id,
+    },
+  });
+
+  getTopic = () => this.httpTransport.get<ResponseTopic[]>('/topics')
+    .then((topics) => topics);
+
+  getPosts = (topicId: string) => this.httpTransport.get<ResponsePost>(`/topics/${topicId}/posts`)
+    .then((posts) => posts as unknown as TopicData);
+
+  // eslint-disable-next-line max-len
+  createPost = (topicId: string, content: string, title: string) => {
+    console.log(title, 'title');
+    return this.httpTransport.post<AddDataProps, { result: string }>(`/topics/${topicId}/posts`, {
+      body: {
+        data: content,
+        userId: store.getState().user.id,
+        title,
+      },
+    });
+  };
+
+  getComments = (topicId: string, postId: string) => this.httpTransport.get<CommentsResponse>(`/topics/${topicId}/posts/${postId}/comments`);
+}

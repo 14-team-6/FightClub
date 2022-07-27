@@ -46,7 +46,7 @@ const TopicPage: React.FC = () => {
         </ActionButtons>
       </Header>
       <Topic>
-        {topic ? <TopicElement id={topic.topic.id} name={topic.topic.name} /> : 'Loading...'}
+        {topic ? <TopicElement id={topic.topic.id} data={topic.topic.data} /> : 'Loading...'}
       </Topic>
       <Posts>
         {

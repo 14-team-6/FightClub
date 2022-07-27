@@ -20,6 +20,8 @@ import { MAIN_FONT } from '@frontend/consts/styles';
 import FightPage from '@frontend/src/pages/game/fight/fight';
 import { AuthProvider } from '@frontend/src/hooks/useAuth';
 import EditProfilePage from '@frontend/src/pages/editProfile/editProfile';
+import AddTopicPage from '@frontend/src/pages/forum/addTopicPage';
+import AddPostPage from '@frontend/src/pages/forum/createPostPage';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -52,9 +54,9 @@ export const App = () => (
         <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
         <Route path="/topics" element={<MainLayout><ForumPage/></MainLayout>}/>
         <Route path="/topics/:topicId" element={<MainLayout><TopicPage/></MainLayout>}/>
-        <Route path="/topics/add" element={<MainLayout><ForumPage/></MainLayout>}/>
+        <Route path="/topics/add" element={<MainLayout><AddTopicPage/></MainLayout>}/>
         <Route path="/topics/:topicId/posts/:postId" element={<MainLayout><PostPage/></MainLayout>}/>
-        <Route path="/topics/:topicId/posts/add" element={<MainLayout><ForumPage/></MainLayout>}/>
+        <Route path="/topics/:topicId/posts/add" element={<MainLayout><AddPostPage/></MainLayout>}/>
         <Route path="/topics/:topicId/posts/:postId/comments/add" element={<MainLayout><AnswerPage/></MainLayout>}/>
         <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
         <Route path="/profile/edit" element={<MainLayout><EditProfilePage/></MainLayout>}/>

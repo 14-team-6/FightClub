@@ -64,13 +64,13 @@ const PostPage: React.FC = () => {
           post ? (
             <>
               <TopicWrapper>
-                <TopicElement id={post.topic.id} name={post.topic.name} />
+                <TopicElement id={post.topic.id} data={post.topic.data} />
               </TopicWrapper>
               <PostWrapper>
-                <PostElement id={post.post.id} name={post.post.name} />
+                <PostElement id={post.post.id} title={post.post.title} data={post.post.data}/>
               </PostWrapper>
               <CommentsWrapper>
-                {post.comments.map((comment) => <CommentElement key={comment.id} {...comment} />)}
+                {post.comments.map((comment) => <CommentElement key={comment.id} comment={comment.data} {...comment} />)}
               </CommentsWrapper>
             </>
           ) : 'Loading...'

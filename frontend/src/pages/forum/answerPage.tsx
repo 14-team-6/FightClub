@@ -61,10 +61,10 @@ const AnswerPage: React.FC = () => {
           postData ? (
             <>
               <TopicWrapper>
-                <TopicElement id={postData.topic.id} name={postData.topic.name} />
+                <TopicElement id={postData.topic.id} data={postData.topic.data} />
               </TopicWrapper>
               <PostWrapper>
-                <PostElement id={postData.post.id} name={postData.post.name} />
+                <PostElement id={postData.post.id} data={postData.post.data} />
               </PostWrapper>
               <CommentWrapper>
                 <CommentElement {...postData.comments[0]} />
