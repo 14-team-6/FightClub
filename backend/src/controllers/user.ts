@@ -2,10 +2,12 @@ import { UserService } from '@backend/src/services/user';
 import { Request, Response, Router } from 'express';
 import { UserDTO } from '@frontend/src/services/types';
 import { checkPrivileges } from '@backend/src/middleware/checkPrivileges';
+import { checkAuthMiddleware } from '@backend/src/middleware/checkAuth';
 
 export class UserApi {
   public static initRoute(router: Router) {
     const userRoute = Router();
+    userRoute.use(checkAuthMiddleware);
     userRoute
       .get('/', checkPrivileges, UserApi.get)
       .post('/', UserApi.create);
