@@ -27,16 +27,14 @@ export class ForumService {
     .then((posts) => posts as unknown as TopicData);
 
   // eslint-disable-next-line max-len
-  createPost = (topicId: string, content: string, title: string) => {
-    console.log(title, 'title');
-    return this.httpTransport.post<AddDataProps, { result: string }>(`/topics/${topicId}/posts`, {
-      body: {
-        data: content,
-        userId: store.getState().user.id,
-        title,
-      },
-    });
-  };
+  createPost = (topicId: string, content: string, title: string) => this.httpTransport.post<AddDataProps, { result: string }>(`/topics/${topicId}/posts`, {
+    body: {
+      data: content,
+      userId: store.getState().user.id,
+      title,
+    },
+  });
 
+  // eslint-disable-next-line max-len
   getComments = (topicId: string, postId: string) => this.httpTransport.get<CommentsResponse>(`/topics/${topicId}/posts/${postId}/comments`);
 }
