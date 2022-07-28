@@ -20,6 +20,7 @@ import { MAIN_FONT } from '@frontend/consts/styles';
 import FightPage from '@frontend/src/pages/game/fight/fight';
 import { AuthProvider } from '@frontend/src/hooks/useAuth';
 import EditProfilePage from '@frontend/src/pages/editProfile/editProfile';
+import { OptionsPage } from '@frontend/src/pages/options/optionsPage';
 
 const GS = createGlobalStyle`
   @font-face {
@@ -43,28 +44,29 @@ export const App = () => (
     <AuthProvider>
       <Routes>
         <Route path="/" element={<ProtectedRoutes/>}>
-        <Route path="/" element={<MainPage/>}/>
-        <Route path="/game/fight" element={<FightPage/>}/>
-        <Route path="/game/fight/newgame" element={<Navigate to={'/game/fight'} />} />
-        <Route path="/results" element={<Results/>}/>
-        <Route path="/game/loading" element={<Loading/>}/>
-        <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
-        <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
-        <Route path="/topics" element={<MainLayout><ForumPage/></MainLayout>}/>
-        <Route path="/topics/:topicId" element={<MainLayout><TopicPage/></MainLayout>}/>
-        <Route path="/topics/add" element={<MainLayout><ForumPage/></MainLayout>}/>
-        <Route path="/topics/:topicId/posts/:postId" element={<MainLayout><PostPage/></MainLayout>}/>
-        <Route path="/topics/:topicId/posts/add" element={<MainLayout><ForumPage/></MainLayout>}/>
-        <Route path="/topics/:topicId/posts/:postId/comments/add" element={<MainLayout><AnswerPage/></MainLayout>}/>
-        <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
-        <Route path="/profile/edit" element={<MainLayout><EditProfilePage/></MainLayout>}/>
-        <Route path="*" element={<Errors errorType={ErrorTypes.e404}/>}/>
-      </Route>
+          <Route path="/" element={<MainPage/>}/>
+          <Route path="/game/fight" element={<FightPage/>}/>
+          <Route path="/game/fight/newgame" element={<Navigate to={'/game/fight'} />} />
+          <Route path="/results" element={<Results/>}/>
+          <Route path="/game/loading" element={<Loading/>}/>
+          <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
+          <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
+          <Route path="/topics" element={<MainLayout><ForumPage/></MainLayout>}/>
+          <Route path="/topics/:topicId" element={<MainLayout><TopicPage/></MainLayout>}/>
+          <Route path="/topics/add" element={<MainLayout><ForumPage/></MainLayout>}/>
+          <Route path="/topics/:topicId/posts/:postId" element={<MainLayout><PostPage/></MainLayout>}/>
+          <Route path="/topics/:topicId/posts/add" element={<MainLayout><ForumPage/></MainLayout>}/>
+          <Route path="/topics/:topicId/posts/:postId/comments/add" element={<MainLayout><AnswerPage/></MainLayout>}/>
+          <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
+          <Route path="/profile/edit" element={<MainLayout><EditProfilePage/></MainLayout>}/>
+        </Route>
         <Route path="/" element={<PublicRoutes/>}>
-        <Route path="/login" element={<MainLayout><LoginPage/></MainLayout>}/>
-        <Route path="/registration" element={<MainLayout><RegistrationPage/></MainLayout>}/>
-      </Route>
-    </Routes>
+          <Route path="/login" element={<MainLayout><LoginPage/></MainLayout>}/>
+          <Route path="/registration" element={<MainLayout><RegistrationPage/></MainLayout>}/>
+        </Route>
+        <Route path="/options" element={<MainLayout><OptionsPage/></MainLayout>}/>
+        <Route path="*" element={<Errors errorType={ErrorTypes.e404}/>}/>
+      </Routes>
     </AuthProvider>
   </>
 );

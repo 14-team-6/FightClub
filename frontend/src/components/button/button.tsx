@@ -27,7 +27,8 @@ const Button = styled.button`
   }
 
   &:hover,
-  &:focus {
+  &:focus,
+  &.active {
     text-shadow: 0 2px 0 ${MAIN_RED};
 
     &::before {

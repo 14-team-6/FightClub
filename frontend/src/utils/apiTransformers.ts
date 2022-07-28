@@ -1,4 +1,6 @@
-import { UserDTO } from '@frontend/src/services/types';
+import {
+  UserDTO, ThemeDTO, ThemeDataDTO, ThemeItem,
+} from '@frontend/src/services/types';
 
 function isUser(user: UserDTO | User): user is User {
   return !!(user as User)?.displayName;
@@ -20,3 +22,11 @@ export const transformToUser = (dto: UserDTO | User): User => {
     phone: dto.phone,
   };
 };
+
+export const transformToTheme = (dto: ThemeDTO): ThemeItem => ({
+  id: dto.id,
+  name: dto.name,
+  isPremium: dto.isPremium,
+});
+
+export const transformToThemeData = (dto: ThemeDataDTO): ThemeData => dto.data;

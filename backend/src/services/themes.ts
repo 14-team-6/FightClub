@@ -28,6 +28,17 @@ export class ThemesService implements BaseService<Theme> {
     });
   }
 
+  public getThemeData(themeId: number): Promise<Theme | null> {
+    return Theme.findOne(
+      {
+        attributes: ['data'],
+        where: {
+          id: themeId,
+        },
+      },
+    );
+  }
+
   public update(themeId: number, themeData: ThemeProps): Promise<Theme | null> {
     return Theme.findOne({
       where: {

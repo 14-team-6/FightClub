@@ -1,17 +1,19 @@
 import { Request, Response, Router } from 'express';
 import { checkPrivileges } from '@backend/src/middleware/checkPrivileges';
 import { ThemesService } from '@backend/src/services/themes';
+import { checkAuthMiddleware } from '@backend/src/middleware/checkAuth';
 
 export class ThemesApi {
   public static initRoute(router: Router) {
     const themesRoute = Router();
     themesRoute
-      .get('/', ThemesApi.get)
+      .get('/', checkAuthMiddleware, ThemesApi.get)
       .get('/available', ThemesApi.getAvailable)
-      .post('/markAsActive', ThemesApi.markAsActive)
-      .post('/', checkPrivileges, ThemesApi.create)
-      .post('/linkToUser', ThemesApi.linkToLoggedUser)
-      .put('/', ThemesApi.update);
+      .get('/:themeId(\\d+)', ThemesApi.getData)
+      .post('/markAsActive', checkAuthMiddleware, ThemesApi.markAsActive)
+      .post('/', checkAuthMiddleware, checkPrivileges, ThemesApi.create)
+      .post('/linkToUser', checkAuthMiddleware, ThemesApi.linkToLoggedUser)
+      .put('/', checkAuthMiddleware, ThemesApi.update);
     router.use('/themes', themesRoute);
   }
 
@@ -20,6 +22,12 @@ export class ThemesApi {
     const themesService = new ThemesService();
     res.status(200);
     res.send(await themesService.getUserThemes(userLogin));
+  }
+
+  public static async getData(_req: Request, res: Response) {
+    const themesService = new ThemesService();
+    res.status(200);
+    res.send(await themesService.getThemeData(parseInt(_req.params.themeId, 10)));
   }
 
   public static async getAvailable(_req: Request, res: Response) {
