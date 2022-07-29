@@ -1,6 +1,6 @@
 import React, { ForwardedRef, TextareaHTMLAttributes } from 'react';
 import styled from 'styled-components';
-import {  MAIN_FONT_SIZE } from '../../../consts/styles';
+import { MAIN_FONT_SIZE } from '../../../consts/styles';
 
 const Textarea = styled.textarea`
   margin: 8px 0;
