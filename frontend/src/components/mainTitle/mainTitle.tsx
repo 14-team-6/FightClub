@@ -1,19 +1,24 @@
 import React, { HTMLAttributes } from 'react';
-import { MAIN_RED, MAIN_TITLE_SIZE, MAIN_YELLOW } from '../../../consts/styles';
 import { StrokedText } from '../strokedText/strokedText';
+import { useSelector } from 'react-redux';
+import { selectThemeData } from '@frontend/src/selectors/theme';
 
 interface MainTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   text?: string;
 }
 
-const MainTitle: React.FC<MainTitleProps> = ({ text = 'Fight club' }) => (
-  <StrokedText
-    fontSize={MAIN_TITLE_SIZE}
-    textColor={MAIN_RED}
-    strokeColor={MAIN_YELLOW}
-  >
-    {text}
-  </StrokedText>
-);
+const MainTitle: React.FC<MainTitleProps> = ({ text = 'Fight club' }) => {
+  const theme = useSelector(selectThemeData);
+
+  return (
+    <StrokedText
+      fontSize={theme.fontSizes.mainTitle}
+      textColor={theme.colors.mainRed}
+      strokeColor={theme.colors.mainYellow}
+    >
+      {text}
+    </StrokedText>
+  );
+}  
 
 export default MainTitle;
