@@ -31,6 +31,7 @@ declare global {
   };
 
   export type ThemeData = {
+    id: number,
     font: string,
     colors: ColorData,
     fontSizes: FontSizeData,

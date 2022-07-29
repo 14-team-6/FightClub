@@ -5,6 +5,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '@frontend/src/hooks/useAuth';
 import { authService } from '@frontend/src/services';
 import { REDIRECT_URL } from '@frontend/consts/app';
+import { themeService } from '@frontend/src/services/themeService';
+import { useDispatch } from 'react-redux';
+import { createSetThemeAction } from '@frontend/src/actionCreators/theme/creators';
 import FormElement from '../form/form';
 import { InputProps } from '../input/input';
 import { FormInputsNames, LoginFormData } from '../../models/form';
@@ -25,14 +28,22 @@ const LoginPageForm: React.FC = () => {
   const auth = useAuth();
   const navigator = useNavigate();
   const [error, setError] = useState<string>('');
+  const dispatch = useDispatch();
 
   const [searchParams] = useSearchParams();
+
+  const setTheme = () => {
+    const themeData = themeService.getTheme();
+    document.cookie = `theme=${JSON.stringify(themeData)}`;
+    dispatch(createSetThemeAction(themeData));
+  };
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(
     (data) => {
       authService.signIn(data)
         .then((user: User) => {
           auth.login(user);
+          setTheme();
         })
         .catch(({ reason }: RequestError) => {
           setError(reason);

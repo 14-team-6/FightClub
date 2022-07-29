@@ -22,6 +22,7 @@ export type ThemeItem = {
 };
 
 export type ThemeDataDTO = {
+  id: number,
   data: ThemeData
 };
 export interface RequestError {

@@ -26,8 +26,13 @@ export class ThemesApi {
 
   public static async getData(_req: Request, res: Response) {
     const themesService = new ThemesService();
+    const theme = await themesService.getThemeData(parseInt(_req.params.themeId, 10));
     res.status(200);
-    res.send(await themesService.getThemeData(parseInt(_req.params.themeId, 10)));
+    if (!theme) {
+      res.send(JSON.stringify({}));
+    } else {
+      res.send(theme);
+    }
   }
 
   public static async getAvailable(_req: Request, res: Response) {

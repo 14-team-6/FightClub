@@ -31,7 +31,7 @@ export class ThemesService implements BaseService<Theme> {
   public getThemeData(themeId: number): Promise<Theme | null> {
     return Theme.findOne(
       {
-        attributes: ['data'],
+        attributes: ['id', 'data'],
         where: {
           id: themeId,
         },

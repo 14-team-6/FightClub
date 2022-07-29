@@ -6,6 +6,10 @@ function isUser(user: UserDTO | User): user is User {
   return !!(user as User)?.displayName;
 }
 
+function emptyTheme(theme: ThemeDataDTO | {}) {
+  return !(theme as ThemeDataDTO)?.data;
+}
+
 export const transformToUser = (dto: UserDTO | User): User => {
   if (isUser(dto)) {
     return dto;
@@ -29,4 +33,16 @@ export const transformToTheme = (dto: ThemeDTO): ThemeItem => ({
   isPremium: dto.isPremium,
 });
 
-export const transformToThemeData = (dto: ThemeDataDTO): ThemeData => dto.data;
+export const transformToThemeData = (dto: ThemeDataDTO): ThemeData | {} => {
+  if (emptyTheme(dto)) {
+    return dto;
+  }
+
+  return {
+    id: dto.id,
+    font: dto.data.font,
+    colors: dto.data.colors,
+    fontSizes: dto.data.fontSizes,
+    background: dto.data.background,
+  };
+};
