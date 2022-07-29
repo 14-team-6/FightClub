@@ -33,9 +33,11 @@ const LoginPageForm: React.FC = () => {
   const [searchParams] = useSearchParams();
 
   const setTheme = () => {
-    const themeData = themeService.getTheme();
-    document.cookie = `theme=${JSON.stringify(themeData)}`;
-    dispatch(createSetThemeAction(themeData));
+    themeService.getTheme()
+      .then((themeData: ThemeData) => {
+        document.cookie = `theme=${JSON.stringify(themeData)}`;
+        dispatch(createSetThemeAction(themeData));
+      });
   };
 
   const onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void> = React.useCallback(handleSubmit(

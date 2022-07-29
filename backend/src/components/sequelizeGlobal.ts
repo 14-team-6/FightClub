@@ -27,7 +27,33 @@ class SequelizeGlobal {
   }
 
   public init(): Promise<any> {
-    return this.sequelize.sync({ alter: true });
+    return this.sequelize.sync({ alter: true })
+      .then(() => {
+        const data = {
+          font: "/public/font/Pixeboy.woff",
+          colors: {
+            mainRed: "#FF00FF",
+            mainBlue: "#506100",
+            mainBlack: "#0000FF",
+            mainGreen: "#04CBFF",
+            mainWhite: "#FFFF00",
+            mainYellow: "#FFF5FF",
+            gameHeaderText: "#FF00FF",
+            gameHeaderStroke: "#FFF5FF"
+          },
+          fontSizes: {
+            nav: "34px",
+            mainTitle: "100px"
+          },
+          background: "/public/img/mainBackgroundSimple.png"
+        }
+        this.sequelize.models.Theme.create(
+          {
+            name: 'Monochrome',
+            data: data
+          }
+        );
+      });
   }
 }
 
