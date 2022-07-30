@@ -22,7 +22,7 @@ export class Comment extends Model {
 
   @Length({ min: 1, max: 1000 })
   @AllowNull(false)
-  @Column(DataType.STRING)
+  @Column(DataType.TEXT)
     data: string;
 
   @AllowNull(false)

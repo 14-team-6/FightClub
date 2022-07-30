@@ -36,7 +36,7 @@ const CommentsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-height: 82%;
+  max-height: 80%;
   width: 70%;
   margin-bottom: 20px;
   overflow: auto;
@@ -56,7 +56,7 @@ const PostPage: React.FC = () => {
         <Link to="/topics">FIGHT FORUM</Link>
         <ActionButtons>
           <Link to={`/topics/${topicId}`}>BACK</Link>
-          <Link to="/fight">CLOSE</Link>
+          <Link to="/">CLOSE</Link>
         </ActionButtons>
       </Header>
       <Wrapper>

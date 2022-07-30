@@ -37,4 +37,7 @@ export class ForumService {
 
   // eslint-disable-next-line max-len
   getComments = (topicId: string, postId: string) => this.httpTransport.get<CommentsResponse>(`/topics/${topicId}/posts/${postId}/comments`);
+
+  // eslint-disable-next-line max-len
+  createComment = (topicId: string, postId: string, body: { userId: number, data: string }) => this.httpTransport.post(`/topics/${topicId}/posts/${postId}/comments`, { body });
 }
