@@ -1,14 +1,14 @@
 import {
-  Column,
-  DataType,
-  Table,
-  ForeignKey,
   AllowNull,
   AutoIncrement,
-  PrimaryKey,
-  Model,
   BelongsTo,
+  Column,
+  DataType,
+  ForeignKey, HasMany,
   Length,
+  Model,
+  PrimaryKey,
+  Table,
 } from 'sequelize-typescript';
 import { User } from '@backend/src/models/users/users';
 import { Post } from '@backend/src/models/forum/posts';
@@ -20,7 +20,10 @@ export class Comment extends Model {
   @Column(DataType.INTEGER)
     id: number;
 
-  @Length({ min: 1, max: 1000 })
+  @Length({
+    min: 1,
+    max: 1000,
+  })
   @AllowNull(false)
   @Column(DataType.TEXT)
     data: string;
@@ -43,4 +46,15 @@ export class Comment extends Model {
 
   @BelongsTo(() => User)
     user: User;
+
+  @AllowNull(true)
+  @ForeignKey(() => Comment)
+  @Column({
+    type: DataType.INTEGER,
+    field: 'comment_id',
+  })
+    commentId: number;
+
+  @HasMany(() => Comment)
+    comments: Comment[];
 }

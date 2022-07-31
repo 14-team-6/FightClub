@@ -53,10 +53,17 @@ export class CommentsService implements BaseForumService {
 
   getAll(parentId?: number): Promise<CommentsResponse | null> {
     const options = {
-      include: [User],
+      where: {
+        comment_id: null,
+      },
+      include: [User, {
+        model: Comment,
+        as: 'comments',
+      }],
     } as FindOptions;
     if (parentId !== undefined) {
       options.where = {
+        ...options.where,
         postId: parentId,
       };
     }
@@ -67,18 +74,20 @@ export class CommentsService implements BaseForumService {
       where: {
         id: parentId,
       },
-    }).then((post: Post) => Comment.findAll(options).then((comments: Comment[]) => ({
-      topic: {
-        id: post.topic.id,
-        data: post.topic.data,
-      },
-      post: {
-        id: post.id,
-        data: post.data,
-        title: post.title,
-      },
-      comments,
-    })));
+    })
+      .then((post: Post) => Comment.findAll(options)
+        .then((comments: Comment[]) => ({
+          topic: {
+            id: post.topic.id,
+            data: post.topic.data,
+          },
+          post: {
+            id: post.id,
+            data: post.data,
+            title: post.title,
+          },
+          comments,
+        })));
   }
 
   update(id: number, data: AddDataProps): Promise<ForumApiRequestResult> {
@@ -93,6 +102,7 @@ export class CommentsService implements BaseForumService {
           return Promise.reject({ result: 'NOT FOUND' });
         }
         return item.update(data);
-      }).then(() => ({ result: 'OK' }));
+      })
+      .then(() => ({ result: 'OK' }));
   }
 }
