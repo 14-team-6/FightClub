@@ -70,13 +70,18 @@ const PostPage: React.FC = () => {
                 <PostElement id={post.post.id} title={post.post.title} data={post.post.data}/>
               </PostWrapper>
               <CommentsWrapper>
-                {post.comments.map((comment) => <CommentElement key={comment.id} comment={comment.data} {...comment} />)}
+                {post.comments.map((comment) => <CommentElement
+                  {...comment}
+                  key={comment.id}
+                  topicId={topicId as string}
+                  postId={+postId!}
+                />)}
               </CommentsWrapper>
             </>
           ) : 'Loading...'
         }
       </Wrapper>
-      <Answer to={`/topics/${topicId}/posts/${postId}/comments/add`}>ANSWER</Answer>
+      <Answer to={`/topics/${topicId}/posts/${postId}/comments/new/add`}>ANSWER</Answer>
     </>
   );
 };

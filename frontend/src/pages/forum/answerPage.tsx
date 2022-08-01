@@ -50,6 +50,7 @@ const AnswerPage: React.FC = () => {
   const {
     topicId,
     postId,
+    commentId,
   } = useParams();
   const postData = usePost(topicId, postId);
   const [newComment, setComment] = useState('');
@@ -59,15 +60,28 @@ const AnswerPage: React.FC = () => {
 
   const handleClick = () => {
     if (newComment.length && newComment.length < 1000) {
-      forumService.createComment(
-        topicId as string,
-        postId as string,
-        {
-          userId,
-          data: newComment,
-        },
-      )
-        .then(() => navigate(-1));
+      if (commentId === 'new') {
+        forumService.createComment(
+          topicId as string,
+          postId as string,
+          {
+            userId,
+            data: newComment,
+          },
+        )
+          .then(() => navigate(-1));
+      } else {
+        forumService.createNestedComment(
+          topicId as string,
+          postId as string,
+          commentId as string,
+          {
+            userId,
+            data: newComment,
+          },
+        )
+          .then(() => navigate(-1));
+      }
     }
   };
 
