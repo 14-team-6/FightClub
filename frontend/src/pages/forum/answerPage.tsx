@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { usePost } from '@frontend/src/pages/forum/hooks/usePost';
@@ -6,6 +6,7 @@ import { forumService } from '@frontend/src/services';
 import { useSelector } from 'react-redux';
 import { selectUserInfo } from '@frontend/src/selectors/user';
 import { MAIN_FONT_SIZE, MAIN_RED } from '@frontend/consts/styles';
+import Emoji from '@frontend/src/pages/forum/components/emoji';
 import Link from '../../components/link/link';
 import TopicElement from './components/topic';
 import PostElement from './components/post';
@@ -58,7 +59,13 @@ const AnswerPage: React.FC = () => {
   const userId = useSelector(selectUserInfo)?.id;
   const [error, setError] = useState('');
 
-  const handleClick = () => {
+  const addEmoji = (emoji: string) => {
+    const newValue: string = `${newComment}${emoji}`;
+
+    setComment(newValue);
+  };
+
+  const handleClick = useCallback(() => {
     if (newComment.length && newComment.length < 1000) {
       if (commentId === 'new') {
         forumService.createComment(
@@ -83,7 +90,7 @@ const AnswerPage: React.FC = () => {
           .then(() => navigate(-1));
       }
     }
-  };
+  }, []);
 
   const handleChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     const { value } = e.currentTarget;
@@ -120,7 +127,8 @@ const AnswerPage: React.FC = () => {
                   data={postData.post.data}/>
               </PostWrapper>
               <Error>{error}</Error>
-              <Textarea onChange={handleChange} rows={9} placeholder="WRITE COMMENT HERE!"/>
+              <Textarea value={newComment} onChange={handleChange} rows={9} placeholder="WRITE COMMENT HERE!"/>
+              <Emoji onClick={addEmoji}/>
               <Send onClick={handleClick} type="button" text="SEND"/>
             </>
           ) : 'Loading...'
