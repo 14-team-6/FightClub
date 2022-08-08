@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { usePost } from '@frontend/src/pages/forum/hooks/usePost';
@@ -65,7 +65,7 @@ const AnswerPage: React.FC = () => {
     setComment(newValue);
   };
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     if (newComment.length && newComment.length < 1000) {
       if (commentId === 'new') {
         forumService.createComment(
@@ -90,18 +90,17 @@ const AnswerPage: React.FC = () => {
           .then(() => navigate(-1));
       }
     }
-  }, []);
+  };
 
   const handleChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     const { value } = e.currentTarget;
 
-    if (value.trim().length > 1000) {
+    if (newComment.trim().length > 1000) {
       setError('Max length is 1000 chars!');
+      return;
     }
 
-    if (value && value.trim().length) {
-      setComment(value.trim());
-    }
+    setComment(value);
   };
 
   return (
@@ -127,7 +126,8 @@ const AnswerPage: React.FC = () => {
                   data={postData.post.data}/>
               </PostWrapper>
               <Error>{error}</Error>
-              <Textarea value={newComment} onChange={handleChange} rows={9} placeholder="WRITE COMMENT HERE!"/>
+              <Textarea value={newComment} onChange={handleChange} rows={9}
+                        placeholder="WRITE COMMENT HERE!"/>
               <Emoji onClick={addEmoji}/>
               <Send onClick={handleClick} type="button" text="SEND"/>
             </>
