@@ -48,6 +48,17 @@ export function AuthProvider({ children }: any) {
           dispatch(createSetUserAction(user));
         }
         setLoading(false);
+      }).catch(() => {
+        // may be offline?
+        const cookies = document.cookie.split(';').reduce((akk, val) => {
+          const arrayParam = val.split('=');
+          // eslint-disable-next-line no-param-reassign,prefer-destructuring
+          akk[arrayParam[0].trim()] = arrayParam.splice(1).join('=').trim();
+          return akk;
+        }, {} as Record<string, string>);
+        if ('user' in cookies) {
+          dispatch(createSetUserAction(JSON.parse(cookies.user)));
+        }
       });
   }, []);
 
