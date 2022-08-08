@@ -28,7 +28,7 @@ module.exports = {
       patterns: [
         {
           from: './frontend/public/sw.js',
-          to: path.join(__dirname, '..', '..', 'dist')
+          to: path.join(__dirname, '..', 'dist')
         }
       ],
     }),
