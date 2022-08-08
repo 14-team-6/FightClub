@@ -8,7 +8,6 @@ RUN npm i -g pm2
 RUN npm i @sentry/react pg @sentry/node sequelize sequelize-typescript express compression cookie-parser react reselect react-dom redux @redux-devtools/extension serialize-javascript react-redux redux-thunk react-router-dom styled-components react-hook-form yup @hookform/resolvers classnames
 
 COPY ./dist ./web/
-COPY ./dist/sw.js ./web/
 COPY backend/src/server/serverLauncher.js ./web/
 COPY ./frontend/deploy/start.sh ./
 COPY ./frontend/public/sounds ./web/public/sounds
