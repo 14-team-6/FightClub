@@ -15,25 +15,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
-      - name: Heroku creds
-        run: |
-          cat > ~/.netrc <<EOF
-          machine api.heroku.com
-           login $HEROKU_EMAIL
-           password $HEROKU_API_KEY
-          machine git.heroku.com
-           login $HEROKU_EMAIL
-           password $HEROKU_API_KEY
-          EOF
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
       - run: npm i || true
       - run: npm run build
-      - run: heroku container:login
       - run: docker rmi -f fc_tmp || true
       - run: docker build . -t fc_tmp
-      - run: docker tag fc_tmp registry.heroku.com/fightclub-vegas/web
-      - run: docker push registry.heroku.com/fightclub-vegas/web
-      - run: heroku container:release web -a fightclub-vegas
+      - run: docker tag fc_tmp cr.yandex/crp8345m6m6ktl2fbu0k/release
+      - run: docker push cr.yandex/crp8345m6m6ktl2fbu0k/release
       - run: docker rmi -f fc_tmp || true
+      - run: ssh deploy@10.129.0.11 -i ~/.ssh/deploy '~/deploy.sh'

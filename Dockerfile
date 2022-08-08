@@ -4,6 +4,7 @@ RUN apk add --update nginx sudo nodejs npm git
 
 WORKDIR /opt/app
 
+RUN npm i -g pm2
 RUN npm i @sentry/react pg @sentry/node sequelize sequelize-typescript express compression cookie-parser react reselect react-dom redux @redux-devtools/extension serialize-javascript react-redux redux-thunk react-router-dom styled-components react-hook-form yup @hookform/resolvers classnames
 
 COPY ./dist ./web/
