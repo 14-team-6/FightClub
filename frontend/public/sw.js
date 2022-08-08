@@ -1,8 +1,6 @@
 const STATIC_CACHE_NAME = 'static-data3';
 
 const STATIC_ASSETS = [
-  //'/',
-  //'/bundle.js',
   '/public/sounds/attackEnemy.mp3',
   '/public/Pixeboy.woff',
   '/public/sounds/fight.mp3',
@@ -30,6 +28,10 @@ console.log('Service Worker initialized');
 
 self.addEventListener('install', (event) => {
   console.log('Service Worker install hook');
+  if (/vegas/.test(window.location.href)) {
+    STATIC_ASSETS.push('/');
+    STATIC_ASSETS.push('/bundle.js');
+  }
   event.waitUntil(
     caches.open(STATIC_CACHE_NAME)
       .then((cache) => {
