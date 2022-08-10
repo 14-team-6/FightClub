@@ -8,6 +8,12 @@ import { FindOptions } from 'sequelize';
 import { Topic } from '@backend/src/models/forum/topics';
 import { Post } from '@backend/src/models/forum/posts';
 
+export type CommentTreeNode = {
+  id: number,
+  data: string,
+  children: CommentTreeNode[],
+};
+
 export type CommentsResponse = {
   topic: {
     id: number,
@@ -18,7 +24,7 @@ export type CommentsResponse = {
     data: string,
     title: string,
   },
-  comments: Comment[],
+  comments: CommentTreeNode[],
 };
 
 export class CommentsService implements BaseForumService {
@@ -55,15 +61,31 @@ export class CommentsService implements BaseForumService {
   }
 
   getAll(parentId?: number): Promise<CommentsResponse | null> {
+    const commentsToTree = (comments: Comment[]): CommentTreeNode[] => {
+      // comments must be ordered by id!
+      const commentMap = new Map();
+      const res = [];
+      for (const comment of comments) {
+        const { id, data } = comment;
+        const newComment = { id, data, children: [] };
+        commentMap.set(newComment.id, newComment);
+        if (!comment.commentId) {
+          res.push(newComment);
+        } else {
+          const commentToUpdate = commentMap.get(comment.commentId);
+          commentToUpdate.children.push(newComment);
+        }
+      }
+      return res;
+    };
+
     const options = {
-      where: {
-        comment_id: null,
-      },
       include: {
         required: true,
         nested: true,
         all: true,
       },
+      order: ['id'],
       nest: true,
     } as FindOptions;
 
@@ -92,7 +114,7 @@ export class CommentsService implements BaseForumService {
             data: post.data,
             title: post.title,
           },
-          comments,
+          comments: commentsToTree(comments),
         })));
   }
 

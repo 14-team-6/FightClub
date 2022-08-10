@@ -4,7 +4,7 @@ import {
   BelongsTo,
   Column,
   DataType,
-  ForeignKey, HasMany,
+  ForeignKey,
   Length,
   Model,
   PrimaryKey,
@@ -48,13 +48,9 @@ export class Comment extends Model {
     user: User;
 
   @AllowNull(true)
-  @ForeignKey(() => Comment)
   @Column({
     type: DataType.INTEGER,
     field: 'comment_id',
   })
     commentId: number;
-
-  @HasMany(() => Comment)
-    comments: Comment[];
 }
