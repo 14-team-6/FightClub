@@ -7,6 +7,7 @@ import { Comment } from '@backend/src/models/forum/comments';
 import { FindOptions } from 'sequelize';
 import { Topic } from '@backend/src/models/forum/topics';
 import { Post } from '@backend/src/models/forum/posts';
+import { User } from '@backend/src/models/users/users';
 
 export type CommentsResponse = {
   topic: {
@@ -56,15 +57,10 @@ export class CommentsService implements BaseForumService {
 
   getAll(parentId?: number): Promise<CommentsResponse | null> {
     const options = {
-      where: {
-        comment_id: null,
-      },
       include: {
-        required: true,
-        nested: true,
-        all: true,
+        model: User,
       },
-      nest: true,
+      order: ['id'],
     } as FindOptions;
 
     if (parentId !== undefined) {
@@ -92,7 +88,7 @@ export class CommentsService implements BaseForumService {
             data: post.data,
             title: post.title,
           },
-          comments,
+          comments: this.convertToTree(comments),
         })));
   }
 
@@ -111,4 +107,25 @@ export class CommentsService implements BaseForumService {
       })
       .then(() => ({ result: 'OK' }));
   }
+
+  private convertToTree = (comments: Comment[]): Comment[] => {
+    const commentMap = new Map();
+    const res: Partial<Comment>[] = [];
+
+    for (const comment of comments) {
+      const { id, data, user } = comment;
+      const newComment: Partial<Comment> = {
+        id, data, user, comments: [],
+      };
+      commentMap.set(newComment.id, newComment);
+      if (!comment.commentId) {
+        res.push(newComment);
+      } else {
+        const commentToUpdate = commentMap.get(comment.commentId);
+        commentToUpdate.comments.push(newComment);
+      }
+    }
+
+    return res as Comment[];
+  };
 }

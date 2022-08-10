@@ -40,7 +40,7 @@ const CommentElement: React.FC<CommentProps> = ({
     <StyledComment dangerouslySetInnerHTML={{ __html: data.toUpperCase() }}/>
     <WrapperNestedComments>
       {
-        comments?.map((comment) => <CommentElement key={comment.id} {...comment} topicId={topicId} />)
+        comments?.map((comment) => <CommentElement key={comment.id} {...comment} postId={postId} topicId={topicId} />)
       }
     </WrapperNestedComments>
   </>
