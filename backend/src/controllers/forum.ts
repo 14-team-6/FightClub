@@ -18,6 +18,7 @@ const postOptions = {
 const commentOptions = {
   serviceClass: CommentsService,
   parentField: 'postId',
+  ownField: 'commentId',
 };
 
 export class ForumApi {
@@ -55,6 +56,10 @@ export class ForumApi {
       ) // get all comments
       .post(
         '/topics/:topicId(\\d+)/posts/:postId(\\d+)/comments',
+        withService(commentOptions).add,
+      ) // add new comment
+      .post(
+        '/topics/:topicId(\\d+)/posts/:postId(\\d+)/comments/:commentId(\\d+)',
         withService(commentOptions).add,
       ) // add new comment
       .put(

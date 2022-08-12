@@ -39,9 +39,9 @@ export const withService = (options: HelperOptions) => {
             res.status(200);
             res.send(data);
           })
-          .catch(() => {
+          .catch((e) => {
             res.status(500);
-            res.send(JSON.stringify({ result: 'Get data error' }));
+            res.send(JSON.stringify({ result: e.message }));
           });
       }
       return serviceObject.getAll()
@@ -61,6 +61,9 @@ export const withService = (options: HelperOptions) => {
         body.userId = res.locals._curUser.id;
         if (parentField !== undefined) {
           body[parentField] = req.params[parentField];
+        }
+        if (ownField !== undefined) {
+          body[ownField] = req.params[ownField];
         }
         return serviceObject.add(body);
       }).then((result: ForumApiRequestResult) => {

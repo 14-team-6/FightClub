@@ -14,14 +14,22 @@ const StyledPost = styled(Link)`
     -1px -1px 1px ${MAIN_BLACK};
 `;
 
+const StyledPostData = styled.p`
+  font-size: 28px
+`;
+
 const PostElement: React.FC<Post> = ({
   id,
-  name,
+  title,
+  data,
 }) => {
   const { topicId } = useParams();
 
   return (
-    <StyledPost to={`/topics/${topicId}/posts/${id}`}>{name.toUpperCase()}</StyledPost>
+    <>
+      <StyledPost to={`/topics/${topicId}/posts/${id}`}>{title.toUpperCase()}</StyledPost>
+      <StyledPostData>{data}</StyledPostData>
+    </>
   );
 };
 

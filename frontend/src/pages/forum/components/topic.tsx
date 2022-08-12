@@ -31,12 +31,12 @@ const Counts = styled.div`
 
 const TopicElement: React.FC<Topic> = ({
   id,
-  name,
+  data,
   counts,
 }) => (
   <StyledTopic>
-    <StyledLink to={`/topics/${id}`}>{name.toUpperCase()}</StyledLink>
-    {counts ? <Counts>{counts} {counts > 1 ? 'POSTS' : 'POST'}</Counts> : null}
+    <StyledLink to={`/topics/${id}`}>{data.toUpperCase()}</StyledLink>
+    {counts ? <Counts>{counts} {+counts > 1 ? 'POSTS' : 'POST'}</Counts> : null}
   </StyledTopic>
 );
 
