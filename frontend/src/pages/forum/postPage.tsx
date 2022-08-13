@@ -36,7 +36,7 @@ const CommentsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-height: 82%;
+  max-height: 80%;
   width: 70%;
   margin-bottom: 20px;
   overflow: auto;
@@ -56,7 +56,7 @@ const PostPage: React.FC = () => {
         <Link to="/topics">FIGHT FORUM</Link>
         <ActionButtons>
           <Link to={`/topics/${topicId}`}>BACK</Link>
-          <Link to="/fight">CLOSE</Link>
+          <Link to="/">CLOSE</Link>
         </ActionButtons>
       </Header>
       <Wrapper>
@@ -64,19 +64,24 @@ const PostPage: React.FC = () => {
           post ? (
             <>
               <TopicWrapper>
-                <TopicElement id={post.topic.id} name={post.topic.name} />
+                <TopicElement id={post.topic.id} data={post.topic.data} />
               </TopicWrapper>
               <PostWrapper>
-                <PostElement id={post.post.id} name={post.post.name} />
+                <PostElement id={post.post.id} title={post.post.title} data={post.post.data}/>
               </PostWrapper>
               <CommentsWrapper>
-                {post.comments.map((comment) => <CommentElement key={comment.id} {...comment} />)}
+                {post.comments.map((comment) => <CommentElement
+                  {...comment}
+                  key={comment.id}
+                  topicId={topicId as string}
+                  postId={+postId!}
+                />)}
               </CommentsWrapper>
             </>
           ) : 'Loading...'
         }
       </Wrapper>
-      <Answer to={`/topics/${topicId}/posts/${postId}/comments/add`}>ANSWER</Answer>
+      <Answer to={`/topics/${topicId}/posts/${postId}/comments/new/add`}>ANSWER</Answer>
     </>
   );
 };

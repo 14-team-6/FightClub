@@ -24,6 +24,8 @@ import { OptionsPage } from '@frontend/src/pages/options/optionsPage';
 import { useSelector } from 'react-redux';
 import { useIsSSR } from '@frontend/src/hooks/useIsSSR';
 import { selectIsUserExists } from '@frontend/src/selectors/user';
+import AddTopicPage from '@frontend/src/pages/forum/addTopicPage';
+import AddPostPage from '@frontend/src/pages/forum/createPostPage';
 import { selectThemeData } from '../selectors/theme';
 
 const GS = createGlobalStyle`
@@ -71,10 +73,10 @@ export const App = () => {
               <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
               <Route path="/topics" element={<MainLayout><ForumPage/></MainLayout>}/>
               <Route path="/topics/:topicId" element={<MainLayout><TopicPage/></MainLayout>}/>
-              <Route path="/topics/add" element={<MainLayout><ForumPage/></MainLayout>}/>
+              <Route path="/topics/add" element={<MainLayout><AddTopicPage/></MainLayout>}/>
               <Route path="/topics/:topicId/posts/:postId" element={<MainLayout><PostPage/></MainLayout>}/>
-              <Route path="/topics/:topicId/posts/add" element={<MainLayout><ForumPage/></MainLayout>}/>
-              <Route path="/topics/:topicId/posts/:postId/comments/add" element={<MainLayout><AnswerPage/></MainLayout>}/>
+              <Route path="/topics/:topicId/posts/add" element={<MainLayout><AddPostPage/></MainLayout>}/>
+              <Route path="/topics/:topicId/posts/:postId/comments/:commentId/add" element={<MainLayout><AnswerPage/></MainLayout>}/>
               <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
               <Route path="/profile/edit" element={<MainLayout><EditProfilePage/></MainLayout>}/>
             </Route>

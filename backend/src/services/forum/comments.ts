@@ -5,11 +5,11 @@ import {
 } from '@backend/src/services/forum/baseForumEntity';
 import { Comment } from '@backend/src/models/forum/comments';
 import { FindOptions } from 'sequelize';
-import { User } from '@backend/src/models/users/users';
 import { Topic } from '@backend/src/models/forum/topics';
 import { Post } from '@backend/src/models/forum/posts';
+import { User } from '@backend/src/models/users/users';
 
-type CommentsResponse = {
+export type CommentsResponse = {
   topic: {
     id: number,
     data: string,
@@ -24,6 +24,10 @@ type CommentsResponse = {
 
 export class CommentsService implements BaseForumService {
   add(data: AddDataProps): Promise<ForumApiRequestResult> {
+    if (data.commentId === 'new') {
+      // eslint-disable-next-line no-param-reassign
+      delete data.commentId;
+    }
     return Comment.create(data as any)
       .then(() => ({ result: 'OK' }))
       .catch((e) => ({ result: `Error: ${e}` }));
@@ -53,10 +57,15 @@ export class CommentsService implements BaseForumService {
 
   getAll(parentId?: number): Promise<CommentsResponse | null> {
     const options = {
-      include: [User],
+      include: {
+        model: User,
+      },
+      order: ['id'],
     } as FindOptions;
+
     if (parentId !== undefined) {
       options.where = {
+        ...options.where,
         postId: parentId,
       };
     }
@@ -67,18 +76,20 @@ export class CommentsService implements BaseForumService {
       where: {
         id: parentId,
       },
-    }).then((post: Post) => Comment.findAll(options).then((comments: Comment[]) => ({
-      topic: {
-        id: post.topic.id,
-        data: post.topic.data,
-      },
-      post: {
-        id: post.id,
-        data: post.data,
-        title: post.title,
-      },
-      comments,
-    })));
+    })
+      .then((post: Post) => Comment.findAll(options)
+        .then((comments: Comment[]) => ({
+          topic: {
+            id: post.topic.id,
+            data: post.topic.data,
+          },
+          post: {
+            id: post.id,
+            data: post.data,
+            title: post.title,
+          },
+          comments: this.convertToTree(comments),
+        })));
   }
 
   update(id: number, data: AddDataProps): Promise<ForumApiRequestResult> {
@@ -93,6 +104,28 @@ export class CommentsService implements BaseForumService {
           return Promise.reject({ result: 'NOT FOUND' });
         }
         return item.update(data);
-      }).then(() => ({ result: 'OK' }));
+      })
+      .then(() => ({ result: 'OK' }));
   }
+
+  private convertToTree = (comments: Comment[]): Comment[] => {
+    const commentMap = new Map();
+    const res: Partial<Comment>[] = [];
+
+    for (const comment of comments) {
+      const { id, data, user } = comment;
+      const newComment: Partial<Comment> = {
+        id, data, user, comments: [],
+      };
+      commentMap.set(newComment.id, newComment);
+      if (!comment.commentId) {
+        res.push(newComment);
+      } else {
+        const commentToUpdate = commentMap.get(comment.commentId);
+        commentToUpdate.comments.push(newComment);
+      }
+    }
+
+    return res as Comment[];
+  };
 }

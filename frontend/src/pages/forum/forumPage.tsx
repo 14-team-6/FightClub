@@ -34,7 +34,7 @@ const ForumPage: React.FC = () => {
         <Link to="/topics">FIGHT FORUM</Link>
         <ActionButtons>
           <Link to="/topics/add">NEW TOPIC</Link>
-          <Link to="/fight">CLOSE</Link>
+          <Link to="/">CLOSE</Link>
         </ActionButtons>
       </Header>
       <Topics>
