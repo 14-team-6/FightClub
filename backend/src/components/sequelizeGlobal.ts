@@ -27,10 +27,7 @@ class SequelizeGlobal {
   }
 
   public init(): Promise<any> {
-    return this.sequelize.sync({ alter: true })
-      .then(() => {
-
-      });
+    return this.sequelize.sync({ alter: true });
   }
 }
 

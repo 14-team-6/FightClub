@@ -1,6 +1,7 @@
 const path = require('path');
 const tsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
+const terserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   target: 'node',
@@ -10,6 +11,15 @@ module.exports = {
   output: {
     path: path.join(__dirname, '..', 'dist'),
     filename: 'utils.js',
+  },
+  optimization: {
+    minimizer: [
+      new terserPlugin({
+        terserOptions: {
+          keep_classnames: true,
+        },
+      }),
+    ],
   },
   resolve: {
     modules: ['src', 'node-modules'],

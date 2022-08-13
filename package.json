@@ -9,7 +9,7 @@
     "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.server.config.js",
     "build:SSR": "cross-env NODE_ENV=production webpack --config build/webpack.clientSSR.config.js",
     "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js",
-    "build:utils": "webpack --config build/webpack.utils.config.js",
+    "build:utils": "cross-env NODE_ENV=production webpack --config build/webpack.utils.config.js",
     "build": "npm run build:client && npm run build:SSR && npm run build:server",
     "lint:css": "stylelint frontend/src/**/*.tsx",
     "lint:ts": "eslint frontend/src && eslint backend/src",
