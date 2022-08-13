@@ -29,7 +29,7 @@ export class ThemesApi {
     const theme = await themesService.getThemeData(parseInt(_req.params.themeId, 10));
     res.status(200);
     if (!theme) {
-      res.send(JSON.stringify({}));
+      res.send(JSON.stringify(null));
     } else {
       res.send(theme);
     }

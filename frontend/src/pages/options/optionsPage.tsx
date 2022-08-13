@@ -34,7 +34,7 @@ export const OptionsPage: React.FC = () => {
       <SubTitle text="Choose a theme"/>
       <ThemeList/>
       <ButtonsWrappers>
-        <ButtonElement onClick={() => navigate('/')} text='Main menu' type='button'/>
+        <ButtonElement onClick={() => navigate('/')} text='Back' type='button'/>
       </ButtonsWrappers>
     </Wrapper>
   );

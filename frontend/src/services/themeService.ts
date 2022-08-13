@@ -17,18 +17,20 @@ class ThemeService {
     .then((items: ThemeDTO[]) => items.map((theme: ThemeItem) => transformToTheme(theme)))
     .catch((reason) => Promise.reject(reason));
 
-  public setTheme = (themeId: string): Promise<ThemeData | {} | RequestError> => this.service
+  public setTheme = (themeId: string, isUserExists: boolean): Promise<ThemeData | {} | RequestError> => this.service
     .get(`/${themeId}`)
     .then((themeData: ThemeDataDTO) => {
-      this.service.post('/linkToUser', {
-        body: { themeId },
-      });
+      if (isUserExists) {
+        this.service.post('/linkToUser', {
+          body: { themeId },
+        });
+      }
       return transformToThemeData(themeData);
     })
     .catch((reason) => Promise.reject(reason));
 
   public getTheme = (): Promise<ThemeData | {} | RequestError> => this.service
-    .get('/')
+    .get('')
     .then((themeData: ThemeDataDTO[]) => transformToThemeData(themeData[0]))
     .catch((reason) => Promise.reject(reason));
 }

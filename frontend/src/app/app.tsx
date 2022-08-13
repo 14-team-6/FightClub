@@ -22,6 +22,8 @@ import { AuthProvider } from '@frontend/src/hooks/useAuth';
 import EditProfilePage from '@frontend/src/pages/editProfile/editProfile';
 import { OptionsPage } from '@frontend/src/pages/options/optionsPage';
 import { useSelector } from 'react-redux';
+import { useIsSSR } from '@frontend/src/hooks/useIsSSR';
+import { selectIsUserExists } from '@frontend/src/selectors/user';
 import { selectThemeData } from '../selectors/theme';
 
 const GS = createGlobalStyle`
@@ -41,7 +43,17 @@ const GS = createGlobalStyle`
 `;
 
 export const App = () => {
-  const theme = useSelector(selectThemeData);
+  const isSSR = useIsSSR();
+  const isUserExists: boolean = useSelector(selectIsUserExists);
+  const themeFromRedux = useSelector(selectThemeData);
+  let themeFromLocalStorage = null;
+  if (!isSSR) {
+    const themeFromLocalStorageString = localStorage.getItem('theme');
+    if (themeFromLocalStorageString !== null) {
+      themeFromLocalStorage = JSON.parse(themeFromLocalStorageString);
+    }
+  }
+  const theme = isUserExists || isSSR || themeFromLocalStorage === null ? themeFromRedux : themeFromLocalStorage;
 
   return (
     <>

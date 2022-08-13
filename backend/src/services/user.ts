@@ -18,9 +18,9 @@ export class UserService implements BaseService<User> {
   });
 
   public create = async (data: UserProps) => {
-    const curUser = await this.find(data.login);
+    let curUser = await this.find(data.login);
     if (curUser === null) {
-      return User.create({
+      curUser = await User.create({
         login: `${data.login}`,
         name: `${data.name}`,
         isAdmin: false,

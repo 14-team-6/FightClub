@@ -8,6 +8,7 @@ import { REDIRECT_URL } from '@frontend/consts/app';
 import { themeService } from '@frontend/src/services/themeService';
 import { useDispatch } from 'react-redux';
 import { createSetThemeAction } from '@frontend/src/actionCreators/theme/creators';
+import { themeDefaultState } from '@frontend/src/reducers/defaultState/theme';
 import FormElement from '../form/form';
 import { InputProps } from '../input/input';
 import { FormInputsNames, LoginFormData } from '../../models/form';
@@ -35,8 +36,12 @@ const LoginPageForm: React.FC = () => {
   const setTheme = () => {
     themeService.getTheme()
       .then((themeData: ThemeData) => {
-        document.cookie = `theme=${JSON.stringify(themeData)}`;
-        dispatch(createSetThemeAction(themeData));
+        if (themeData) {
+          document.cookie = `themeId=${themeData.id}`;
+          dispatch(createSetThemeAction(themeData));
+        } else {
+          dispatch(createSetThemeAction(themeDefaultState));
+        }
       });
   };
 
