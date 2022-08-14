@@ -61,7 +61,7 @@ const ResultsImpl: FC = () => {
     <MainLayout>
       <Wrapper>
         <WrapperContent>
-          <MainTitle text={'Leaders'}/>
+          <MainTitle data-cy="leaders-title" text={'Leaders'}/>
           <Leaders handleSortCallback={handleSort} items={leaders}/>
           <ButtonElement type="button" text="Back" onClick={() => navigate(-1)}/>
         </WrapperContent>

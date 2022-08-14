@@ -44,12 +44,14 @@ const LoginPageForm: React.FC = () => {
     {
       placeholder: 'Login',
       type: 'text',
+      'data-cy': 'login',
       error: errors[FormInputsNames.LOGIN],
       ...register(FormInputsNames.LOGIN),
     },
     {
       placeholder: 'Password',
       type: FormInputsNames.PASSWORD,
+      'data-cy': 'password',
       error: errors[FormInputsNames.PASSWORD],
       ...register(FormInputsNames.PASSWORD),
     },
@@ -63,15 +65,18 @@ const LoginPageForm: React.FC = () => {
     {
       text: 'Login',
       type: 'submit',
+      'data-cy': 'submit',
     },
     {
       text: 'Login by Yandex',
       type: 'button',
+      'data-cy': 'oauth',
       onClick: handleOAuth,
     },
     {
       text: 'Registration',
       type: 'button',
+      'data-cy': 'register',
       onClick: () => {
         navigator('/registration');
       },

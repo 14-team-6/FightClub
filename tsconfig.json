@@ -18,9 +18,12 @@
       "paths": {
         "@frontend/*": ["frontend/*"],
         "@backend/*": ["backend/*"]
-      }
+      },
+      "types": ["jest", "node", "@types/testing-library__jest-dom"]
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "cypress.config.ts",
+    "cypress/**/*.ts"
   ]
 }

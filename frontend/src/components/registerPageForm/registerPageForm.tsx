@@ -42,36 +42,42 @@ const RegisterPageForm: React.FC = () => {
       placeholder: 'First name',
       type: 'text',
       error: errors[FormInputsNames.FIRST_NAME],
+      'data-cy': 'register-firstname',
       ...register(FormInputsNames.FIRST_NAME),
     },
     {
       placeholder: 'Second name',
       type: 'text',
       error: errors[FormInputsNames.SECOND_NAME],
+      'data-cy': 'register-secondname',
       ...register(FormInputsNames.SECOND_NAME),
     },
     {
       placeholder: 'Login',
       type: 'text',
       error: errors[FormInputsNames.LOGIN],
+      'data-cy': 'register-login',
       ...register(FormInputsNames.LOGIN),
     },
     {
       placeholder: 'Email',
       type: 'text',
       error: errors[FormInputsNames.EMAIL],
+      'data-cy': 'register-email',
       ...register(FormInputsNames.EMAIL),
     },
     {
       placeholder: 'Password',
       type: FormInputsNames.PASSWORD,
       error: errors[FormInputsNames.PASSWORD],
+      'data-cy': 'register-password',
       ...register(FormInputsNames.PASSWORD),
     },
     {
       placeholder: 'Phone',
       type: FormInputsNames.PHONE,
       error: errors[FormInputsNames.PHONE],
+      'data-cy': 'register-phone',
       ...register(FormInputsNames.PHONE),
     },
   ]), [errors]);
@@ -79,6 +85,7 @@ const RegisterPageForm: React.FC = () => {
   const registerPageMenuButtons: ButtonProps[] = React.useMemo(() => ([{
     text: 'Register',
     type: 'submit',
+    'data-cy': 'register-submit',
   }, {
     text: 'Login',
     type: 'button',

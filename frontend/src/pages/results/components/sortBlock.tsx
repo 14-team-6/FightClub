@@ -55,10 +55,12 @@ const SortBlockImpl: FC<{ handleSortCallback: Function }> = ({ handleSortCallbac
   return (
     <WrapScroll>
       <ButtonTriangleStyled
+        data-cy="sort-login"
         onClick={onClick({ sortField: SortField.NAME, sortOrder: nameOrder })} isActive={true}
         size={ButtonTriangleSize.SMALL}
         direction={nameOrder === SortOrder.ASC ? ButtonTriangleDirection.UP : ButtonTriangleDirection.DOWN}/>
       <ButtonTriangleStyled
+        data-cy="sort-score"
         onClick={onClick({ sortField: SortField.SCORE, sortOrder: scoreOrder })}
         size={ButtonTriangleSize.SMALL}
         direction={scoreOrder === SortOrder.ASC ? ButtonTriangleDirection.UP : ButtonTriangleDirection.DOWN}/>

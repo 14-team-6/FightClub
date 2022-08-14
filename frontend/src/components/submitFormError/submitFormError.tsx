@@ -10,6 +10,6 @@ interface SubmitFormErrorProps {
   error: string;
 }
 
-const SubmitFormError: React.FC<SubmitFormErrorProps> = ({ error }) => <Span>{error}</Span>;
+const SubmitFormError: React.FC<SubmitFormErrorProps> = ({ error }) => <Span data-cy="login-error">{error}</Span>;
 
 export default React.memo(SubmitFormError);

@@ -21,6 +21,7 @@ type TextProps = {
   strokeColor: string,
   children: React.ReactNode,
   className?: any,
+  'data-cy'?: string,
 };
 
 export const StrokedText: FC<TextProps> = ({
@@ -29,12 +30,14 @@ export const StrokedText: FC<TextProps> = ({
   children,
   textColor,
   strokeColor,
+  'data-cy': dataCY,
 }) => (
   <H1
     fontSize={fontSize}
     textColor={textColor}
     strokeColor={strokeColor}
     className={className}
+    data-cy={dataCY}
   >
     {children}
   </H1>
