@@ -3,8 +3,6 @@ import { addDefaultTheme } from '@backend/src/utils/fillDb/addDefaultTheme';
 
 const args = process.argv.slice(2);
 
-console.log(args);
-
 const help = () => {
   /* eslint-disable */
   console.log('usage: command arg1 arg2 ... argn');
