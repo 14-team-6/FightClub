@@ -78,6 +78,7 @@
     "@sentry/node": "7.7.0",
     "@sentry/react": "7.7.0",
     "@sentry/tracing": "7.7.0",
+    "@testing-library/dom": "8.17.1",
     "@testing-library/jest-dom": "5.16.4",
     "@types/compression": "1.7.2",
     "@types/cookie-parser": "1.4.3",
