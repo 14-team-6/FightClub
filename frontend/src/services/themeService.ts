@@ -4,6 +4,7 @@ import {
   ThemeDTO, ThemeDataDTO, ThemeItem, RequestError,
 } from '@frontend/src/services/types';
 import { transformToTheme, transformToThemeData } from '@frontend/src/utils/apiTransformers';
+import { THEMES_API_URL } from '@frontend/src/services/index';
 
 class ThemeService {
   private readonly service: HttpTransport;
@@ -34,8 +35,6 @@ class ThemeService {
     .then((themeData: ThemeDataDTO[]) => transformToThemeData(themeData[0]))
     .catch((reason) => Promise.reject(reason));
 }
-
-const THEMES_API_URL = '/api/v1/themes/';
 
 const transport: HttpTransport = new DefaultHttpTransport(THEMES_API_URL);
 
