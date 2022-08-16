@@ -6,6 +6,8 @@ import AuthService from './authService';
 const BASE_URL: string = 'https://ya-praktikum.tech/api/v2';
 const FORUM_BASE_URL: string = '/api/v1/forum';
 
+export const THEMES_API_URL: string = '/api/v1/themes/';
+
 const authTransport: HttpTransport = new DefaultHttpTransport(BASE_URL);
 const forumTransport: HttpTransport = new DefaultHttpTransport(FORUM_BASE_URL);
 

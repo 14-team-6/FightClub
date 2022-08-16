@@ -22,6 +22,7 @@ export const INPUT_BORDER_BLUE: string = '#5061FF';
 
 // Font sizes
 export const MAIN_TITLE_SIZE: string = '100px';
+export const SUB_TITLE_SIZE: string = '46px';
 export const NAV_FONT_SIZE: string = '34px';
 export const MAIN_FONT_SIZE: string = '30px';
 export const MIDDLE_FONT_SIZE: string = '20px';
