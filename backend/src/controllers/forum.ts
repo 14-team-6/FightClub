@@ -3,6 +3,7 @@ import { withService } from '@backend/src/controllers/forum/forumBaseController'
 import { TopicsService } from '@backend/src/services/forum/topics';
 import { PostsService } from '@backend/src/services/forum/posts';
 import { CommentsService } from '@backend/src/services/forum/comments';
+import { checkAuthMiddleware } from '@backend/src/middleware/checkAuth';
 
 const topicOptions = {
   serviceClass: TopicsService,
@@ -18,11 +19,14 @@ const postOptions = {
 const commentOptions = {
   serviceClass: CommentsService,
   parentField: 'postId',
+  ownField: 'commentId',
 };
 
 export class ForumApi {
   public static initRoute(route: Router): void {
     const forumRoutes = Router();
+
+    forumRoutes.use(checkAuthMiddleware);
 
     forumRoutes
       .get(
@@ -55,6 +59,10 @@ export class ForumApi {
       ) // get all comments
       .post(
         '/topics/:topicId(\\d+)/posts/:postId(\\d+)/comments',
+        withService(commentOptions).add,
+      ) // add new comment
+      .post(
+        '/topics/:topicId(\\d+)/posts/:postId(\\d+)/comments/:commentId(\\d+)',
         withService(commentOptions).add,
       ) // add new comment
       .put(

@@ -42,11 +42,11 @@ const TopicPage: React.FC = () => {
         <ActionButtons>
           <Link to={`/topics/${topicId}/posts/add`}>NEW POST</Link>
           <Link to="/topics">BACK</Link>
-          <Link to="/fight">CLOSE</Link>
+          <Link to="/">CLOSE</Link>
         </ActionButtons>
       </Header>
       <Topic>
-        {topic ? <TopicElement id={topic.topic.id} name={topic.topic.name} /> : 'Loading...'}
+        {topic ? <TopicElement id={topic.topic.id} data={topic.topic.data} /> : 'Loading...'}
       </Topic>
       <Posts>
         {

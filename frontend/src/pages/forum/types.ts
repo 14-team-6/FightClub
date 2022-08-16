@@ -1,17 +1,18 @@
 export type User = {
   id: number,
-  name: string
+  login: string
 };
 
 export type Topic = {
   id: number,
-  name: string,
+  data: string,
   counts?: number
 };
 
 export type Post = {
   id: number,
-  name: string
+  data: string,
+  title: string
 };
 
 export type Comment = {

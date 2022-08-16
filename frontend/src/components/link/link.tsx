@@ -1,26 +1,26 @@
 import React, { AnchorHTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { MAIN_FONT_SIZE, MAIN_RED, MAIN_YELLOW } from '../../../consts/styles';
+import { MAIN_FONT_SIZE } from '../../../consts/styles';
 
 const StyledLink = styled(Link)`
   text-align: center;
-  color: ${MAIN_RED};
+  color: ${({ theme }) => theme.colors.mainRed};
   text-shadow:
-    2px 2px 2px ${MAIN_YELLOW},
-    -2px 2px 2px ${MAIN_YELLOW},
-    2px -2px 2px ${MAIN_YELLOW},
-    -2px -2px 2px ${MAIN_YELLOW};
+    2px 2px 2px ${({ theme }) => theme.colors.mainYellow},
+    -2px 2px 2px ${({ theme }) => theme.colors.mainYellow},
+    2px -2px 2px ${({ theme }) => theme.colors.mainYellow},
+    -2px -2px 2px ${({ theme }) => theme.colors.mainYellow};
   font-size: ${MAIN_FONT_SIZE};
   text-decoration: none;
 
   &:hover,
   &:focus {
-    text-shadow: 0 2px 0 ${MAIN_RED};
+    text-shadow: 0 2px 0 ${({ theme }) => theme.colors.mainRed};
 
     &::before {
       font-size: ${MAIN_FONT_SIZE};
-      color: ${MAIN_YELLOW};
+      color: ${({ theme }) => theme.colors.mainYellow};
     }
   }
 `;
