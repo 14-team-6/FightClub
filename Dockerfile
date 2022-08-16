@@ -12,6 +12,7 @@ COPY backend/src/server/serverLauncher.js ./web/
 COPY ./frontend/deploy/start.sh ./
 COPY ./frontend/public/sounds ./web/public/sounds
 COPY ./frontend/public/img/* ./web/public/img/
+COPY ./frontend/public/font/* ./web/public/font/
 COPY ./frontend/deploy/nginx.conf /etc/nginx/http.d/default.conf
 
 RUN chmod a+x ./start.sh
