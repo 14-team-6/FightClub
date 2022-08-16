@@ -49,7 +49,7 @@ module.exports = {
         test: /\.(jpe?g|gif|png|svg)$/i,
         type: 'asset/resource',
         generator: {
-          publicPath: '/'
+          filename: 'public/img/[name][ext]',
         }
       },
       {

@@ -1,5 +1,5 @@
 const path = require('path');
-const tsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 const webpack = require('webpack');
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
@@ -26,7 +26,7 @@ module.exports = {
     poll: 2000,
   },
   resolve: {
-    plugins: [new tsconfigPathsPlugin()],
+    plugins: [new TsconfigPathsPlugin()],
     modules: ['src', 'node_modules'],
     extensions: ['.ts', '.tsx', '.js'],
   },
@@ -65,16 +65,16 @@ module.exports = {
         test: /\.(jpe?g|gif|png|svg)$/i,
         type: 'asset/resource',
         generator: {
-          publicPath: '/'
+          filename: 'public/img/[name][ext]',
         }
       },
       {
         test: /\.(woff|woff2|ttf|eot)$/,
         type: 'asset/resource',
         generator: {
-          publicPath: '/'
-        }
-      }
+          publicPath: '/',
+        },
+      },
     ],
-  }
+  },
 };
