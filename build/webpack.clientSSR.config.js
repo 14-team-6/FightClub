@@ -46,18 +46,12 @@ module.exports = {
         ],
       },
       {
-        test: /\.(jpe?g|gif|png|svg)$/i,
-        type: 'asset/resource',
-        generator: {
-          filename: 'public/img/[name][ext]',
-        }
-      },
-      {
-        test: /\.(woff|woff2|ttf|eot)$/,
-        type: 'asset/resource',
-        generator: {
-          publicPath: '/'
-        }
+        test: /\.(woff|woff2|ttf|eot|png|svg|wav|jpg|jpeg)$/,
+        use: [
+          {
+            loader: 'null-loader',
+          },
+        ],
       }
     ],
   }
