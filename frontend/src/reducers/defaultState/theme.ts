@@ -1,6 +1,6 @@
 export const themeDefaultState: ThemeData = {
   id: 0,
-  background: '/public/img/mainBackground.jpg',
+  background: '/public/img/mainBackground.png',
   font: '/public/font/Pixeboy.woff',
   colors: {
     mainRed: '#FF0000',
