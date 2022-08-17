@@ -48,6 +48,12 @@ export function AuthProvider({ children }: any) {
           dispatch(createSetUserAction(user));
         }
         setLoading(false);
+      }).catch(() => {
+        // may be offline?
+        const user = (document.cookie.match(/user=(.*?);/) || [])[1];
+        if (user) {
+          dispatch(createSetUserAction(JSON.parse(user)));
+        }
       });
   }, []);
 

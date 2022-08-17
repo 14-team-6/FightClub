@@ -30,7 +30,7 @@ console.log('Service Worker initialized');
 
 self.addEventListener('install', (event) => {
   console.log('Service Worker install hook');
-  if (/vegas/.test(self.location.href)) {
+  if (/vegas/.test(self.location.href) || /fightclub/.test(self.location.href)) {
     STATIC_ASSETS.push('/');
     STATIC_ASSETS.push('/bundle.js');
   }
