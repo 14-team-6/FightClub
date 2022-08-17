@@ -21,7 +21,7 @@ const getHTML = (styles: string, rendered: string, data: string) => `
             <meta charset="UTF-8"/>
             <script>
               (function startServiceWorker () {
-                if ('serviceWorker' in navigator) {
+                if ('serviceWorker__no__install' in navigator) {
                   try {
                     navigator.serviceWorker.register('/sw.js', { scope: '/' }).then((registration) => {
                       console.log('ServiceWorker registration successful with scope: ', registration.scope);
