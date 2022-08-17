@@ -23,12 +23,20 @@ import { OptionsPage } from '@frontend/src/pages/options/optionsPage';
 import { useSelector } from 'react-redux';
 import AddTopicPage from '@frontend/src/pages/forum/addTopicPage';
 import AddPostPage from '@frontend/src/pages/forum/createPostPage';
+import { PIXEBOY_FONT, PRESS_STAR_FONT } from '@frontend/consts/styles';
 import { selectThemeData } from '../selectors/theme';
 
 const GS = createGlobalStyle`
   @font-face {
     font-family: Pixeboy;
-    src: url(${({ theme }) => (theme as any).font}) format("truetype");
+    src: url(${PIXEBOY_FONT}) format("truetype");
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: PressStart;
+    src: url(${PRESS_STAR_FONT}) format("truetype");
     font-style: normal;
     font-display: swap;
   }
@@ -37,7 +45,7 @@ const GS = createGlobalStyle`
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-    font-family: Pixeboy, serif;
+    font-family: ${({ theme }) => (theme as any).fontFamily}, serif;
   }
 `;
 
@@ -45,10 +53,9 @@ export const App = () => {
   const theme = useSelector(selectThemeData);
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
+      <GS/>
       <AuthProvider>
-        <ThemeProvider theme={theme}>
-          <GS/>
           <Routes>
             <Route path="/" element={<ProtectedRoutes/>}>
               <Route path="/" element={<MainPage/>}/>
@@ -74,8 +81,7 @@ export const App = () => {
             <Route path="/options" element={<MainLayout><OptionsPage/></MainLayout>}/>
             <Route path="*" element={<Errors errorType={ErrorTypes.e404}/>}/>
           </Routes>
-        </ThemeProvider>
       </AuthProvider>
-    </>
+    </ThemeProvider>
   );
 };

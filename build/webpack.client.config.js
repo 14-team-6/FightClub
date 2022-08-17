@@ -15,7 +15,7 @@ module.exports = {
   mode: process.env.NODE_ENV,
   entry: [
     isDevelopment && '@gatsbyjs/webpack-hot-middleware/client?path=/__webpack_hmr',
-    './frontend/src/index.tsx'
+    './frontend/src/index.tsx',
   ].filter(Boolean),
   devtool: 'inline-source-map',
   output: {

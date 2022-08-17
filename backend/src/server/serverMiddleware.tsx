@@ -11,8 +11,6 @@ import { createSetThemeAction } from '@frontend/src/actionCreators/theme/creator
 import * as Sentry from '@sentry/node';
 import { ThemesService } from '@backend/src/services/themes';
 
-const sheet = new ServerStyleSheet();
-
 const getHTML = (styles: string, rendered: string, data: string) => `
     <!DOCTYPE html>
     <html lang="en">
@@ -97,6 +95,7 @@ export const serverMiddlewareWithCallback = (callback: Function) => async (req: 
       </StaticRouter>
     </Provider>
   );
+  const sheet = new ServerStyleSheet();
   const rendered = renderToString(sheet.collectStyles(jsx));
   const styles = sheet.getStyleTags();
   const data = encodeURI(JSON.stringify(store.getState()));

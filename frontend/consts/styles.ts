@@ -1,3 +1,7 @@
+// Fonts
+export const PIXEBOY_FONT = '/public/font/Pixeboy.woff';
+export const PRESS_STAR_FONT = '/public/font/PressStar.ttf';
+
 // Colors
 export const MAIN_RED: string = '#FF0000';
 export const MAIN_WHITE: string = '#FFFFFF';

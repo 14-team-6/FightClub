@@ -1,7 +1,7 @@
 export const themeDefaultState: ThemeData = {
   id: 0,
   background: '/public/img/mainBackground.png',
-  font: '/public/font/Pixeboy.woff',
+  fontFamily: 'Pixeboy',
   colors: {
     mainRed: '#FF0000',
     mainWhite: '#FFFFFF',

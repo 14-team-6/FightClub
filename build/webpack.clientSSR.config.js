@@ -15,7 +15,6 @@ module.exports = {
     path: path.join(__dirname, '..', 'dist'),
     filename: 'clientSSRBundle.js',
     libraryTarget: 'commonjs2',
-    publicPath: '/frontend/public/',
     assetModuleFilename: 'public/[name][ext]',
   },
   watchOptions: {
