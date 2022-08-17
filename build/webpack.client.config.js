@@ -3,6 +3,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 const webpack = require('webpack');
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
@@ -37,6 +38,14 @@ module.exports = {
         sockIntegration: 'whm',
       },
     }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: './frontend/public/img/*',
+          to: 'public/img/[name][ext]',
+        },
+      ],
+    }),
   ].filter(Boolean),
   module: {
     rules: [
@@ -56,7 +65,7 @@ module.exports = {
           {
             loader: 'ts-loader',
             options: {
-              getCustomTransformers: () => ({before: [styledComponentsTransformer]})
+              getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
             },
           },
         ],
@@ -65,14 +74,16 @@ module.exports = {
         test: /\.(jpe?g|gif|png|svg)$/i,
         type: 'asset/resource',
         generator: {
+          publicPath: '/',
           filename: 'public/img/[name][ext]',
-        }
+        },
       },
       {
-        test: /\.(woff|woff2|ttf|eot)$/,
+        test: /\.(woff|woff2|ttf|eot)$/i,
         type: 'asset/resource',
         generator: {
           publicPath: '/',
+          filename: 'public/font/[name][ext]',
         },
       },
     ],
