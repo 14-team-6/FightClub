@@ -2,6 +2,8 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import { StrokedText } from '@frontend/src/components/strokedText/strokedText';
 import { MAIN_RED, MAIN_YELLOW } from '@frontend/consts/styles';
+import { useSelector } from 'react-redux';
+import { selectThemeData } from '@frontend/src/selectors/theme';
 
 export type LeaderItem = {
   id: number,
@@ -10,14 +12,17 @@ export type LeaderItem = {
   className?: string,
 };
 
-const ListItemImpl: FC<Omit<LeaderItem, 'id'>> = (props) => (
-  <div className={props.className}>
-    <StrokedText data-cy="leaders-item-login" className="stroked-text" fontSize="30px" textColor={MAIN_YELLOW}
-                 strokeColor={MAIN_RED}>{props.name}</StrokedText>
-    <StrokedText data-cy="leaders-item-score" className="stroked-text" fontSize="30px" textColor={MAIN_YELLOW}
-                 strokeColor={MAIN_RED}>{props.score}</StrokedText>
-  </div>
-);
+const ListItemImpl: FC<Omit<LeaderItem, 'id'>> = (props) => {
+  const theme = useSelector(selectThemeData);
+  return (
+    <div className={props.className}>
+      <StrokedText data-cy="leaders-item-login" className="stroked-text" fontSize={`${theme.fontSizes.nav}`} textColor={MAIN_YELLOW}
+                   strokeColor={MAIN_RED}>{props.name}</StrokedText>
+      <StrokedText data-cy="leaders-item-score" className="stroked-text" fontSize={`${theme.fontSizes.nav}`} textColor={MAIN_YELLOW}
+                   strokeColor={MAIN_RED}>{props.score}</StrokedText>
+    </div>
+  );
+};
 
 const ListItemStyled = styled(ListItemImpl)`
   display: flex;

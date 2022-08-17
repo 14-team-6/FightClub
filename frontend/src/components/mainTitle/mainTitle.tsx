@@ -1,5 +1,6 @@
 import React, { HTMLAttributes } from 'react';
-import { MAIN_RED, MAIN_TITLE_SIZE, MAIN_YELLOW } from '../../../consts/styles';
+import { useSelector } from 'react-redux';
+import { selectThemeData } from '@frontend/src/selectors/theme';
 import { StrokedText } from '../strokedText/strokedText';
 
 interface MainTitleProps extends HTMLAttributes<HTMLHeadingElement> {
@@ -7,12 +8,14 @@ interface MainTitleProps extends HTMLAttributes<HTMLHeadingElement> {
 }
 
 const MainTitle: React.FC<MainTitleProps> = (props) => {
+  const theme = useSelector(selectThemeData);
   const { text = 'Fight Club', ...rest } = props;
+
   return (
     <StrokedText
-      fontSize={MAIN_TITLE_SIZE}
-      textColor={MAIN_RED}
-      strokeColor={MAIN_YELLOW}
+      fontSize={theme.fontSizes.mainTitle}
+      textColor={theme.colors.mainRed}
+      strokeColor={theme.colors.mainYellow}
       { ...rest }
     >
       {text}

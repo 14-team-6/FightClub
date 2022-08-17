@@ -41,6 +41,10 @@ export class ForumService {
   // eslint-disable-next-line max-len
   createComment = (topicId: string, postId: string, body: { userId: number, data: string }) => this.httpTransport.post(`/topics/${topicId}/posts/${postId}/comments`, { body });
 
-  // eslint-disable-next-line max-len
-  createNestedComment = (topicId: string, postId: string, commentId: string, body: { userId: number, data: string }) => this.httpTransport.post(`/topics/${topicId}/posts/${postId}/comments/${commentId}`, { body });
+  createNestedComment = (
+    topicId: string,
+    postId: string,
+    commentId: string,
+    body: { userId: number, data: string },
+  ) => this.httpTransport.post(`/topics/${topicId}/posts/${postId}/comments/${commentId}`, { body });
 }

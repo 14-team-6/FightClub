@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import {
-  MAIN_BACKGROUND,
   MAIN_RED,
   MAIN_WHITE,
   MAIN_YELLOW,
@@ -14,7 +13,7 @@ import { RootState } from '@frontend/src/store/store';
 import Canvas from '../canvas';
 
 const Wrap = styled.div`
-  background: url(${MAIN_BACKGROUND}) no-repeat;
+  background: url(${({ theme }) => theme.background}) no-repeat;
   background-size: cover;
   width: 100%;
   height: 100vh;

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { authService } from '@frontend/src/services';
 import { useDispatch } from 'react-redux';
 import { createSetUserAction } from '@frontend/src/actionCreators/user/creators';
-import { userDefaultState } from '@frontend/src/reducers/user';
+import { userDefaultState } from '@frontend/src/reducers/defaultState/user';
 
 interface AuthContext {
   login: (user: User) => void,
@@ -48,6 +48,12 @@ export function AuthProvider({ children }: any) {
           dispatch(createSetUserAction(user));
         }
         setLoading(false);
+      }).catch(() => {
+        // may be offline?
+        const user = (document.cookie.match(/user=(.*?);/) || [])[1];
+        if (user) {
+          dispatch(createSetUserAction(JSON.parse(user)));
+        }
       });
   }, []);
 

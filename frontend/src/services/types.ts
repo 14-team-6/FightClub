@@ -8,6 +8,23 @@ export type UserDTO = {
   phone: string,
   email: string,
 };
+
+export type ThemeDTO = {
+  id: number,
+  name: string,
+  isPremium: boolean,
+};
+
+export type ThemeItem = {
+  id: number,
+  name: string,
+  isPremium: boolean,
+};
+
+export type ThemeDataDTO = {
+  id: number,
+  data: ThemeData
+};
 export interface RequestError {
   reason: string;
 }

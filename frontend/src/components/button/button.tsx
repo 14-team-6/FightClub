@@ -1,16 +1,13 @@
 import React, { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
-import {
-  MAIN_BLUE, MAIN_FONT_SIZE, MAIN_RED, MAIN_YELLOW,
-} from '../../../consts/styles';
 
 const Button = styled.button`
   cursor: pointer;
-  font-size: ${MAIN_FONT_SIZE};
+  font-size: ${({ theme }) => theme.fontSizes.nav};
   background-color: transparent;
-  text-shadow: 0 2px 0 ${MAIN_BLUE};
+  text-shadow: 0 2px 0 ${({ theme }) => theme.colors.mainBlue};
   border: none;
-  color: ${MAIN_YELLOW};
+  color:  ${({ theme }) => theme.colors.mainYellow};
   margin-right: 15px;
   margin-left: 15px;
   margin-top: 15px;
@@ -19,7 +16,7 @@ const Button = styled.button`
 
   &::before {
     content: "";
-    text-shadow: 0 2px 0 ${MAIN_RED};
+    text-shadow: 0 2px 0 ${({ theme }) => theme.colors.mainRed};
     width: 15px;
     display: block;
     position: absolute;
@@ -27,13 +24,14 @@ const Button = styled.button`
   }
 
   &:hover,
-  &:focus {
-    text-shadow: 0 2px 0 ${MAIN_RED};
+  &:focus,
+  &.active {
+    text-shadow: 0 2px 0 ${({ theme }) => theme.colors.mainRed};
 
     &::before {
       content: "*";
-      font-size: ${MAIN_FONT_SIZE};
-      color: ${MAIN_YELLOW};
+      font-size: ${({ theme }) => theme.fontSizes.nav};
+      color: ${({ theme }) => theme.colors.mainYellow};
     }
   }
 `;

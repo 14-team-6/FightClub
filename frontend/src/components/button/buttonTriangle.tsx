@@ -4,7 +4,6 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 import cx from 'classnames';
-import { INPUT_BORDER_BLUE, MAIN_RED, MAIN_YELLOW } from '@frontend/consts/styles';
 
 export enum ButtonTriangleDirection {
   UP,
@@ -31,7 +30,7 @@ const ButtonTriangleStyled = styled.div<Partial<ButtonTriangleProps>>`
   height: 0;
   border-left: 17px solid transparent;
   border-right: 17px solid transparent;
-  border-bottom: 20px solid ${({ isActive }) => (isActive ? MAIN_RED : INPUT_BORDER_BLUE)};
+  border-bottom: 20px solid ${({ isActive, theme }) => (isActive ? theme.colors.mainRed : theme.colors.mainBlue)};
   cursor: pointer;
 
   &::before {
@@ -43,20 +42,20 @@ const ButtonTriangleStyled = styled.div<Partial<ButtonTriangleProps>>`
     height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 12px solid ${MAIN_YELLOW};
+    border-bottom: 12px solid ${({ theme }) => theme.colors.mainYellow};
   }
 
   &.small {
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 16px solid ${({ isActive }) => (isActive ? MAIN_RED : INPUT_BORDER_BLUE)};
+    border-bottom: 16px solid ${({ isActive, theme }) => (isActive ? theme.colors.mainRed : theme.colors.mainBlue)};
 
     &.small::before {
       top: 5px;
       left: -5px;
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      border-bottom: 8px solid ${MAIN_YELLOW};
+      border-bottom: 8px solid ${({ theme }) => theme.colors.mainYellow};
     }
   }
 

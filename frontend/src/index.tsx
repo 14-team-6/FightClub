@@ -26,4 +26,7 @@ const AppToRender: FC = () => (
 );
 
 const container = document.getElementById('app');
-hydrateRoot(container!, <AppToRender/>);
+
+if (container) {
+  hydrateRoot(container!, <AppToRender/>);
+}
