@@ -1,8 +1,9 @@
 const STATIC_CACHE_NAME = 'static-data3';
 
 const STATIC_ASSETS = [
-  '/public/sounds/attackEnemy.mp3',
   '/public/font/Pixeboy.woff',
+  '/public/font/PressStar.ttf',
+  '/public/sounds/attackEnemy.mp3',
   '/public/sounds/fight.mp3',
   '/public/sounds/jump.mp3',
   '/public/sounds/meow.mp3',
@@ -11,6 +12,7 @@ const STATIC_ASSETS = [
   '/public/img/die-right-frame.png',
   '/public/img/idle-left-frame.png',
   '/public/img/mainBackground.png',
+  '/public/img/mainBackgroundAlt.jpg',
   '/public/img/attack-left-frame.png',
   '/public/img/idle-right-frame.png',
   '/public/img/run-left-frame.png',
