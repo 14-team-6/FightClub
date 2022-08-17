@@ -33,7 +33,7 @@ export const ProfilePage: React.FC = () => {
       <UserProfile/>
       <ButtonsWrappers>
         <ButtonElement onClick={() => navigate('/profile/edit')} text='Edit' type='button'/>
-        <ButtonElement onClick={() => navigate('/')} text='Main menu' type='button'/>
+        <ButtonElement onClick={() => navigate('/')} text='Back' type='button'/>
       </ButtonsWrappers>
     </Wrapper>
   );
