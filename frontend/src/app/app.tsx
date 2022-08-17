@@ -16,7 +16,6 @@ import PostPage from '@frontend/src/pages/forum/postPage';
 import AnswerPage from '@frontend/src/pages/forum/answerPage';
 import { ProfilePage } from '@frontend/src/pages/profile/profilePage';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import { MAIN_FONT } from '@frontend/consts/styles';
 import FightPage from '@frontend/src/pages/game/fight/fight';
 import { AuthProvider } from '@frontend/src/hooks/useAuth';
 import EditProfilePage from '@frontend/src/pages/editProfile/editProfile';
@@ -24,12 +23,20 @@ import { OptionsPage } from '@frontend/src/pages/options/optionsPage';
 import { useSelector } from 'react-redux';
 import AddTopicPage from '@frontend/src/pages/forum/addTopicPage';
 import AddPostPage from '@frontend/src/pages/forum/createPostPage';
+import { PIXEBOY_FONT, PRESS_STAR_FONT } from '@frontend/consts/styles';
 import { selectThemeData } from '../selectors/theme';
 
 const GS = createGlobalStyle`
   @font-face {
     font-family: Pixeboy;
-    src: url(${MAIN_FONT}) format("truetype");
+    src: url(${PIXEBOY_FONT}) format("truetype");
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: PressStart;
+    src: url(${PRESS_STAR_FONT}) format("truetype");
     font-style: normal;
     font-display: swap;
   }
@@ -38,7 +45,7 @@ const GS = createGlobalStyle`
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-    font-family: Pixeboy, serif;
+    font-family: ${({ theme }) => (theme as any).fontFamily}, serif;
   }
 `;
 
@@ -46,10 +53,9 @@ export const App = () => {
   const theme = useSelector(selectThemeData);
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <GS/>
       <AuthProvider>
-        <ThemeProvider theme={theme}>
           <Routes>
             <Route path="/" element={<ProtectedRoutes/>}>
               <Route path="/" element={<MainPage/>}/>
@@ -75,8 +81,7 @@ export const App = () => {
             <Route path="/options" element={<MainLayout><OptionsPage/></MainLayout>}/>
             <Route path="*" element={<Errors errorType={ErrorTypes.e404}/>}/>
           </Routes>
-        </ThemeProvider>
       </AuthProvider>
-    </>
+    </ThemeProvider>
   );
 };

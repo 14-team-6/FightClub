@@ -32,7 +32,7 @@ declare global {
 
   export type ThemeData = {
     id: number,
-    font: string,
+    fontFamily: string,
     colors: ColorData,
     fontSizes: FontSizeData,
     background: string,

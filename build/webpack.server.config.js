@@ -19,7 +19,7 @@ module.exports = {
     path: path.join(__dirname, '..', 'dist'),
     filename: 'server.js',
     libraryTarget: 'commonjs2',
-    publicPath: '/frontend/public/',
+    publicPath: '/',
   },
   optimization: {
     minimizer: [

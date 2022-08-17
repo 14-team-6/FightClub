@@ -1,8 +1,9 @@
 const path = require('path');
-const tsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 const webpack = require('webpack');
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
@@ -14,7 +15,7 @@ module.exports = {
   mode: process.env.NODE_ENV,
   entry: [
     isDevelopment && '@gatsbyjs/webpack-hot-middleware/client?path=/__webpack_hmr',
-    './frontend/src/index.tsx'
+    './frontend/src/index.tsx',
   ].filter(Boolean),
   devtool: 'inline-source-map',
   output: {
@@ -26,7 +27,7 @@ module.exports = {
     poll: 2000,
   },
   resolve: {
-    plugins: [new tsconfigPathsPlugin()],
+    plugins: [new TsconfigPathsPlugin()],
     modules: ['src', 'node_modules'],
     extensions: ['.ts', '.tsx', '.js'],
   },
@@ -36,6 +37,14 @@ module.exports = {
       overlay: {
         sockIntegration: 'whm',
       },
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: './frontend/public/img/*',
+          to: 'public/img/[name][ext]',
+        },
+      ],
     }),
   ].filter(Boolean),
   module: {
@@ -56,7 +65,7 @@ module.exports = {
           {
             loader: 'ts-loader',
             options: {
-              getCustomTransformers: () => ({before: [styledComponentsTransformer]})
+              getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
             },
           },
         ],
@@ -65,16 +74,18 @@ module.exports = {
         test: /\.(jpe?g|gif|png|svg)$/i,
         type: 'asset/resource',
         generator: {
-          publicPath: '/'
-        }
+          publicPath: '/',
+          filename: 'public/img/[name][ext]',
+        },
       },
       {
-        test: /\.(woff|woff2|ttf|eot)$/,
+        test: /\.(woff|woff2|ttf|eot)$/i,
         type: 'asset/resource',
         generator: {
-          publicPath: '/'
-        }
-      }
+          publicPath: '/',
+          filename: 'public/font/[name][ext]',
+        },
+      },
     ],
-  }
+  },
 };

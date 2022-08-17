@@ -40,7 +40,7 @@ export const transformToThemeData = (dto: ThemeDataDTO): ThemeData | {} => {
 
   return {
     id: dto.id,
-    font: dto.data.font,
+    fontFamily: dto.data.fontFamily,
     colors: dto.data.colors,
     fontSizes: dto.data.fontSizes,
     background: dto.data.background,
