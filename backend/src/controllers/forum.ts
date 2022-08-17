@@ -3,6 +3,7 @@ import { withService } from '@backend/src/controllers/forum/forumBaseController'
 import { TopicsService } from '@backend/src/services/forum/topics';
 import { PostsService } from '@backend/src/services/forum/posts';
 import { CommentsService } from '@backend/src/services/forum/comments';
+import { checkAuthMiddleware } from '@backend/src/middleware/checkAuth';
 
 const topicOptions = {
   serviceClass: TopicsService,
@@ -24,6 +25,8 @@ const commentOptions = {
 export class ForumApi {
   public static initRoute(route: Router): void {
     const forumRoutes = Router();
+
+    forumRoutes.use(checkAuthMiddleware);
 
     forumRoutes
       .get(

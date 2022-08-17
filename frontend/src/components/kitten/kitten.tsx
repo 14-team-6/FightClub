@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import kittenImg from '@frontend/public/img/attack-right-frame-sm.png';
 import { getProperty } from '@frontend/src/utils/helper';
+import kittenImg from '../../../public/img/attack-right-frame-sm.png';
 
 const propsHelper = getProperty<KittenProps>;
 

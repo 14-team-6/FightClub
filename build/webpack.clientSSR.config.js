@@ -49,16 +49,18 @@ module.exports = {
         test: /\.(jpe?g|gif|png|svg)$/i,
         type: 'asset/resource',
         generator: {
-          publicPath: '/'
-        }
+          publicPath: '/',
+          filename: 'public/img/[name][ext]',
+        },
       },
       {
-        test: /\.(woff|woff2|ttf|eot)$/,
+        test: /\.(woff|woff2|ttf|eot)$/i,
         type: 'asset/resource',
         generator: {
-          publicPath: '/'
-        }
-      }
+          publicPath: '/',
+          filename: 'public/font/[name][ext]',
+        },
+      },
     ],
   }
 };

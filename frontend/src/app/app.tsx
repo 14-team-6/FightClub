@@ -15,18 +15,20 @@ import MainLayout from '@frontend/src/layouts/mainLayout';
 import PostPage from '@frontend/src/pages/forum/postPage';
 import AnswerPage from '@frontend/src/pages/forum/answerPage';
 import { ProfilePage } from '@frontend/src/pages/profile/profilePage';
-import { createGlobalStyle } from 'styled-components';
-import { MAIN_FONT } from '@frontend/consts/styles';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import FightPage from '@frontend/src/pages/game/fight/fight';
 import { AuthProvider } from '@frontend/src/hooks/useAuth';
 import EditProfilePage from '@frontend/src/pages/editProfile/editProfile';
+import { OptionsPage } from '@frontend/src/pages/options/optionsPage';
+import { useSelector } from 'react-redux';
 import AddTopicPage from '@frontend/src/pages/forum/addTopicPage';
 import AddPostPage from '@frontend/src/pages/forum/createPostPage';
+import { selectThemeData } from '../selectors/theme';
 
 const GS = createGlobalStyle`
   @font-face {
     font-family: Pixeboy;
-    src: url(${MAIN_FONT}) format("truetype");
+    src: url(${({ theme }) => (theme as any).font}) format("truetype");
     font-style: normal;
     font-display: swap;
   }
@@ -39,34 +41,41 @@ const GS = createGlobalStyle`
   }
 `;
 
-export const App = () => (
-  <>
-    <GS/>
-    <AuthProvider>
-      <Routes>
-        <Route path="/" element={<ProtectedRoutes/>}>
-        <Route path="/" element={<MainPage/>}/>
-        <Route path="/game/fight" element={<FightPage/>}/>
-        <Route path="/game/fight/newgame" element={<Navigate to={'/game/fight'} />} />
-        <Route path="/results" element={<Results/>}/>
-        <Route path="/game/loading" element={<Loading/>}/>
-        <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
-        <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
-        <Route path="/topics" element={<MainLayout><ForumPage/></MainLayout>}/>
-        <Route path="/topics/:topicId" element={<MainLayout><TopicPage/></MainLayout>}/>
-        <Route path="/topics/add" element={<MainLayout><AddTopicPage/></MainLayout>}/>
-        <Route path="/topics/:topicId/posts/:postId" element={<MainLayout><PostPage/></MainLayout>}/>
-        <Route path="/topics/:topicId/posts/add" element={<MainLayout><AddPostPage/></MainLayout>}/>
-        <Route path="/topics/:topicId/posts/:postId/comments/:commentId/add" element={<MainLayout><AnswerPage/></MainLayout>}/>
-        <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
-        <Route path="/profile/edit" element={<MainLayout><EditProfilePage/></MainLayout>}/>
-        <Route path="*" element={<Errors errorType={ErrorTypes.e404}/>}/>
-      </Route>
-        <Route path="/" element={<PublicRoutes/>}>
-        <Route path="/login" element={<MainLayout><LoginPage/></MainLayout>}/>
-        <Route path="/registration" element={<MainLayout><RegistrationPage/></MainLayout>}/>
-      </Route>
-    </Routes>
-    </AuthProvider>
-  </>
-);
+export const App = () => {
+  const theme = useSelector(selectThemeData);
+
+  return (
+    <>
+      <AuthProvider>
+        <ThemeProvider theme={theme}>
+          <GS/>
+          <Routes>
+            <Route path="/" element={<ProtectedRoutes/>}>
+              <Route path="/" element={<MainPage/>}/>
+              <Route path="/game/fight" element={<FightPage/>}/>
+              <Route path="/game/fight/newgame" element={<Navigate to={'/game/fight'} />} />
+              <Route path="/results" element={<Results/>}/>
+              <Route path="/game/loading" element={<Loading/>}/>
+              <Route path="/game/end" element={<EndGame endGameType={EndGameType.LOOSE}/>}/>
+              <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
+              <Route path="/topics" element={<MainLayout><ForumPage/></MainLayout>}/>
+              <Route path="/topics/:topicId" element={<MainLayout><TopicPage/></MainLayout>}/>
+              <Route path="/topics/add" element={<MainLayout><AddTopicPage/></MainLayout>}/>
+              <Route path="/topics/:topicId/posts/:postId" element={<MainLayout><PostPage/></MainLayout>}/>
+              <Route path="/topics/:topicId/posts/add" element={<MainLayout><AddPostPage/></MainLayout>}/>
+              <Route path="/topics/:topicId/posts/:postId/comments/:commentId/add" element={<MainLayout><AnswerPage/></MainLayout>}/>
+              <Route path="/profile" element={<MainLayout><ProfilePage/></MainLayout>}/>
+              <Route path="/profile/edit" element={<MainLayout><EditProfilePage/></MainLayout>}/>
+            </Route>
+            <Route path="/" element={<PublicRoutes/>}>
+              <Route path="/login" element={<MainLayout><LoginPage/></MainLayout>}/>
+              <Route path="/registration" element={<MainLayout><RegistrationPage/></MainLayout>}/>
+            </Route>
+            <Route path="/options" element={<MainLayout><OptionsPage/></MainLayout>}/>
+            <Route path="*" element={<Errors errorType={ErrorTypes.e404}/>}/>
+          </Routes>
+        </ThemeProvider>
+      </AuthProvider>
+    </>
+  );
+};
