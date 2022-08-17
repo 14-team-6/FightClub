@@ -16,7 +16,6 @@ import PostPage from '@frontend/src/pages/forum/postPage';
 import AnswerPage from '@frontend/src/pages/forum/answerPage';
 import { ProfilePage } from '@frontend/src/pages/profile/profilePage';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import { MAIN_FONT } from '@frontend/consts/styles';
 import FightPage from '@frontend/src/pages/game/fight/fight';
 import { AuthProvider } from '@frontend/src/hooks/useAuth';
 import EditProfilePage from '@frontend/src/pages/editProfile/editProfile';
@@ -29,7 +28,7 @@ import { selectThemeData } from '../selectors/theme';
 const GS = createGlobalStyle`
   @font-face {
     font-family: Pixeboy;
-    src: url(${MAIN_FONT}) format("truetype");
+    src: url(${({ theme }) => (theme as any).font}) format("truetype");
     font-style: normal;
     font-display: swap;
   }
@@ -47,9 +46,9 @@ export const App = () => {
 
   return (
     <>
-      <GS/>
       <AuthProvider>
         <ThemeProvider theme={theme}>
+          <GS/>
           <Routes>
             <Route path="/" element={<ProtectedRoutes/>}>
               <Route path="/" element={<MainPage/>}/>
