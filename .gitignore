@@ -5,3 +5,5 @@ dist
 .dev.env
 .env
 pgdata
+.mp4
+cypress/videos/

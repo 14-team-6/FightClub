@@ -5,7 +5,13 @@ RUN apk add --update nginx sudo nodejs npm git
 WORKDIR /opt/app
 
 COPY ./ .
+COPY ./frontend/deploy/start_dev.sh ./start.sh
+COPY ./frontend/deploy/nginx.conf /etc/nginx/http.d/default.conf
 
 RUN npm i || true
 
-CMD cd /opt/app && npm run dev
+COPY ./frontend/public/sw.js ./
+
+RUN chmod a+x ./start.sh
+
+CMD ./start.sh

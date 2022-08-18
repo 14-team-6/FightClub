@@ -16,9 +16,9 @@ const ListItemImpl: FC<Omit<LeaderItem, 'id'>> = (props) => {
   const theme = useSelector(selectThemeData);
   return (
     <div className={props.className}>
-      <StrokedText className="stroked-text" fontSize={`${theme.fontSizes.nav}`} textColor={MAIN_YELLOW}
+      <StrokedText data-cy="leaders-item-login" className="stroked-text" fontSize={`${theme.fontSizes.nav}`} textColor={MAIN_YELLOW}
                    strokeColor={MAIN_RED}>{props.name}</StrokedText>
-      <StrokedText className="stroked-text" fontSize={`${theme.fontSizes.nav}`} textColor={MAIN_YELLOW}
+      <StrokedText data-cy="leaders-item-score" className="stroked-text" fontSize={`${theme.fontSizes.nav}`} textColor={MAIN_YELLOW}
                    strokeColor={MAIN_RED}>{props.score}</StrokedText>
     </div>
   );

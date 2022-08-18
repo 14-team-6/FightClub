@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile_dev
     ports:
-      - "9000:9000"
+      - "9001:9001"
       - "9229:9229"
     env_file:
       - ./.dev.env

@@ -21,6 +21,7 @@ type ButtonTriangleProps = {
   className?: string,
   isActive?: Boolean,
   onClick: MouseEventHandler,
+  'data-cy'?: string,
 };
 
 const ButtonTriangleStyled = styled.div<Partial<ButtonTriangleProps>>`
@@ -70,11 +71,13 @@ const ButtonTriangleImpl: FC<ButtonTriangleProps> = (props) => {
     size,
     onClick,
     isActive,
+    'data-cy': dataCY,
   } = props;
   return (
     <ButtonTriangleStyled
       onClick={onClick}
       isActive={isActive}
+      data-cy={dataCY}
       className={`${className} ${cx({
         up: direction === ButtonTriangleDirection.UP,
         down: direction === ButtonTriangleDirection.DOWN,

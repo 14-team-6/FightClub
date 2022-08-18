@@ -7,14 +7,16 @@ interface MainTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   text?: string;
 }
 
-const MainTitle: React.FC<MainTitleProps> = ({ text = 'Fight club' }) => {
+const MainTitle: React.FC<MainTitleProps> = (props) => {
   const theme = useSelector(selectThemeData);
+  const { text = 'Fight Club', ...rest } = props;
 
   return (
     <StrokedText
       fontSize={theme.fontSizes.mainTitle}
       textColor={theme.colors.mainRed}
       strokeColor={theme.colors.mainYellow}
+      { ...rest }
     >
       {text}
     </StrokedText>
