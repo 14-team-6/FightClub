@@ -10,7 +10,7 @@ import * as path from 'path';
 import { webpack } from 'webpack';
 // seems like a bug: the linter give a 'should be listed in the project's dependencies' error,
 // but it's almost there
-import webpackHotMiddleware from 'webpack-hot-middleware'; // eslint-disable-line
+import webpackHotMiddleware from '@gatsbyjs/webpack-hot-middleware'; // eslint-disable-line
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import config from '../../../build/webpack.client.config';
 /// #endif
